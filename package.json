@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/itizawa/webev-back.git",
   "author": "itizawa <itizawa.pen@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
