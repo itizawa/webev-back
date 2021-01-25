@@ -1,9 +1,9 @@
 FROM node:14
 
-RUN mkdir /ior-back
+RUN mkdir /webev-back
 
-WORKDIR /ior-back
-COPY . /ior-back
+WORKDIR /webev-back
+COPY . /webev-back
 
 RUN yarn install
 

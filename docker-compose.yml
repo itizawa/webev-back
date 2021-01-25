@@ -13,7 +13,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: webev_back
-    command: sh -c "yarn dev"
+    command: sh -c "yarn && yarn dev"
     ports:
       - 8000:8000
     volumes:
