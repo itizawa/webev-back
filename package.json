@@ -5,6 +5,9 @@
   "repository": "https://github.com/itizawa/webev-back.git",
   "author": "itizawa <itizawa.pen@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "node src/index.js"
+   },
   "dependencies": {
     "express": "^4.17.1"
   }
