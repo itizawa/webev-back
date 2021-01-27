@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

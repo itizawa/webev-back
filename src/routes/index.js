@@ -1,4 +1,4 @@
-import { Router } from 'express';
+const { Router } =require('express');
 
 // import { IUser } from '../models/user';
 // import ApiValidator from '../middlewares/api-validator';
@@ -16,4 +16,4 @@ router.get('/',  async(req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

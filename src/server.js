@@ -1,10 +1,10 @@
-import * as express from "express";
-import * as mongoose from 'mongoose';
+const express  =require("express");
+const mongoose = require( 'mongoose');
 
-import { env } from 'process';
-import * as cors from 'cors';
+const { env } = require( 'process');
+const cors = require( 'cors');
 
-import apiRoute from './routes/index'
+const apiRoute = require( './routes/index')
 
 const port = env.PORT || 8000;
 const corsOptions = {
