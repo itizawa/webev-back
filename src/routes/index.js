@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 
 // import { IUser } from '../models/user';
 // import ApiValidator from '../middlewares/api-validator';
@@ -6,7 +6,7 @@ import { Router, Request, Response } from 'express';
 
 const router = Router();
 
-router.get('/',  async(req: Request, res: Response): Promise<Response> => {
+router.get('/',  async(req, res) => {
   try {
     return res.status(200).json({huga:'hoge'});
   }
