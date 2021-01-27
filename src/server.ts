@@ -4,6 +4,8 @@ import * as mongoose from 'mongoose';
 import { env } from 'process';
 import * as cors from 'cors';
 
+import apiRoute from './routes/index'
+
 const port = env.PORT || 8000;
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -24,7 +26,7 @@ mongoose.connect("mongodb://localhost:27017/webev", {
     console.log('db connected');
   }
 
-//   app.use('/api/v1/me', meRouter);
+  app.use('/api/v1/', apiRoute);
 
   app.listen(port, () => {
     console.log(`listening on port ${port}`);
