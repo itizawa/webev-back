@@ -1,7 +1,17 @@
 {
-	"compilerOptions": {
-		"target": "esnext",
-		"moduleResolution": "node",
-		"experimentalDecorators": true
-	}
+    "compilerOptions": {
+        "outDir": "./dist",
+        "sourceMap": true,
+        "module": "commonjs",
+        "target": "es2016",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "removeComments": true,
+    }, 
+    "exclude": [
+        "node_modules"
+    ], 
+    "include": [
+        "./src/**/*"
+    ]
 }
