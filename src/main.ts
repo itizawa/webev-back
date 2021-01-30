@@ -1,11 +1,9 @@
 import { app } from './app';
 import * as http from 'http';
 
-import * as mongoose from 'mongoose';
 import  {ExpressApp} from './services/expressApp';
 
 const PORT = 8080;
-const MONGO_URI = 'mongodb://localhost:27017/todo';
 // const server = http.createServer(app);
 // server.listen(PORT);
 // server.on('listening', async () => {
