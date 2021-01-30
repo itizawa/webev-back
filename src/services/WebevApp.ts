@@ -4,10 +4,11 @@ import * as bodyparser from 'body-parser';
 import * as mongoose from 'mongoose';
 
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
+import { setupExpressRoutes } from "../routes"
 
-export class ExpressApp {
+export class WebevApp {
 
-  app: any;
+  app: express.Express;
   port: number;
 
   constructor(){
@@ -20,6 +21,9 @@ export class ExpressApp {
     
     await this.setupExpress();
     await this.setupDB()
+
+    // setup Express Routes
+    await this.setupRoutes();
   }
 
   setupExpress(){
@@ -38,6 +42,10 @@ export class ExpressApp {
   setupDB(){
     const MONGO_URI = 'mongodb://localhost:27017/todo';
     return mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false,useUnifiedTopology:true});
+  }
+
+  setupRoutes(){
+    setupExpressRoutes(this, this.app);
   }
     
 }

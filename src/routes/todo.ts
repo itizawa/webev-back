@@ -1,9 +1,12 @@
 import * as express from 'express';
 
-export function RegisterRoutes(app: express.Express) {
+const router = express.Router();
 
-	app.get('/todo', (request: any, response: any, next: any) =>{
+export const todoRoutes = (webevApp) => {
+
+	router.get('/todo', (request: any, response: any, next: any) =>{
 		return response.status(200).json({huga:'hoge'})
 	});
 
+	return router;
 }

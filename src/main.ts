@@ -1,8 +1,8 @@
-import  {ExpressApp} from './services/expressApp';
+import { WebevApp } from './services/WebevApp';
 
 /** **********************************
  *          Main Process
  ********************************** */
 
-const expressApp = new ExpressApp()
-expressApp.init()
+const webevApp = new WebevApp()
+webevApp.init()
