@@ -8,13 +8,18 @@ import { requestLoggerMiddleware } from '../middlewares/request-logger';
 export class ExpressApp {
 
   app: any;
+  port: number;
 
   constructor(){
     this.app = null;
+    this.port = parseInt(process.env.PORT) || 8000;
 
-
-    this.setupExpress()
-    this.setupDB()
+  }
+  
+  async init() {
+    
+    await this.setupExpress();
+    await this.setupDB()
   }
 
   setupExpress(){
@@ -25,10 +30,8 @@ export class ExpressApp {
 
     this.app.use(requestLoggerMiddleware);
 
-    const PORT = 8000
-
-    this.app.listen(PORT, () => {
-      console.log(`Express app listening at http://localhost:${PORT}`)
+    this.app.listen(this.port, () => {
+      console.log(`Express app listening at http://localhost:${this.port}`)
     })
   }
 

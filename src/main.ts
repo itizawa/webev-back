@@ -5,3 +5,4 @@ import  {ExpressApp} from './services/expressApp';
  ********************************** */
 
 const expressApp = new ExpressApp()
+expressApp.init()
