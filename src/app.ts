@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyparser from 'body-parser';
 
-import { requestLoggerMiddleware } from './request.logger.middleware';
+import { requestLoggerMiddleware } from './middlewares/request-logger';
 import './todo.controller';
 
 import { RegisterRoutes } from './routes';
