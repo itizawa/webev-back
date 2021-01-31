@@ -14,9 +14,15 @@ export const pages = (webevApp: WebevApp): express.Router => {
     return res.status(200).json(result);
   });
 
+  router.get('/list', async (req: express.Request, res: express.Response) => {
+    const pages = await PageModel.find();
+
+    return res.status(200).json(pages);
+  });
+
   router.get('/:id', async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
-    const page = await PageModel.findById(id);
+    const page = await PageModel.findById(id).select('body');
 
     return res.status(200).json(page);
   });

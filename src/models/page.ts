@@ -12,7 +12,7 @@ const PageSchema = new mongoose.Schema({
   image: String,
   description: String,
   title: String,
-  body: String,
+  body: { type: String, select: false },
 });
 
 const PageModel = mongoose.model('Page', PageSchema);
