@@ -5,10 +5,13 @@ import * as mongoose from 'mongoose';
 
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
 import { setupExpressRoutes } from '../routes';
+import { PageService } from './PageService';
 
 export class WebevApp {
   app: express.Express;
   port: number;
+
+  PageService: any;
 
   constructor() {
     this.app = null;
@@ -18,6 +21,8 @@ export class WebevApp {
   async init(): Promise<void> {
     await this.setupExpress();
     await this.setupDB();
+
+    this.setupPageService();
 
     // setup Express Routes
     await this.setupRoutes();
@@ -43,5 +48,11 @@ export class WebevApp {
 
   setupRoutes(): void {
     setupExpressRoutes(this, this.app);
+  }
+
+  setupPageService(): void {
+    if (this.PageService == null) {
+      this.PageService = new PageService(this);
+    }
   }
 }
