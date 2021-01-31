@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 
 const router = express.Router();
@@ -11,6 +12,13 @@ export const pages = (webevApp: WebevApp): express.Router => {
     const result = await webevApp.PageService.savePage(page);
 
     return res.status(200).json(result);
+  });
+
+  router.get('/:id', async (req: express.Request, res: express.Response) => {
+    const { id } = req.params;
+    const page = await PageModel.findById(id);
+
+    return res.status(200).json(page);
   });
 
   return router;
