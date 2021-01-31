@@ -1,3 +1,10 @@
 {
-    "editor.insertSpaces": false
+    "editor.insertSpaces": false,
+    "[javascript]": {
+        "editor.formatOnSave": false
+      },
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.markdownlint": true
+      }
 }
