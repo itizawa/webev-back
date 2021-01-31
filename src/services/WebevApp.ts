@@ -11,7 +11,7 @@ export class WebevApp {
   app: express.Express;
   port: number;
 
-  PageService: any;
+  PageService: PageService;
 
   constructor() {
     this.app = null;

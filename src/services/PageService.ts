@@ -1,7 +1,9 @@
-export class PageService {
-  webevApp: any;
+import { WebevApp } from './WebevApp';
 
-  constructor(WebevApp: any) {
+export class PageService {
+  webevApp: WebevApp;
+
+  constructor(WebevApp: WebevApp) {
     this.webevApp = WebevApp;
   }
 
