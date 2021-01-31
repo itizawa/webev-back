@@ -1,0 +1,19 @@
+POST http://localhost:8000/api/v1/pages HTTP/1.1
+content-type: application/json
+
+{
+    "url": "https://qiita.com/"
+}
+
+
+###
+
+GET  http://localhost:8000/api/v1/pages/list HTTP/1.1
+content-type: application/json
+
+
+###
+
+GET  http://localhost:8000/api/v1/pages/60169dd92ecfd2d1f2a10483 HTTP/1.1
+content-type: application/json
+
