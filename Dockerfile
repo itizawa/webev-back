@@ -8,4 +8,4 @@ COPY . /webev-back
 RUN yarn install
 
 EXPOSE 8000
-CMD sh -c "yarn start"
+CMD sh -c "yarn build && yarn start"
