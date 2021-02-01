@@ -42,7 +42,7 @@ export class WebevApp {
   }
 
   setupDB(): Promise<typeof import('mongoose')> {
-    const MONGO_URI = 'mongodb://mongo:27017/todo';
+    const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017/test';
     return mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
   }
 
