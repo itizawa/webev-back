@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
@@ -8,6 +8,7 @@ const router = express.Router();
 
 const validator = {
   postPage: [body('url').isURL({ require_protocol: true })],
+  getPage: [param('id').isMongoId()],
 };
 
 export const pages = (webevApp: WebevApp): express.Router => {
@@ -26,7 +27,7 @@ export const pages = (webevApp: WebevApp): express.Router => {
     return res.status(200).json(pages);
   });
 
-  router.get('/:id', async (req: express.Request, res: express.Response) => {
+  router.get('/:id', validator.getPage, apiValidatorMiddleware, async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     const page = await PageModel.findById(id).select('body');
 
