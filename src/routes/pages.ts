@@ -1,5 +1,6 @@
 import * as express from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
+import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 
@@ -10,10 +11,8 @@ const validator = {
 };
 
 export const pages = (webevApp: WebevApp): express.Router => {
-  router.post('/', validator.postPage, async (req: express.Request, res: express.Response) => {
+  router.post('/', validator.postPage, apiValidatorMiddleware, async (req: express.Request, res: express.Response) => {
     const { url } = req.body;
-
-    console.log(validationResult(req));
 
     const page = await webevApp.PageService.retrieveDataByUrl(url);
     const result = await webevApp.PageService.savePage(page);
