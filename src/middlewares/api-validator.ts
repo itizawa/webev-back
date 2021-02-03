@@ -1,7 +1,7 @@
-import * as express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 
-const apiValidatorMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction): express.Response | void => {
+const apiValidatorMiddleware = (req: Request, res: Response, next: NextFunction): Response | void => {
   const errObjArray = validationResult(req);
   if (errObjArray.isEmpty()) {
     return next();
