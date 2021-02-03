@@ -7,7 +7,7 @@ import { WebevApp } from '../services/WebevApp';
 const router = express.Router();
 
 const validator = {
-  postPage: [body('url').not().isString()],
+  postPage: [body('url').isURL({ require_protocol: true })],
 };
 
 export const pages = (webevApp: WebevApp): express.Router => {
