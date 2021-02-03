@@ -7,7 +7,7 @@ const apiValidatorMiddleware = (req: Request, res: Response, next: NextFunction)
     return next();
   }
   const errors = errObjArray.array().map((err) => {
-    const message = `${err.msg}`;
+    const message = `${err.msg}: ${err.param} in ${err.location}`;
     return { message };
   });
   return res.status(400).json({ errors });
