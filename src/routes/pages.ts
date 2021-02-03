@@ -1,12 +1,19 @@
 import * as express from 'express';
+import { body, validationResult } from 'express-validator';
 import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 
 const router = express.Router();
 
+const validator = {
+  postPage: [body('url').not().isString()],
+};
+
 export const pages = (webevApp: WebevApp): express.Router => {
-  router.post('/', async (req: express.Request, res: express.Response) => {
+  router.post('/', validator.postPage, async (req: express.Request, res: express.Response) => {
     const { url } = req.body;
+
+    console.log(validationResult(req));
 
     const page = await webevApp.PageService.retrieveDataByUrl(url);
     const result = await webevApp.PageService.savePage(page);
