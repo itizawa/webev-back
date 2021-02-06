@@ -1,11 +1,13 @@
 import * as mongoose from 'mongoose';
 
-interface IPage {
+export interface IPage {
   _id: string;
   image: string;
   description: string;
   title: string;
   body: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const PageSchema = new mongoose.Schema(
@@ -18,6 +20,4 @@ const PageSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const PageModel = mongoose.model('Page', PageSchema);
-
-export { PageModel, IPage };
+export const PageModel = mongoose.model('Page', PageSchema);
