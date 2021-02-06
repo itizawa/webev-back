@@ -1,20 +1,23 @@
 import * as mongoose from 'mongoose';
 
-interface IPage {
+export interface IPage {
   _id: string;
   image: string;
   description: string;
   title: string;
   body: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const PageSchema = new mongoose.Schema({
-  image: String,
-  description: String,
-  title: String,
-  body: { type: String, select: false },
-});
+const PageSchema = new mongoose.Schema(
+  {
+    image: String,
+    description: String,
+    title: String,
+    body: { type: String, select: false },
+  },
+  { timestamps: true },
+);
 
-const PageModel = mongoose.model('Page', PageSchema);
-
-export { PageModel, IPage };
+export const PageModel = mongoose.model('Page', PageSchema);
