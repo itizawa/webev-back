@@ -13,6 +13,7 @@ export interface IPage {
 
 const PageSchema = new mongoose.Schema(
   {
+    url: String,
     image: String,
     description: String,
     title: String,
