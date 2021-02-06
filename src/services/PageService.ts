@@ -4,13 +4,6 @@ import { Document } from 'mongoose';
 import { IPage, PageModel } from '../models/page';
 import { WebevApp } from './WebevApp';
 
-type ogpResponse = {
-  image?: string;
-  description?: string;
-  title?: string;
-  body?: string;
-};
-
 export class PageService {
   webevApp: WebevApp;
 
@@ -18,11 +11,12 @@ export class PageService {
     this.webevApp = WebevApp;
   }
 
-  async retrieveDataByUrl(url: string): Promise<ogpResponse> {
+  async retrieveDataByUrl(url: string): Promise<Partial<IPage>> {
     const result = await axios.get(url);
     const $ = cheerio.load(result.data);
 
     return {
+      url: url,
       image: $("meta[property='og:image']").attr('content'),
       description: $("meta[property='og:description']").attr('content'),
       title: $("meta[property='og:title']").attr('content'),
@@ -30,7 +24,7 @@ export class PageService {
     };
   }
 
-  savePage(page: ogpResponse): Promise<Document<IPage>> {
+  savePage(page: Partial<IPage>): Promise<Document<IPage>> {
     return PageModel.create(page);
   }
 }
