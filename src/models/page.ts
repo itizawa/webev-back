@@ -8,12 +8,15 @@ interface IPage {
   body: string;
 }
 
-const PageSchema = new mongoose.Schema({
-  image: String,
-  description: String,
-  title: String,
-  body: { type: String, select: false },
-});
+const PageSchema = new mongoose.Schema(
+  {
+    image: String,
+    description: String,
+    title: String,
+    body: { type: String, select: false },
+  },
+  { timestamps: true },
+);
 
 const PageModel = mongoose.model('Page', PageSchema);
 
