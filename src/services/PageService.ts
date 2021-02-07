@@ -20,7 +20,6 @@ export class PageService {
       image: $("meta[property='og:image']").attr('content'),
       description: $("meta[property='og:description']").attr('content'),
       title: $("meta[property='og:title']").attr('content'),
-      body: $('body').html(),
     };
   }
 

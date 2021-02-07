@@ -15,23 +15,36 @@ export const pages = (webevApp: WebevApp): express.Router => {
   router.post('/', validator.postPage, apiValidatorMiddleware, async (req: express.Request, res: express.Response) => {
     const { url } = req.body;
 
-    const page = await webevApp.PageService.retrieveDataByUrl(url);
-    const result = await webevApp.PageService.savePage(page);
-
-    return res.status(200).json(result);
+    try {
+      const page = await webevApp.PageService.retrieveDataByUrl(url);
+      const result = await webevApp.PageService.savePage(page);
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
   });
 
   router.get('/list', async (req: express.Request, res: express.Response) => {
-    const pages = await PageModel.find();
-
-    return res.status(200).json(pages);
+    try {
+      const pages = await PageModel.find();
+      return res.status(200).json(pages);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
   });
 
   router.get('/:id', validator.getPage, apiValidatorMiddleware, async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
-    const page = await PageModel.findById(id).select('body');
 
-    return res.status(200).json(page);
+    try {
+      const page = await PageModel.findById(id);
+      return res.status(200).json(page);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
   });
 
   return router;
