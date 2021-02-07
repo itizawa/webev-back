@@ -9,7 +9,8 @@
     "start": "node dist/main.js",
     "build": "tsc",
     "dev": "env-cmd -f ./config/dev.env nodemon -x ts-node src/main.ts",
-    "lint": "eslint src/**/**.ts"
+    "lint": "eslint src/**/**.ts",
+    "deploy":"tsc && gcloud app deploy"
   },
   "dependencies": {
     "axios": "^0.21.1",
