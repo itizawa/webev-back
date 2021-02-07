@@ -1,0 +1,4 @@
+runtime: nodejs12
+
+includes:
+- config/secret.yaml

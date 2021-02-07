@@ -1,4 +1,5 @@
 /node_modules/
 /dist/
 
-config/dev.env
+config/**.env
+config/**.yaml
