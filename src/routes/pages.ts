@@ -26,9 +26,13 @@ export const pages = (webevApp: WebevApp): express.Router => {
   });
 
   router.get('/list', async (req: express.Request, res: express.Response) => {
-    const pages = await PageModel.find();
-
-    return res.status(200).json(pages);
+    try {
+      const pages = await PageModel.find();
+      return res.status(200).json(pages);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
   });
 
   router.get('/:id', validator.getPage, apiValidatorMiddleware, async (req: express.Request, res: express.Response) => {
