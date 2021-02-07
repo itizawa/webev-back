@@ -6,7 +6,8 @@
   "author": "itizawa <itizawa.pen@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node dist/main.js",
+    "build": "tsc",
     "dev": "env-cmd -f ./config/dev.env nodemon -x ts-node src/main.ts",
     "lint": "eslint src/**/**.ts"
   },
