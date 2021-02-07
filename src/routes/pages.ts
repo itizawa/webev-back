@@ -39,7 +39,7 @@ export const pages = (webevApp: WebevApp): express.Router => {
     const { id } = req.params;
 
     try {
-      const page = await PageModel.findById(id).select('body');
+      const page = await PageModel.findById(id);
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
