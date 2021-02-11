@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Document } from 'mongoose';
 import { IPage, PageModel } from '../models/page';
+import { IUser } from '../models/user';
 import { WebevApp } from './WebevApp';
 
 export class PageService {
@@ -23,7 +24,9 @@ export class PageService {
     };
   }
 
-  savePage(page: Partial<IPage>): Promise<Document<IPage>> {
+  savePage(page: Partial<IPage>, user: Document<IUser>): Promise<Document<IPage>> {
+    // set creator id
+    page.createdUser = user;
     return PageModel.create(page);
   }
 }

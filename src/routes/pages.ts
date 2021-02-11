@@ -15,12 +15,13 @@ const validator = {
 };
 
 export const pages = (webevApp: WebevApp): Router => {
-  router.post('/', loginRequired, validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.post('/', accessTokenParser, loginRequired, validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { user } = req;
     const { url } = req.body;
 
     try {
       const page = await webevApp.PageService.retrieveDataByUrl(url);
-      const result = await webevApp.PageService.savePage(page);
+      const result = await webevApp.PageService.savePage(page, user);
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
