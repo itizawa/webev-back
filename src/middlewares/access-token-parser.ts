@@ -9,7 +9,7 @@ export const accessTokenParser = async (req: WebevRequest, res: Response, next: 
 
   const session: Partial<ISession> = await SessionModel.findOne({ accessToken: token }).select('userId').populate('userId');
 
-  if (session.userId != null) {
+  if (session?.userId != null) {
     req.user = session.userId;
   }
 
