@@ -1,6 +1,6 @@
 import { Request } from 'express';
+import { Document } from 'mongoose';
 import { IUser } from '../models/user';
-
 export interface WebevRequest extends Request {
-  user?: Partial<IUser>;
+  user?: Document<IUser>;
 }
