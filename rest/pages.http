@@ -1,5 +1,6 @@
 @url = http://localhost:8000/api/v1
 @pageId = 60200fe1daf45c00490ab0f4
+@token = Bearer owned_accessToken 
 
 POST {{url}}/pages HTTP/1.1
 content-type: application/json
@@ -13,6 +14,7 @@ content-type: application/json
 
 GET  {{url}}/pages/list HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 
 ###
