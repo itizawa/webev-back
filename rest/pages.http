@@ -4,6 +4,7 @@
 
 POST {{url}}/pages HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 {
     "url": "https://qiita.com/"
