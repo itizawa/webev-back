@@ -1,6 +1,7 @@
 import { Router, Response } from 'express';
 import { body, param } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
+import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
@@ -14,7 +15,7 @@ const validator = {
 };
 
 export const pages = (webevApp: WebevApp): Router => {
-  router.post('/', validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.post('/', loginRequired, validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { url } = req.body;
 
     try {
@@ -27,7 +28,7 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  router.get('/list', accessTokenParser, async (req: WebevRequest, res: Response) => {
+  router.get('/list', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     try {
       const pages = await PageModel.find();
       return res.status(200).json(pages);

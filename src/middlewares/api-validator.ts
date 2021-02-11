@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 
-const apiValidatorMiddleware = (req: Request, res: Response, next: NextFunction): Response | void => {
+export const apiValidatorMiddleware = (req: Request, res: Response, next: NextFunction): Response | void => {
   const errObjArray = validationResult(req);
   if (errObjArray.isEmpty()) {
     return next();
@@ -12,5 +12,3 @@ const apiValidatorMiddleware = (req: Request, res: Response, next: NextFunction)
   });
   return res.status(400).json({ errors });
 };
-
-export { apiValidatorMiddleware };

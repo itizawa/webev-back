@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import { WebevRequest } from '../interfaces/webev-request';
 import { SessionModel } from '../models/session';
 
-const accessTokenParser = async (req: WebevRequest, res: Response, next: NextFunction): Promise<void> => {
+export const accessTokenParser = async (req: WebevRequest, res: Response, next: NextFunction): Promise<void> => {
   const bearToken = req.headers['authorization'];
   const bearer = bearToken.split(' ');
   const token = bearer[1];
@@ -15,5 +15,3 @@ const accessTokenParser = async (req: WebevRequest, res: Response, next: NextFun
 
   return next();
 };
-
-export { accessTokenParser };
