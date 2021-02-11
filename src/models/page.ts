@@ -1,7 +1,7 @@
-import * as mongoose from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 
 export interface IPage {
-  _id: string;
+  _id: Types.ObjectId;
   url: string;
   image: string;
   description: string;
@@ -10,7 +10,7 @@ export interface IPage {
   updatedAt: Date;
 }
 
-const PageSchema = new mongoose.Schema(
+const PageSchema = new Schema(
   {
     url: String,
     image: String,
@@ -20,4 +20,4 @@ const PageSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const PageModel = mongoose.model('Page', PageSchema);
+export const PageModel = model('Page', PageSchema);

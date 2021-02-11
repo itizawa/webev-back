@@ -1,4 +1,8 @@
-POST http://localhost:8000/api/v1/pages HTTP/1.1
+@url = http://localhost:8000/api/v1
+@pageId = 60200fe1daf45c00490ab0f4
+@token = Bearer owned_accessToken 
+
+POST {{url}}/pages HTTP/1.1
 content-type: application/json
 
 {
@@ -8,12 +12,13 @@ content-type: application/json
 
 ###
 
-GET  http://localhost:8000/api/v1/pages/list HTTP/1.1
+GET  {{url}}/pages/list HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 
 ###
 
-GET  http://localhost:8000/api/v1/pages/601f24c9251be00049a97b03 HTTP/1.1
+GET  {{url}}/pages/{{pageId}} HTTP/1.1
 content-type: application/json
 
