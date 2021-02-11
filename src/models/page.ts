@@ -1,11 +1,12 @@
-import { model, Schema, Types } from 'mongoose';
-
+import { model, Schema, Types, ObjectId, Document } from 'mongoose';
+import { UserModel, IUser } from './user';
 export interface IPage {
-  _id: Types.ObjectId;
+  _id: ObjectId;
   url: string;
   image: string;
   description: string;
   title: string;
+  createdUser: Document<IUser>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,6 +17,11 @@ const PageSchema = new Schema(
     image: String,
     description: String,
     title: String,
+    createdUser: {
+      type: Types.ObjectId,
+      ref: UserModel,
+      required: true,
+    },
   },
   { timestamps: true },
 );
