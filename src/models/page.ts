@@ -1,12 +1,12 @@
-import { model, Schema, Types } from 'mongoose';
-import { UserModel } from './user';
+import { model, Schema, Types, ObjectId, Document } from 'mongoose';
+import { UserModel, IUser } from './user';
 export interface IPage {
-  _id: Types.ObjectId;
+  _id: ObjectId;
   url: string;
   image: string;
   description: string;
   title: string;
-  createdUser: Types.ObjectId;
+  createdUser: Document<IUser>;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,10 +1,10 @@
-import { model, Schema, Types } from 'mongoose';
-import { UserModel } from './user';
+import { model, Schema, Types, ObjectId, Document } from 'mongoose';
+import { UserModel, IUser } from './user';
 
 export interface ISession {
-  _id: Types.ObjectId;
+  _id: ObjectId;
   accessToken: string;
-  userId: Types.ObjectId;
+  userId: Document<IUser>;
   createdAt: Date;
   updatedAt: Date;
 }
