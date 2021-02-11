@@ -1,4 +1,5 @@
 import { model, Schema, Types } from 'mongoose';
+import { UserModel } from './user';
 
 export interface ISession {
   _id: Types.ObjectId;
@@ -13,7 +14,7 @@ const SessionSchema = new Schema(
     accessToken: String,
     userId: {
       type: Types.ObjectId,
-      ref: 'User',
+      ref: UserModel,
     },
   },
   { timestamps: true },
