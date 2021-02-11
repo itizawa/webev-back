@@ -1,7 +1,7 @@
 import { model, Schema, Types } from 'mongoose';
 
 export interface ISession {
-  _id: string;
+  _id: Types.ObjectId;
   accessToken: string;
   userId: Types.ObjectId;
   createdAt: Date;

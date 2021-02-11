@@ -1,7 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 
 export interface IPage {
-  _id: string;
+  _id: Types.ObjectId;
   url: string;
   image: string;
   description: string;
