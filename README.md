@@ -4,6 +4,6 @@ This is backend for webev front
 
 ## Installation
 
-This application can simply be installed using pnpm:
+This application can simply be installed using yarn:
 
-`pnpm install`
+`yarn install`
