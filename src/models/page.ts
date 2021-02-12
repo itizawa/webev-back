@@ -1,4 +1,4 @@
-import { model, Schema, Types, ObjectId, Document } from 'mongoose';
+import { model, Schema, Types, ObjectId, Document, Query } from 'mongoose';
 import { UserModel, IUser } from './user';
 export interface IPage {
   _id: ObjectId;
@@ -25,5 +25,19 @@ const PageSchema = new Schema(
   },
   { timestamps: true },
 );
+
+export class PageQueryBuilder {
+  query: Query<Document<IPage>[], Document<IPage>>;
+
+  constructor(query: Query<Document<IPage>[], Document<IPage>>) {
+    this.query = query;
+  }
+
+  addConditionToListByCreatorId(creatorId: ObjectId): this {
+    this.query = this.query.and([{ createdUser: creatorId }]);
+
+    return this;
+  }
+}
 
 export const PageModel = model('Page', PageSchema);

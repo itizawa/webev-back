@@ -3,7 +3,7 @@ import { body, param } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
-import { PageModel } from '../models/page';
+import { PageModel, PageQueryBuilder } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
@@ -30,8 +30,12 @@ export const pages = (webevApp: WebevApp): Router => {
   });
 
   router.get('/list', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+    const { user } = req;
     try {
-      const pages = await PageModel.find();
+      const queryBuilder = new PageQueryBuilder(PageModel.find());
+      queryBuilder.addConditionToListByCreatorId(user.id);
+
+      const pages = await queryBuilder.query.exec();
       return res.status(200).json(pages);
     } catch (err) {
       console.log(err);
