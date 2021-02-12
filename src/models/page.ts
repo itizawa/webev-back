@@ -33,8 +33,8 @@ export class PageQueryBuilder {
     this.query = query;
   }
 
-  addConditionToListByCreatorId(creator: ObjectId): this {
-    this.query = this.query.and([{ createdUser: creator }]);
+  addConditionToListByCreatorId(creatorId: ObjectId): this {
+    this.query = this.query.and([{ createdUser: creatorId }]);
 
     return this;
   }
