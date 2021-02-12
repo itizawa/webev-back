@@ -4,6 +4,11 @@ import { ISession, SessionModel } from '../models/session';
 
 export const accessTokenParser = async (req: WebevRequest, res: Response, next: NextFunction): Promise<void> => {
   const bearToken = req.headers['authorization'];
+
+  // check null
+  if (bearToken == null) {
+    return next();
+  }
   const bearer = bearToken.split(' ');
   const token = bearer[1];
 
