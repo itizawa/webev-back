@@ -7,7 +7,7 @@ on:
 
 jobs:
   run-linters:
-    name: Run linters
+    name: Run Ci
     runs-on: ubuntu-latest
 
     steps:
@@ -23,9 +23,14 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
-      - name: npm run lint
+      - name: yarn lint
         run: |
-          npm run lint
+          yarn lint
+
+      - name: yarn build
+        run: |
+          yarn build
+
       - name: Slack Notification
         uses: weseek/ghaction-slack-notification@master
         with:
