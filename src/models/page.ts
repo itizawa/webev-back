@@ -49,6 +49,12 @@ export class PageQueryBuilder {
 
     return this;
   }
+
+  addConditionToPageStatus(status: PageStatus): this {
+    this.query = this.query.and([{ status }]);
+
+    return this;
+  }
 }
 
 export const PageModel = model('Page', PageSchema);
