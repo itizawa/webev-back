@@ -11,12 +11,23 @@ export interface IPage {
   updatedAt: Date;
 }
 
+export enum PageStatus {
+  PAGE_STATUS_STOCK = 'stocked',
+  PAGE_STATUS_ARCHIVE = 'archived',
+  PAGE_STATUS_DELETED = 'deleted',
+}
+
 const PageSchema = new Schema(
   {
     url: String,
     image: String,
     description: String,
     title: String,
+    status: {
+      type: PageStatus,
+      required: true,
+      default: PageStatus.PAGE_STATUS_STOCK,
+    },
     createdUser: {
       type: Types.ObjectId,
       ref: UserModel,
