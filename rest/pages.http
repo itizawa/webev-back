@@ -27,6 +27,13 @@ content-type: application/json
 Authorization: {{token}}
 
 ###
+@isFavorite = true
+
+PUT {{url}}/pages/{{pageId}}/favorite?isFavorite={{isFavorite}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+###
 
 DELETE  {{url}}/pages/{{pageId}} HTTP/1.1
 content-type: application/json

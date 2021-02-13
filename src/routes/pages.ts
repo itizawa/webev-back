@@ -17,6 +17,7 @@ const validator = {
       .isString(),
   ],
   getPage: [param('id').isMongoId()],
+  putPageFavorite: [param('id').isMongoId(), query('isFavorite').isBoolean()],
   deletePage: [param('id').isMongoId()],
 };
 
@@ -61,6 +62,21 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const page = await PageModel.findOne({ _id: id, createdUser: user._id });
+
+      return res.status(200).json(page);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
+  router.put('/:id/favorite', accessTokenParser, loginRequired, validator.putPageFavorite, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { isFavorite } = req.query;
+    const { user } = req;
+
+    try {
+      const page = await webevApp.PageService.updatePageFavorite(id, user, JSON.parse(isFavorite as string));
 
       return res.status(200).json(page);
     } catch (err) {

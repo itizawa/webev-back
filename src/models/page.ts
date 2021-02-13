@@ -6,6 +6,8 @@ export interface IPage {
   image: string;
   description: string;
   title: string;
+  status: PageStatus;
+  isFavorite: boolean;
   createdUser: Document<IUser>;
   createdAt: Date;
   updatedAt: Date;
@@ -28,6 +30,7 @@ const PageSchema = new Schema(
       required: true,
       default: PageStatus.PAGE_STATUS_STOCK,
     },
+    isFavorite: Boolean,
     createdUser: {
       type: Types.ObjectId,
       ref: UserModel,
