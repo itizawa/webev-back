@@ -43,11 +43,13 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  router.get('/:id', validator.getPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.get('/:id', accessTokenParser, loginRequired, validator.getPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
+    const { user } = req;
 
     try {
-      const page = await PageModel.findById(id);
+      const page = await PageModel.findOne({ _id: id, createdUser: user._id });
+
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
