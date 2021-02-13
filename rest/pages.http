@@ -13,7 +13,9 @@ Authorization: {{token}}
 
 ###
 
-GET  {{url}}/pages/list HTTP/1.1
+@status = stocked
+
+GET  {{url}}/pages/list?status={{status}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
