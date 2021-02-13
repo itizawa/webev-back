@@ -12,6 +12,7 @@ const router = Router();
 const validator = {
   postPage: [body('url').isURL({ require_protocol: true })],
   getPage: [param('id').isMongoId()],
+  deletePage: [param('id').isMongoId()],
 };
 
 export const pages = (webevApp: WebevApp): Router => {
@@ -49,6 +50,20 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const page = await PageModel.findOne({ _id: id, createdUser: user._id });
+
+      return res.status(200).json(page);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
+  router.delete('/:id', accessTokenParser, loginRequired, validator.deletePage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { user } = req;
+
+    try {
+      const page = await webevApp.PageService.deletePage(id, user);
 
       return res.status(200).json(page);
     } catch (err) {
