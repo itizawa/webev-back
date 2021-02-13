@@ -1,9 +1,9 @@
 import { Router, Response } from 'express';
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
-import { PageModel, PageQueryBuilder } from '../models/page';
+import { PageModel, PageQueryBuilder, PageStatus } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
@@ -11,6 +11,11 @@ const router = Router();
 
 const validator = {
   postPage: [body('url').isURL({ require_protocol: true })],
+  getPageList: [
+    query('status')
+      .if((value) => value != null)
+      .isString(),
+  ],
   getPage: [param('id').isMongoId()],
   deletePage: [param('id').isMongoId()],
 };
@@ -30,11 +35,17 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  router.get('/list', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+  router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
+    const { status } = req.query;
+
     try {
       const queryBuilder = new PageQueryBuilder(PageModel.find());
       queryBuilder.addConditionToListByCreatorId(user.id);
+
+      if (status != null) {
+        queryBuilder.addConditionToPageStatus(status as PageStatus);
+      }
 
       const pages = await queryBuilder.query.exec();
       return res.status(200).json(pages);
