@@ -26,6 +26,7 @@ const PageSchema = new Schema(
     status: {
       type: PageStatus,
       required: true,
+      default: PageStatus.PAGE_STATUS_STOCK,
     },
     createdUser: {
       type: Types.ObjectId,
