@@ -56,6 +56,22 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
+  router.get('/favorite-list', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+    const { user } = req;
+
+    try {
+      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }));
+      queryBuilder.addConditionToListByCreatorId(user.id);
+      queryBuilder.addConditionToExcludeDeleted();
+
+      const pages = await queryBuilder.query.exec();
+      return res.status(200).json(pages);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
   router.get('/:id', accessTokenParser, loginRequired, validator.getPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
     const { user } = req;
