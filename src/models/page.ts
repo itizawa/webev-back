@@ -30,7 +30,10 @@ const PageSchema = new Schema(
       required: true,
       default: PageStatus.PAGE_STATUS_STOCK,
     },
-    isFavorite: Boolean,
+    isFavorite: {
+      type: Boolean,
+      default: false,
+    },
     createdUser: {
       type: Types.ObjectId,
       ref: UserModel,
