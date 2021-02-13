@@ -13,15 +13,23 @@ export class PageService {
   }
 
   async retrieveDataByUrl(url: string): Promise<Partial<IPage>> {
-    const result = await axios.get(url);
-    const $ = cheerio.load(result.data);
+    try {
+      const result = await axios.get(url);
+      const $ = cheerio.load(result.data);
 
-    return {
-      url: url,
-      image: $("meta[property='og:image']").attr('content'),
-      description: $("meta[property='og:description']").attr('content'),
-      title: $("meta[property='og:title']").attr('content'),
-    };
+      return {
+        url: url,
+        image: $("meta[property='og:image']").attr('content'),
+        description: $("meta[property='og:description']").attr('content'),
+        title: $("meta[property='og:title']").attr('content'),
+      };
+    } catch (error) {
+      return {
+        url: url,
+        title: url,
+        description: '取得できませんでした',
+      };
+    }
   }
 
   savePage(page: Partial<IPage>, user: Document<IUser>): Promise<Document<IPage>> {
