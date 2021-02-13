@@ -30,7 +30,10 @@ const PageSchema = new Schema(
       required: true,
       default: PageStatus.PAGE_STATUS_STOCK,
     },
-    isFavorite: Boolean,
+    isFavorite: {
+      type: Boolean,
+      default: false,
+    },
     createdUser: {
       type: Types.ObjectId,
       ref: UserModel,
@@ -49,6 +52,12 @@ export class PageQueryBuilder {
 
   addConditionToListByCreatorId(creatorId: ObjectId): this {
     this.query = this.query.and([{ createdUser: creatorId }]);
+
+    return this;
+  }
+
+  addConditionToExcludeDeleted(): this {
+    this.query = this.query.and([{ status: { $ne: PageStatus.PAGE_STATUS_DELETED } }]);
 
     return this;
   }
