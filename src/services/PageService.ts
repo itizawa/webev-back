@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Document } from 'mongoose';
-import { IPage, PageModel } from '../models/page';
+import { IPage, PageModel, PageStatus } from '../models/page';
 import { IUser } from '../models/user';
 import { WebevApp } from './WebevApp';
 
@@ -36,5 +36,11 @@ export class PageService {
     // set creator id
     page.createdUser = user;
     return PageModel.create(page);
+  }
+
+  async deletePage(pageId: string, user: Document<IUser>): Promise<Document<IPage>> {
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { status: PageStatus.PAGE_STATUS_DELETED });
+
+    return page;
   }
 }
