@@ -43,7 +43,7 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  router.get('/:id', validator.getPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.get('/:id', accessTokenParser, loginRequired, validator.getPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
 
     try {
