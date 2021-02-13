@@ -56,6 +56,12 @@ export class PageQueryBuilder {
     return this;
   }
 
+  addConditionToExcludeDeleted(): this {
+    this.query = this.query.and([{ status: { $ne: PageStatus.PAGE_STATUS_DELETED } }]);
+
+    return this;
+  }
+
   addConditionToPageStatus(status: PageStatus): this {
     this.query = this.query.and([{ status }]);
 
