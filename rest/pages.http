@@ -22,4 +22,5 @@ Authorization: {{token}}
 
 GET  {{url}}/pages/{{pageId}} HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
