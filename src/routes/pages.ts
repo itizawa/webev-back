@@ -41,7 +41,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { status } = req.query;
 
     try {
-      const queryBuilder = new PageQueryBuilder(PageModel.find());
+      const queryBuilder = new PageQueryBuilder(PageModel.find().sort('-createdAt'));
       queryBuilder.addConditionToListByCreatorId(user.id);
 
       if (status != null) {
@@ -60,7 +60,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }));
+      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }).sort('-createdAt'));
       queryBuilder.addConditionToListByCreatorId(user.id);
       queryBuilder.addConditionToExcludeDeleted();
 
