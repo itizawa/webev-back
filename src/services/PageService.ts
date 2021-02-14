@@ -24,6 +24,7 @@ export class PageService {
         title: $("meta[property='og:title']").attr('content'),
       };
     } catch (error) {
+      console.log(error);
       return {
         url: url,
         title: url,
