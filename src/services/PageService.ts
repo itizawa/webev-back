@@ -35,7 +35,6 @@ export class PageService {
   }
 
   savePage(page: Partial<IPage>, user: Document<IUser>): Promise<Document<IPage>> {
-    console.log(page);
     // set creator id
     page.createdUser = user;
     return PageModel.create(page);
