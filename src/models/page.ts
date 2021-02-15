@@ -3,6 +3,7 @@ import { UserModel, IUser } from './user';
 export interface IPage {
   _id: ObjectId;
   url: string;
+  siteName: string;
   image: string;
   description: string;
   title: string;
