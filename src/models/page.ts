@@ -3,10 +3,10 @@ import { UserModel, IUser } from './user';
 export interface IPage {
   _id: ObjectId;
   url: string;
-  siteName: string;
   image: string;
   description: string;
   title: string;
+  siteName: string;
   status: PageStatus;
   isFavorite: boolean;
   createdUser: Document<IUser>;
@@ -26,6 +26,7 @@ const PageSchema = new Schema(
     image: String,
     description: String,
     title: String,
+    siteName: String,
     status: {
       type: PageStatus,
       required: true,

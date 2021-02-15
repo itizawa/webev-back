@@ -22,6 +22,7 @@ export class PageService {
         image: $("meta[property='og:image']").attr('content'),
         description: $("meta[property='og:description']").attr('content'),
         title: $("meta[property='og:title']").attr('content'),
+        siteName: $("meta[property='og:site_name']").attr('content'),
       };
     } catch (error) {
       console.log(error);
@@ -34,6 +35,7 @@ export class PageService {
   }
 
   savePage(page: Partial<IPage>, user: Document<IUser>): Promise<Document<IPage>> {
+    console.log(page);
     // set creator id
     page.createdUser = user;
     return PageModel.create(page);
