@@ -41,13 +41,13 @@ export class PageService {
   }
 
   async updatePageFavorite(pageId: string, user: Document<IUser>, isFavorite: boolean): Promise<Document<IPage>> {
-    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { isFavorite });
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { isFavorite }, { new: true });
 
     return page;
   }
 
   async deletePage(pageId: string, user: Document<IUser>): Promise<Document<IPage>> {
-    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { status: PageStatus.PAGE_STATUS_DELETED });
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { status: PageStatus.PAGE_STATUS_DELETED }, { new: true });
 
     return page;
   }
