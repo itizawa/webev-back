@@ -17,7 +17,7 @@ const validator = {
       .isString(),
   ],
   getPage: [param('id').isMongoId()],
-  putPageFavorite: [param('id').isMongoId(), query('isFavorite').isBoolean()],
+  putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
   deletePage: [param('id').isMongoId()],
 };
 
@@ -88,7 +88,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
   router.put('/:id/favorite', accessTokenParser, loginRequired, validator.putPageFavorite, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
-    const { isFavorite } = req.query;
+    const { isFavorite } = req.body;
     const { user } = req;
 
     try {
