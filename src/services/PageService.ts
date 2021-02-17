@@ -41,7 +41,7 @@ export class PageService {
   }
 
   async updatePageFavorite(pageId: string, user: Document<IUser>, isFavorite: boolean): Promise<Document<IPage>> {
-    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { isFavorite });
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { isFavorite }, { new: true });
 
     return page;
   }
