@@ -40,6 +40,12 @@ export class PageService {
     return PageModel.create(page);
   }
 
+  async updatePageById(pageId: string, page: Partial<IPage>): Promise<Document<IPage>> {
+    const result = await PageModel.findByIdAndUpdate(pageId, page);
+
+    return result;
+  }
+
   async updatePageFavorite(pageId: string, user: Document<IUser>, isFavorite: boolean): Promise<Document<IPage>> {
     const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { isFavorite }, { new: true });
 

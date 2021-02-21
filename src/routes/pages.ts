@@ -26,13 +26,22 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
     const { url } = req.body;
 
+    let pageId;
     try {
-      const page = await webevApp.PageService.retrieveDataByUrl(url);
-      const result = await webevApp.PageService.savePage(page, user);
-      return res.status(200).json(result);
+      const result = await webevApp.PageService.savePage({ url }, user);
+      pageId = result._id;
+      res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
+    }
+
+    try {
+      const page = await webevApp.PageService.retrieveDataByUrl(url);
+      await webevApp.PageService.updatePageById(pageId, page);
+      webevApp.io.emit('update-page');
+    } catch (err) {
+      console.log(err);
     }
   });
 
