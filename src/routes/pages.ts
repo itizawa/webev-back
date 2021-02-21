@@ -43,6 +43,7 @@ export const pages = (webevApp: WebevApp): Router => {
     try {
       const queryBuilder = new PageQueryBuilder(PageModel.find().sort('-createdAt'));
       queryBuilder.addConditionToListByCreatorId(user.id);
+      queryBuilder.addConditionToExcludeDeleted();
 
       if (status != null) {
         queryBuilder.addConditionToPageStatus(status as PageStatus);
