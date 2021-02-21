@@ -10,7 +10,7 @@
     "build": "tsc",
     "dev": "env-cmd -f ./config/dev.env nodemon -x ts-node src/main.ts",
     "lint": "eslint src/**/**.ts",
-    "deploy":"tsc && gcloud app deploy"
+    "deploy": "tsc && gcloud app deploy"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -21,11 +21,13 @@
     "express-validator": "^6.9.2",
     "mongodb": "^3.6.3",
     "mongoose": "~5.11.13",
+    "socket.io": "^3.1.1",
     "swagger-ui-express": "^4.1.6",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2"
   },
   "devDependencies": {
+    "@types/socket.io": "^2.1.13",
     "@types/express": "^4.16.0",
     "@types/mongodb": "^3.1.18",
     "@types/node": "^10.12.15",
