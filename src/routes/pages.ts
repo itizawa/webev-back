@@ -28,7 +28,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
     let pageId;
     try {
-      const result = await webevApp.PageService.savePage({ url }, user);
+      const result = await webevApp.PageService.savePage({ url, title: '取得中...' }, user);
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
