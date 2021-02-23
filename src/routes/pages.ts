@@ -3,7 +3,7 @@ import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
-import { PageModel, PageQueryBuilder, PageStatus } from '../models/page';
+import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
@@ -12,10 +12,8 @@ const router = Router();
 const validator = {
   postPage: [body('url').isURL({ require_protocol: true })],
   getPageList: [
-    query('status')
-      .if((value) => value != null)
-      .isString(),
-    query('offset')
+    query('status').isString(),
+    query('page')
       .if((value) => value != null)
       .isInt(),
     query('limit')
@@ -62,39 +60,19 @@ export const pages = (webevApp: WebevApp): Router => {
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
     const { status } = req.query;
-    const offset = parseInt(req.query.offset) || 0;
+    const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
     try {
-      const queryBuilder = new PageQueryBuilder(PageModel.find())
-        .addConditionToListByCreatorId(user.id)
-        .addConditionToExcludeDeleted()
-        .addConditionToPagenate(offset, limit, '-createdAt');
+      const pages = await PageModel.paginate(
+        { createdUser: user.id, status },
+        {
+          page,
+          limit,
+          sort: { createdAt: -1 },
+        },
+      );
 
-      if (status != null) {
-        queryBuilder.addConditionToPageStatus(status as PageStatus);
-      }
-
-      const pages = await queryBuilder.query.exec();
-      return res.status(200).json(pages);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
-    }
-  });
-
-  router.get('/favorite-list', accessTokenParser, loginRequired, validator.getFavoritePageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { user } = req;
-    const offset = parseInt(req.query.offset) || 0;
-    const limit = parseInt(req.query.limit) || 10;
-
-    try {
-      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }))
-        .addConditionToListByCreatorId(user.id)
-        .addConditionToExcludeDeleted()
-        .addConditionToPagenate(offset, limit, '-createdAt');
-
-      const pages = await queryBuilder.query.exec();
       return res.status(200).json(pages);
     } catch (err) {
       console.log(err);
