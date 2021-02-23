@@ -89,7 +89,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const limit = parseInt(req.query.limit) || 10;
 
     try {
-      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }).sort('-createdAt'))
+      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }))
         .addConditionToListByCreatorId(user.id)
         .addConditionToExcludeDeleted()
         .addConditionToPagenate(offset, limit, '-createdAt');
@@ -122,7 +122,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const page = await webevApp.PageService.updatePageFavorite(id, user, JSON.parse(isFavorite as string));
+      const page = await webevApp.PageService.updatePageFavorite(id, user, isFavorite);
 
       return res.status(200).json(page);
     } catch (err) {
