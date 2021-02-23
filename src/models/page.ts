@@ -2,7 +2,7 @@ import { model, Schema, Types, ObjectId, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 import { UserModel, IUser } from './user';
-export interface IPage {
+export interface IPage extends Document {
   _id: ObjectId;
   url: string;
   image: string;
@@ -22,7 +22,7 @@ export enum PageStatus {
   PAGE_STATUS_DELETED = 'deleted',
 }
 
-const PageSchema = new Schema(
+const PageSchema: Schema = new Schema(
   {
     url: String,
     image: String,
@@ -48,4 +48,6 @@ const PageSchema = new Schema(
 );
 
 PageSchema.plugin(mongoosePaginate);
-export const PageModel = model('Page', PageSchema);
+
+type PageModel<T extends Document> = mongoosePaginate<T>;
+export const PageModel: PageModel<IPage> = model<IPage>('Page', PageSchema);
