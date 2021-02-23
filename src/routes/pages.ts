@@ -20,14 +20,6 @@ const validator = {
       .if((value) => value != null)
       .isInt(),
   ],
-  getFavoritePageList: [
-    query('offset')
-      .if((value) => value != null)
-      .isInt(),
-    query('limit')
-      .if((value) => value != null)
-      .isInt(),
-  ],
   getPage: [param('id').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
   deletePage: [param('id').isMongoId()],
