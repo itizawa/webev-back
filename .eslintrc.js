@@ -1,3 +1,4 @@
+/*eslint-env node*/
 module.exports = {
   root: true,
   env: {
@@ -25,7 +26,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+        extensions: ['.js', '.ts', '.json'],
         moduleDirectory: ['node_modules/'],
       },
       typescript: {
@@ -51,7 +52,7 @@ module.exports = {
         endOfLine: 'lf',
         semi: true,
         singleQuote: true,
-        printWidth: 162,
+        printWidth: 180,
         tabWidth: 2,
       },
     ],

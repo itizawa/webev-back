@@ -69,6 +69,12 @@ export class PageQueryBuilder {
 
     return this;
   }
+
+  addConditionToPagenate(offset: number, limit: number, sortOpt: string): this {
+    this.query = this.query.sort(sortOpt).skip(offset).limit(limit);
+
+    return this;
+  }
 }
 
 export const PageModel = model('Page', PageSchema);
