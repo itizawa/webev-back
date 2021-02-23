@@ -1,4 +1,4 @@
-import { model, Schema, Types, ObjectId, Document, Query } from 'mongoose';
+import { model, Schema, Types, ObjectId, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 import { UserModel, IUser } from './user';
