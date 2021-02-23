@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Router, Response } from 'express';
 import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
@@ -12,9 +13,9 @@ const router = Router();
 const validator = {
   postPage: [body('url').isURL({ require_protocol: true })],
   getPageList: [
-    query('status')
-      .if((value) => value != null)
-      .isString(),
+    query('status').if((value) => value != null).isString(),
+    query('offset').if((value) => value != null).isInt(),
+    query('limit').if((value) => value != null).isInt(),
   ],
   getPage: [param('id').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
@@ -47,9 +48,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
-    const { status } = req.query;
-    const offset = 0;
-    const limit = 10;
+    const { status, offset = 0, limit=10 } = req.query;
 
     try {
       const queryBuilder = new PageQueryBuilder(PageModel.find())
