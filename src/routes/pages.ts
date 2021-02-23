@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Router, Response } from 'express';
 import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
@@ -13,9 +12,23 @@ const router = Router();
 const validator = {
   postPage: [body('url').isURL({ require_protocol: true })],
   getPageList: [
-    query('status').if((value) => value != null).isString(),
-    query('offset').if((value) => value != null).isInt(),
-    query('limit').if((value) => value != null).isInt(),
+    query('status')
+      .if((value) => value != null)
+      .isString(),
+    query('offset')
+      .if((value) => value != null)
+      .isInt(),
+    query('limit')
+      .if((value) => value != null)
+      .isInt(),
+  ],
+  getFavoritePageList: [
+    query('offset')
+      .if((value) => value != null)
+      .isInt(),
+    query('limit')
+      .if((value) => value != null)
+      .isInt(),
   ],
   getPage: [param('id').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
@@ -49,8 +62,8 @@ export const pages = (webevApp: WebevApp): Router => {
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
     const { status } = req.query;
-    const offset = parseInt(req.query.offset) || 0
-    const limit = parseInt(req.query.limit) || 10
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit) || 10;
 
     try {
       const queryBuilder = new PageQueryBuilder(PageModel.find())
@@ -70,13 +83,16 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  router.get('/favorite-list', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+  router.get('/favorite-list', accessTokenParser, loginRequired, validator.getFavoritePageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit) || 10;
 
     try {
-      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }).sort('-createdAt'));
-      queryBuilder.addConditionToListByCreatorId(user.id);
-      queryBuilder.addConditionToExcludeDeleted();
+      const queryBuilder = new PageQueryBuilder(PageModel.find({ isFavorite: true }).sort('-createdAt'))
+        .addConditionToListByCreatorId(user.id)
+        .addConditionToExcludeDeleted()
+        .addConditionToPagenate(offset, limit, '-createdAt');
 
       const pages = await queryBuilder.query.exec();
       return res.status(200).json(pages);
