@@ -48,11 +48,14 @@ export const pages = (webevApp: WebevApp): Router => {
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
     const { status } = req.query;
+    const offset = 0;
+    const limit = 10;
 
     try {
-      const queryBuilder = new PageQueryBuilder(PageModel.find().sort('-createdAt'));
-      queryBuilder.addConditionToListByCreatorId(user.id);
-      queryBuilder.addConditionToExcludeDeleted();
+      const queryBuilder = new PageQueryBuilder(PageModel.find())
+        .addConditionToListByCreatorId(user.id)
+        .addConditionToExcludeDeleted()
+        .addConditionToPagenate(offset, limit, '-createdAt');
 
       if (status != null) {
         queryBuilder.addConditionToPageStatus(status as PageStatus);
