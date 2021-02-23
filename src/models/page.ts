@@ -47,37 +47,5 @@ const PageSchema = new Schema(
   { timestamps: true },
 );
 
-export class PageQueryBuilder {
-  query: Query<Document<IPage>[], Document<IPage>>;
-
-  constructor(query: Query<Document<IPage>[], Document<IPage>>) {
-    this.query = query;
-  }
-
-  addConditionToListByCreatorId(creatorId: ObjectId): this {
-    this.query = this.query.and([{ createdUser: creatorId }]);
-
-    return this;
-  }
-
-  addConditionToExcludeDeleted(): this {
-    this.query = this.query.and([{ status: { $ne: PageStatus.PAGE_STATUS_DELETED } }]);
-
-    return this;
-  }
-
-  addConditionToPageStatus(status: PageStatus): this {
-    this.query = this.query.and([{ status }]);
-
-    return this;
-  }
-
-  addConditionToPagenate(offset: number, limit: number, sortOpt: string): this {
-    this.query = this.query.sort(sortOpt).skip(offset).limit(limit);
-
-    return this;
-  }
-}
-
 PageSchema.plugin(mongoosePaginate);
 export const PageModel = model('Page', PageSchema);
