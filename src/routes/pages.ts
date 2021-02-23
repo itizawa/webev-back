@@ -48,7 +48,9 @@ export const pages = (webevApp: WebevApp): Router => {
 
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
-    const { status, offset = 0, limit=10 } = req.query;
+    const { status } = req.query;
+    const offset = parseInt(req.query.offset) || 0
+    const limit = parseInt(req.query.limit) || 10
 
     try {
       const queryBuilder = new PageQueryBuilder(PageModel.find())
