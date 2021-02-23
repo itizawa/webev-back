@@ -19,6 +19,9 @@ const validator = {
     query('limit')
       .if((value) => value != null)
       .isInt(),
+    query('isFavorite')
+      .if((value) => value != null)
+      .isBoolean(),
   ],
   getPage: [param('id').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
@@ -51,21 +54,27 @@ export const pages = (webevApp: WebevApp): Router => {
 
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
-    const { status } = req.query;
+    const { status, isFavorite } = req.query;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    try {
-      const pages = await PageModel.paginate(
-        { createdUser: user.id, status },
-        {
-          page,
-          limit,
-          sort: { createdAt: -1 },
-        },
-      );
+    const query: { [key: string]: string } = {
+      createdUser: user.id,
+      status,
+    };
 
-      return res.status(200).json(pages);
+    if (isFavorite != null) {
+      query.isFavorite = isFavorite;
+    }
+
+    try {
+      const paginationResult = await PageModel.paginate(query, {
+        page,
+        limit,
+        sort: { createdAt: -1 },
+      });
+
+      return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
