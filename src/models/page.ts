@@ -1,6 +1,8 @@
-import { model, Schema, Types, ObjectId, Document, Query } from 'mongoose';
+import { model, Schema, Types, ObjectId, Document } from 'mongoose';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
+
 import { UserModel, IUser } from './user';
-export interface IPage {
+export interface IPage extends Document {
   _id: ObjectId;
   url: string;
   image: string;
@@ -20,7 +22,7 @@ export enum PageStatus {
   PAGE_STATUS_DELETED = 'deleted',
 }
 
-const PageSchema = new Schema(
+const PageSchema: Schema = new Schema(
   {
     url: String,
     image: String,
@@ -45,36 +47,7 @@ const PageSchema = new Schema(
   { timestamps: true },
 );
 
-export class PageQueryBuilder {
-  query: Query<Document<IPage>[], Document<IPage>>;
+PageSchema.plugin(mongoosePaginate);
 
-  constructor(query: Query<Document<IPage>[], Document<IPage>>) {
-    this.query = query;
-  }
-
-  addConditionToListByCreatorId(creatorId: ObjectId): this {
-    this.query = this.query.and([{ createdUser: creatorId }]);
-
-    return this;
-  }
-
-  addConditionToExcludeDeleted(): this {
-    this.query = this.query.and([{ status: { $ne: PageStatus.PAGE_STATUS_DELETED } }]);
-
-    return this;
-  }
-
-  addConditionToPageStatus(status: PageStatus): this {
-    this.query = this.query.and([{ status }]);
-
-    return this;
-  }
-
-  addConditionToPagenate(offset: number, limit: number, sortOpt: string): this {
-    this.query = this.query.sort(sortOpt).skip(offset).limit(limit);
-
-    return this;
-  }
-}
-
-export const PageModel = model('Page', PageSchema);
+type PageModel<T extends Document> = mongoosePaginate<T>;
+export const PageModel: PageModel<IPage> = model<IPage>('Page', PageSchema);
