@@ -1,4 +1,6 @@
 import { model, Schema, Types, ObjectId, Document, Query } from 'mongoose';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
+
 import { UserModel, IUser } from './user';
 export interface IPage {
   _id: ObjectId;
@@ -77,4 +79,5 @@ export class PageQueryBuilder {
   }
 }
 
+PageSchema.plugin(mongoosePaginate);
 export const PageModel = model('Page', PageSchema);
