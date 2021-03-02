@@ -67,7 +67,7 @@ jobs:
           isCompactMode: true
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  run-linters:
+  run-builders:
     name: Run lint
     runs-on: ubuntu-latest
 
