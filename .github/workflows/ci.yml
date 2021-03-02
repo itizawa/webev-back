@@ -7,7 +7,7 @@ on:
 
 jobs:
   run-linters:
-    name: Run Ci
+    name: Run lint
     runs-on: ubuntu-latest
 
     steps:
@@ -68,7 +68,7 @@ jobs:
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   run-builders:
-    name: Run lint
+    name: Run build
     runs-on: ubuntu-latest
 
     steps:
