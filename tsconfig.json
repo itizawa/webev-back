@@ -1,18 +1,18 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist",
-        "sourceMap": true,
-        "module": "commonjs",
-        "target": "es2016",
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-        "removeComments": true,
-        "noImplicitAny": false
-    }, 
-    "exclude": [
-        "node_modules"
-    ], 
-    "include": [
-        "./src/**/*"
-    ]
+	"compilerOptions": {
+		"outDir": "./dist",
+		"sourceMap": true,
+		"module": "commonjs",
+		"target": "es2016",
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"removeComments": true,
+		"noImplicitAny": false
+	}, 
+	"exclude": [
+		"node_modules"
+	], 
+	"include": [
+		"./src/**/*"
+	]
 }

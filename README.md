@@ -2,8 +2,4 @@
 
 This is backend for webev front
 
-## Installation
-
-This application can simply be installed using yarn:
-
-`yarn install`
+See the [webev-front](https://github.com/itizawa/webev-front) page for details.
