@@ -69,7 +69,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    const query: { [key: string]: string } = {
+    const query: { createdUser: string; status: string; isFavorite?: boolean } = {
       createdUser: user.id,
       status,
     };
