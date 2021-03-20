@@ -57,7 +57,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
-    const { status, isFavorite } = req.query;
+    const { status, isFavorite, sort } = req.query;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
@@ -70,12 +70,17 @@ export const pages = (webevApp: WebevApp): Router => {
       query.isFavorite = isFavorite;
     }
 
+    const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
+      page,
+      limit,
+    };
+
+    if (sort != null) {
+      options.sort = { updatedAt: -1 };
+    }
+
     try {
-      const paginationResult = await PageModel.paginate(query, {
-        page,
-        limit,
-        sort: { createdAt: -1 },
-      });
+      const paginationResult = await PageModel.paginate(query, options);
 
       return res.status(200).json(paginationResult);
     } catch (err) {
