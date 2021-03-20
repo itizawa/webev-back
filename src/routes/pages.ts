@@ -55,7 +55,15 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  type ListType = {
+    query: {
+      status: string;
+      isFavorite?: boolean;
+      sort?: string;
+    };
+  };
+
+  router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
     const { status, isFavorite, sort } = req.query;
     const page = parseInt(req.query.page) || 1;
