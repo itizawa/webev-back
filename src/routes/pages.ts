@@ -22,6 +22,9 @@ const validator = {
     query('isFavorite')
       .if((value) => value != null)
       .isBoolean(),
+    query('sort')
+      .if((value) => value != null)
+      .isString(),
   ],
   getPage: [param('id').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
