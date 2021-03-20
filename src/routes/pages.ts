@@ -84,7 +84,9 @@ export const pages = (webevApp: WebevApp): Router => {
     };
 
     if (sort != null) {
-      options.sort = { updatedAt: -1 };
+      const sortOrder = sort.startsWith('-') ? -1 : 1;
+      const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
+      options.sort = { [sortKey]: sortOrder };
     }
 
     try {
