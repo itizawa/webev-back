@@ -1,6 +1,6 @@
 {
   "name": "webev-back",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "index.js",
   "repository": "https://github.com/itizawa/webev-back.git",
   "author": "itizawa <itizawa.pen@gmail.com>",
@@ -25,7 +25,7 @@
     "socket.io": "^3.1.1",
     "swagger-ui-express": "^4.1.6",
     "ts-node": "^7.0.1",
-    "typescript": "^3.2.2"
+    "typescript": "^4.2.3"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",

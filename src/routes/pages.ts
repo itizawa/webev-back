@@ -22,6 +22,9 @@ const validator = {
     query('isFavorite')
       .if((value) => value != null)
       .isBoolean(),
+    query('sort')
+      .if((value) => value != null)
+      .isString(),
   ],
   getPage: [param('id').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
@@ -52,13 +55,21 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  type ListType = {
+    query: {
+      status: string;
+      isFavorite?: boolean;
+      sort?: string;
+    };
+  };
+
+  router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { status, isFavorite } = req.query;
+    const { status, isFavorite, sort } = req.query;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    const query: { [key: string]: string } = {
+    const query: { createdUser: string; status: string; isFavorite?: boolean } = {
       createdUser: user.id,
       status,
     };
@@ -67,12 +78,19 @@ export const pages = (webevApp: WebevApp): Router => {
       query.isFavorite = isFavorite;
     }
 
+    const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
+      page,
+      limit,
+    };
+
+    if (sort != null) {
+      const sortOrder = sort.startsWith('-') ? -1 : 1;
+      const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
+      options.sort = { [sortKey]: sortOrder };
+    }
+
     try {
-      const paginationResult = await PageModel.paginate(query, {
-        page,
-        limit,
-        sort: { createdAt: -1 },
-      });
+      const paginationResult = await PageModel.paginate(query, options);
 
       return res.status(200).json(paginationResult);
     } catch (err) {
