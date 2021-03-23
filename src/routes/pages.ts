@@ -28,6 +28,7 @@ const validator = {
   ],
   getPage: [param('id').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
+  putPageArchive: [param('id').isMongoId(), body('isArchive').isBoolean()],
   deletePage: [param('id').isMongoId()],
 };
 
@@ -120,6 +121,27 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const page = await webevApp.PageService.updatePageFavorite(id, user, isFavorite);
+
+      return res.status(200).json(page);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
+  type archiveTyoe = {
+    body: {
+      isArchive: boolean;
+    };
+  };
+
+  router.put('/:id/archive', accessTokenParser, loginRequired, validator.putPageArchive, apiValidatorMiddleware, async (req: WebevRequest & archiveTyoe, res: Response) => {
+    const { id } = req.params;
+    const { isArchive } = req.body;
+    const { user } = req;
+
+    try {
+      const page = await webevApp.PageService.updatePageArchive(id, user, isArchive);
 
       return res.status(200).json(page);
     } catch (err) {

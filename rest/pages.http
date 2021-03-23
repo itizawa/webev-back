@@ -33,6 +33,17 @@ content-type: application/json
 Authorization: {{token}}
 
 ###
+@isArchive = true
+
+PUT {{url}}/pages/{{pageId}}/archive HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "isArchive": {{isArchive}}
+}
+
+###
 
 DELETE  {{url}}/pages/{{pageId}} HTTP/1.1
 content-type: application/json
