@@ -52,6 +52,13 @@ export class PageService {
     return page;
   }
 
+  async updatePageArchive(pageId: string, user: Document<IUser>, isArchive: boolean): Promise<Document<IPage>> {
+    const status = isArchive ? PageStatus.PAGE_STATUS_ARCHIVE : PageStatus.PAGE_STATUS_STOCK;
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { status }, { new: true });
+
+    return page;
+  }
+
   async deletePage(pageId: string, user: Document<IUser>): Promise<Document<IPage>> {
     const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { status: PageStatus.PAGE_STATUS_DELETED }, { new: true });
 
