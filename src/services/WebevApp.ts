@@ -58,6 +58,8 @@ export class WebevApp {
     await this.setupDB();
 
     this.setupSocketio();
+
+    this.setupDirectoryService();
     this.setupPageService();
 
     // setup Express Routes
