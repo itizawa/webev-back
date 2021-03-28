@@ -52,6 +52,30 @@ export const directories = (webevApp: WebevApp): Router => {
     }
   });
 
+  /**
+   * @swagger
+   * /directories/list:
+   *   get:
+   *     description: get directory list
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: page
+   *         description: page for pagination
+   *         in: query
+   *         type: number
+   *       - name: limit
+   *         description: limit for pagination
+   *         in: query
+   *         type: number
+   *     responses:
+   *       200:
+   *         description: Save and return temporary information
+   *         examples:
+   *           result:
+   *              url: hogehoge.example.com
+   *              title: loading...
+   */
   router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
     const page = parseInt(req.query.page) || 1;
