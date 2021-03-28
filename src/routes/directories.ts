@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { param } from 'express-validator';
+import { body, param } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
@@ -10,10 +10,25 @@ import { WebevRequest } from '../interfaces/webev-request';
 const router = Router();
 
 const validator = {
+  postDirectory: [body('name').isString()],
   getDirectory: [param('id').isMongoId()],
 };
 
 export const directories = (webevApp: WebevApp): Router => {
+  router.post('/', accessTokenParser, loginRequired, validator.postDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { name } = req.body;
+    const { user } = req;
+
+    try {
+      const directory = await DirectoryModel.create({ name, createdUser: user._id });
+
+      return res.status(200).json(directory);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
   /**
    * @swagger
    * /directories/:id:
