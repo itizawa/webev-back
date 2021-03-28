@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
@@ -11,7 +11,14 @@ const router = Router();
 
 const validator = {
   postDirectory: [body('name').isString()],
-  getDirectoryList: [],
+  getDirectoryList: [
+    query('page')
+      .if((value) => value != null)
+      .isInt(),
+    query('limit')
+      .if((value) => value != null)
+      .isInt(),
+  ],
   getDirectory: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   deleteDirectory: [param('id').isMongoId()],
@@ -134,13 +141,13 @@ export const directories = (webevApp: WebevApp): Router => {
   /**
    * @swagger
    * /directories/:id/rename:
-   *   get:
+   *   put:
    *     description: rename directory by id
    *     produces:
    *       - application/json
    *     parameters:
    *       - name: id
-   *         description: directory id for get
+   *         description: directory id for rename
    *         in: path
    *         type: string
    *       - name: body
