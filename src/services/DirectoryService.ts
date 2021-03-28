@@ -22,6 +22,12 @@ export class DirectoryService {
   }
 
   async renameDirectory(directoryId: string, name: string, user: Document<IUser>): Promise<Document<IDirectory>> {
+    const directoryCount = await DirectoryModel.count({ name, createdUser: user });
+    // Cannot use the name have already created
+    if (directoryCount > 0) {
+      throw new Error('This name directory already exists');
+    }
+
     const page = await DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: user._id }, { name }, { new: true });
 
     return page;
