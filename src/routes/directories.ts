@@ -15,6 +15,26 @@ const validator = {
 };
 
 export const directories = (webevApp: WebevApp): Router => {
+  /**
+   * @swagger
+   * /directories/:
+   *   post:
+   *     description: create directory by name
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             name:
+   *               type: string
+   *               example: my memorandum
+   *     responses:
+   *       200:
+   *         description: Return directory by id
+   */
   router.post('/', accessTokenParser, loginRequired, validator.postDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { name } = req.body;
     const { user } = req;
