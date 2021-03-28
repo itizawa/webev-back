@@ -10,10 +10,16 @@ export class DirectoryService {
     this.webevApp = WebevApp;
   }
 
-  async saveDirectory(newDirectory: Partial<IDirectory>, user: Document<IUser>): Promise<Document<IDirectory>> {
-    const directoryCount = await DirectoryModel.count({ name: newDirectory.name, createdUser: user });
+  async validInDuplicate(name: string, user: Document<IUser>): Promise<boolean> {
+    const directoryCount = await DirectoryModel.count({ name, createdUser: user });
     // Cannot use the name have already created
-    if (directoryCount > 0) {
+    return directoryCount > 0;
+  }
+
+  async saveDirectory(newDirectory: Partial<IDirectory>, user: Document<IUser>): Promise<Document<IDirectory>> {
+    // Cannot use the name have already created
+    const isInDuplicate = await this.validInDuplicate(newDirectory.name, user);
+    if (isInDuplicate) {
       throw new Error('This name directory already exists');
     }
     // set creator id
@@ -22,9 +28,9 @@ export class DirectoryService {
   }
 
   async renameDirectory(directoryId: string, name: string, user: Document<IUser>): Promise<Document<IDirectory>> {
-    const directoryCount = await DirectoryModel.count({ name, createdUser: user });
     // Cannot use the name have already created
-    if (directoryCount > 0) {
+    const isInDuplicate = await this.validInDuplicate(name, user);
+    if (isInDuplicate) {
       throw new Error('This name directory already exists');
     }
 
