@@ -20,12 +20,12 @@ export const directories = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const directory = await DirectoryModel.create({ name, createdUser: user._id });
+      const directory = await webevApp.DirectoryService.saveDirectory({ name }, user);
 
       return res.status(200).json(directory);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ err: err.message });
     }
   });
 
