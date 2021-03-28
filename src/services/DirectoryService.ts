@@ -20,4 +20,10 @@ export class DirectoryService {
     newDirectory.createdUser = user;
     return DirectoryModel.create(newDirectory);
   }
+
+  async deleteDirectory(directoryId: string, user: Document<IUser>): Promise<Document<IDirectory>> {
+    const page = await DirectoryModel.findOneAndDelete({ _id: directoryId, createdUser: user._id });
+
+    return page;
+  }
 }
