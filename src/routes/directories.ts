@@ -12,6 +12,7 @@ const router = Router();
 const validator = {
   postDirectory: [body('name').isString()],
   getDirectory: [param('id').isMongoId()],
+  renameDirectory: [param('id').isMongoId(), body('name').isString()],
   deleteDirectory: [param('id').isMongoId()],
 };
 
@@ -41,9 +42,9 @@ export const directories = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const directory = await webevApp.DirectoryService.saveDirectory({ name }, user);
+      const result = await webevApp.DirectoryService.saveDirectory({ name }, user);
 
-      return res.status(200).json(directory);
+      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err: err.message });
@@ -71,9 +72,48 @@ export const directories = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const page = await DirectoryModel.findOne({ _id: id, createdUser: user._id });
+      const result = await DirectoryModel.findOne({ _id: id, createdUser: user._id });
 
-      return res.status(200).json(page);
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ err: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/rename:
+   *   get:
+   *     description: rename directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for get
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             name:
+   *               type: string
+   *               example: my memorandum 2
+   *     responses:
+   *       200:
+   *         description: Return directory after renamed
+   */
+  router.put('/:id/rename', accessTokenParser, loginRequired, validator.renameDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    const { user } = req;
+
+    try {
+      const result = await webevApp.DirectoryService.renameDirectory(id, name, user);
+
+      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err: err.message });
@@ -101,9 +141,9 @@ export const directories = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const directory = await webevApp.DirectoryService.deleteDirectory(id, user);
+      const result = await webevApp.DirectoryService.deleteDirectory(id, user);
 
-      return res.status(200).json(directory);
+      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err: err.message });
