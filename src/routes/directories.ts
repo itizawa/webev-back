@@ -80,6 +80,22 @@ export const directories = (webevApp: WebevApp): Router => {
     }
   });
 
+  /**
+   * @swagger
+   * /directories/:id:
+   *   delete:
+   *     description: delete directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for delete
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return directory after deleted
+   */
   router.delete('/:id', accessTokenParser, loginRequired, validator.deleteDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
     const { user } = req;
