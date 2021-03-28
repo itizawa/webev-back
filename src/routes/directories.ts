@@ -12,6 +12,7 @@ const router = Router();
 const validator = {
   postDirectory: [body('name').isString()],
   getDirectory: [param('id').isMongoId()],
+  deleteDirectory: [param('id').isMongoId()],
 };
 
 export const directories = (webevApp: WebevApp): Router => {
@@ -75,7 +76,21 @@ export const directories = (webevApp: WebevApp): Router => {
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ err: err.message });
+    }
+  });
+
+  router.delete('/:id', accessTokenParser, loginRequired, validator.deleteDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { user } = req;
+
+    try {
+      const directory = await webevApp.DirectoryService.deleteDirectory(id, user);
+
+      return res.status(200).json(directory);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ err: err.message });
     }
   });
 
