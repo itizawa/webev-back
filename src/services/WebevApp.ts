@@ -7,6 +7,7 @@ import { Server as SocketServer, Socket } from 'socket.io';
 
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
 import { setupExpressRoutes } from '../routes';
+import { DirectoryService } from './DirectoryService';
 import { PageService } from './PageService';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -43,6 +44,7 @@ export class WebevApp {
   httpServer: httpServer;
   io: SocketServer;
 
+  DirectoryService: DirectoryService;
   PageService: PageService;
 
   constructor() {
@@ -85,6 +87,12 @@ export class WebevApp {
 
   setupRoutes(): void {
     setupExpressRoutes(this, this.app);
+  }
+
+  setupDirectoryService(): void {
+    if (this.DirectoryService == null) {
+      this.DirectoryService = new DirectoryService(this);
+    }
   }
 
   setupPageService(): void {
