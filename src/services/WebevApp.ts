@@ -16,10 +16,23 @@ const swaggerJSDoc = require('swagger-jsdoc');
 
 const options = {
   swaggerDefinition: {
+    swagger: '2.0',
     info: {
       title: 'API for Webev',
       version: '1.0.0',
     },
+    host: 'localhost:8000',
+    basePath: '/api/v1/',
+    securityDefinitions: {
+      AuthToken: {
+        type: 'apiKey',
+        in: 'header',
+        name: 'Authorization',
+        description: '認証トークン',
+      },
+    },
+    consumes: ['application/json'],
+    produces: ['application/json'],
   },
   apis: ['./src/routes/**.ts'],
 };
