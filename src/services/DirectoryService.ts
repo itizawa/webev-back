@@ -21,6 +21,12 @@ export class DirectoryService {
     return DirectoryModel.create(newDirectory);
   }
 
+  async renameDirectory(directoryId: string, name: string, user: Document<IUser>): Promise<Document<IDirectory>> {
+    const page = await DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: user._id }, { name }, { new: true });
+
+    return page;
+  }
+
   async deleteDirectory(directoryId: string, user: Document<IUser>): Promise<Document<IDirectory>> {
     const page = await DirectoryModel.findOneAndDelete({ _id: directoryId, createdUser: user._id });
 
