@@ -1,0 +1,9 @@
+@url = http://localhost:8000/api/v1
+@directoryId = 60200fe1daf45c00490ab0f4
+@token = Bearer b46059269dca56384cb0209e3f4cd5a64d2b2b5459c06fcf849e911418ce90d6 
+
+###
+
+GET  {{url}}/pages/{{directoryId}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
