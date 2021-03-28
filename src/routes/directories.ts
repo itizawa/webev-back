@@ -11,6 +11,7 @@ const router = Router();
 
 const validator = {
   postDirectory: [body('name').isString()],
+  getDirectoryList: [],
   getDirectory: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   deleteDirectory: [param('id').isMongoId()],
@@ -48,6 +49,31 @@ export const directories = (webevApp: WebevApp): Router => {
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err: err.message });
+    }
+  });
+
+  router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { user } = req;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const query: { createdUser: string } = {
+      createdUser: user.id,
+    };
+
+    const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
+      page,
+      limit,
+      sort: { createdAt: -1 },
+    };
+
+    try {
+      const paginationResult = await DirectoryModel.paginate(query, options);
+
+      return res.status(200).json(paginationResult);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
     }
   });
 
