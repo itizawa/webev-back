@@ -33,13 +33,37 @@ const validator = {
 };
 
 export const pages = (webevApp: WebevApp): Router => {
+  /**
+   * @swagger
+   * /pages:
+   *   post:
+   *     description: create page by url
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             url:
+   *               type: string
+   *               example: example.com
+   *     responses:
+   *       200:
+   *         description: Save and return temporary information
+   *         examples:
+   *           result:
+   *              url: hogehoge.example.com
+   *              title: loading...
+   */
   router.post('/', accessTokenParser, loginRequired, validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
     const { url } = req.body;
 
     let pageId;
     try {
-      const result = await webevApp.PageService.savePage({ url, title: '取得中...' }, user);
+      const result = await webevApp.PageService.savePage({ url, title: 'loading...' }, user);
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
@@ -64,6 +88,35 @@ export const pages = (webevApp: WebevApp): Router => {
     };
   };
 
+  /**
+   * @swagger
+   * /pages/list:
+   *   get:
+   *     description:
+   *     produces: get page list
+   *       - application/json
+   *     parameters:
+   *       - name: status
+   *         description: status for search
+   *         in: query
+   *         type: string
+   *       - name: isFavorite
+   *         description: isFavorite for search
+   *         in: query
+   *         type: boolean
+   *       - name: sort
+   *         description: sort for search
+   *         in: query
+   *         type: string
+   *         example: -createdAt
+   *     responses:
+   *       200:
+   *         description: Save and return temporary information
+   *         examples:
+   *           result:
+   *              url: hogehoge.example.com
+   *              title: loading...
+   */
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
     const { status, isFavorite, sort } = req.query;
@@ -100,6 +153,22 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
+  /**
+   * @swagger
+   * /pages/:id:
+   *   get:
+   *     description: get page by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: page id for get
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return page by id
+   */
   router.get('/:id', accessTokenParser, loginRequired, validator.getPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
     const { user } = req;
@@ -114,6 +183,33 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
+  /**
+   * @swagger
+   * /pages/:id/favorite:
+   *   put:
+   *     description: Update favorite information on the page
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: page id for update
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             isFavorite:
+   *               type: boolean
+   *     responses:
+   *       200:
+   *         description: Return page after updated
+   *         examples:
+   *           result:
+   *              url: hogehoge.example.com
+   *              title: loading...
+   */
   router.put('/:id/favorite', accessTokenParser, loginRequired, validator.putPageFavorite, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
     const { isFavorite } = req.body;
@@ -135,6 +231,33 @@ export const pages = (webevApp: WebevApp): Router => {
     };
   };
 
+  /**
+   * @swagger
+   * /pages/:id/archive:
+   *   put:
+   *     description: Update archive information on the page
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: page id for update
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             isArchive:
+   *               type: boolean
+   *     responses:
+   *       200:
+   *         description: Return page after updated
+   *         examples:
+   *           result:
+   *              url: hogehoge.example.com
+   *              title: loading...
+   */
   router.put('/:id/archive', accessTokenParser, loginRequired, validator.putPageArchive, apiValidatorMiddleware, async (req: WebevRequest & archiveTyoe, res: Response) => {
     const { id } = req.params;
     const { isArchive } = req.body;
@@ -150,6 +273,26 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
+  /**
+   * @swagger
+   * /pages/:id:
+   *   delete:
+   *     description: Delete page by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: page id for delete
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return page after deleted
+   *         examples:
+   *           result:
+   *              url: hogehoge.example.com
+   *              title: loading...
+   */
   router.delete('/:id', accessTokenParser, loginRequired, validator.deletePage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
     const { user } = req;
