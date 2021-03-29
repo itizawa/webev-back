@@ -92,8 +92,8 @@ export const pages = (webevApp: WebevApp): Router => {
    * @swagger
    * /pages/list:
    *   get:
-   *     description:
-   *     produces: get page list
+   *     description: get page list
+   *     produces:
    *       - application/json
    *     parameters:
    *       - name: status

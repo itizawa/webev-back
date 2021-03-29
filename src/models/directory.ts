@@ -1,4 +1,5 @@
 import { model, Schema, Types, ObjectId, Document } from 'mongoose';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 import { UserModel, IUser } from './user';
 
@@ -22,4 +23,7 @@ const DirectorySchema: Schema = new Schema(
   { timestamps: true },
 );
 
-export const DirectoryModel = model<IDirectory>('Directory', DirectorySchema);
+DirectorySchema.plugin(mongoosePaginate);
+
+type DirectoryModel<T extends Document> = mongoosePaginate<T>;
+export const DirectoryModel: DirectoryModel<IDirectory> = model<IDirectory>('Directory', DirectorySchema);
