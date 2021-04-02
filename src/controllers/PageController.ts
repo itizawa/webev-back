@@ -1,7 +1,7 @@
 import { Controller, Get } from '@tsed/common';
 
 @Controller('/pages')
-export class CalendarCtrl {
+export class PageController {
   @Get()
   findAll(): string {
     return 'This action returns all calendars';
