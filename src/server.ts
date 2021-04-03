@@ -6,7 +6,7 @@ import * as methodOverride from 'method-override';
 
 import '@tsed/swagger';
 
-import { mongooseConfig } from '../config/mongoose.config';
+import { mongooseConfig } from '../config';
 import { PageController, IndexController } from './controllers';
 
 const rootDir = __dirname;
