@@ -7,7 +7,36 @@ import { Server as SocketServer, Socket } from 'socket.io';
 
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
 import { setupExpressRoutes } from '../routes';
+import { DirectoryService } from './DirectoryService';
 import { PageService } from './PageService';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const swaggerUi = require('swagger-ui-express');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const swaggerJSDoc = require('swagger-jsdoc');
+
+const options = {
+  swaggerDefinition: {
+    swagger: '2.0',
+    info: {
+      title: 'API for Webev',
+      version: '1.0.0',
+    },
+    host: 'localhost:8000',
+    basePath: '/api/v1/',
+    securityDefinitions: {
+      AuthToken: {
+        type: 'apiKey',
+        in: 'header',
+        name: 'Authorization',
+        description: '認証トークン',
+      },
+    },
+    consumes: ['application/json'],
+    produces: ['application/json'],
+  },
+  apis: ['./src/routes/**.ts'],
+};
 
 export class WebevApp {
   app: express.Express;
@@ -15,6 +44,7 @@ export class WebevApp {
   httpServer: httpServer;
   io: SocketServer;
 
+  DirectoryService: DirectoryService;
   PageService: PageService;
 
   constructor() {
@@ -28,6 +58,8 @@ export class WebevApp {
     await this.setupDB();
 
     this.setupSocketio();
+
+    this.setupDirectoryService();
     this.setupPageService();
 
     // setup Express Routes
@@ -44,6 +76,8 @@ export class WebevApp {
     this.app.use(cors());
     this.app.use(bodyparser.json());
 
+    this.app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options)));
+
     this.app.use(requestLoggerMiddleware);
     this.httpServer = createServer(this.app);
   }
@@ -55,6 +89,12 @@ export class WebevApp {
 
   setupRoutes(): void {
     setupExpressRoutes(this, this.app);
+  }
+
+  setupDirectoryService(): void {
+    if (this.DirectoryService == null) {
+      this.DirectoryService = new DirectoryService(this);
+    }
   }
 
   setupPageService(): void {

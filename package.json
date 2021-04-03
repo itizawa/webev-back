@@ -1,6 +1,6 @@
 {
   "name": "webev-back",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "index.js",
   "repository": "https://github.com/itizawa/webev-back.git",
   "author": "itizawa <itizawa.pen@gmail.com>",
@@ -40,6 +40,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "swagger-jsdoc": "^6.1.0"
   }
 }
