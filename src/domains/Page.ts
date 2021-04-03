@@ -10,6 +10,7 @@ export class Page {
   description: string;
   title: string;
   siteName: string;
+  createdUser: string;
   createdAt: Date;
   updatedAt: Date;
   status: PageStatus;
@@ -21,6 +22,7 @@ export class Page {
     description: string,
     title: string,
     siteName: string,
+    createdUser: string,
     createdAt: Date,
     updatedAt: Date,
     status: PageStatus,
@@ -32,6 +34,7 @@ export class Page {
     this.description = description;
     this.title = title;
     this.siteName = siteName;
+    this.createdUser = createdUser;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.status = status;
