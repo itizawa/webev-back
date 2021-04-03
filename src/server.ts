@@ -6,6 +6,7 @@ import * as methodOverride from 'method-override';
 
 import '@tsed/swagger';
 
+import { mongooseConfig } from '../config/mongoose.config';
 import { PageController, IndexController } from './controllers';
 
 const rootDir = __dirname;
@@ -28,13 +29,7 @@ const rootDir = __dirname;
     viewEngine: 'ejs',
   },
   exclude: ['**/*.spec.ts'],
-  mongoose: [
-    {
-      id: 'default',
-      url: process.env.MONGO_URI,
-      connectionOptions: {},
-    },
-  ],
+  mongoose: mongooseConfig,
 })
 export class Server {
   @Inject()
