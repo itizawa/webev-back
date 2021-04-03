@@ -9,7 +9,6 @@ export class CreatePage {
   }
 
   execute(url: string, description: string): Promise<Page> {
-    const page = new Page(url, description);
-    return this.pageRepository.create(page);
+    return this.pageRepository.create({ url, description });
   }
 }
