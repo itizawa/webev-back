@@ -3,7 +3,12 @@ import * as bodyParser from 'body-parser';
 import * as compress from 'compression';
 import * as cookieParser from 'cookie-parser';
 import * as methodOverride from 'method-override';
+
+import '@tsed/swagger';
+
 import { PageController } from './controllers/PageController';
+import { IndexController } from './controllers/IndexController';
+
 const rootDir = __dirname;
 
 @Configuration({
@@ -11,6 +16,7 @@ const rootDir = __dirname;
   acceptMimes: ['application/json'],
   mount: {
     '/api': [PageController],
+    '/': [IndexController],
   },
   swagger: [
     {
@@ -18,6 +24,11 @@ const rootDir = __dirname;
       specVersion: '2.0',
     },
   ],
+  views: {
+    root: `${rootDir}/../views`,
+    viewEngine: 'ejs',
+  },
+  exclude: ['**/*.spec.ts'],
   mongoose: [
     {
       id: 'default',
