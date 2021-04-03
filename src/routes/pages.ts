@@ -8,7 +8,9 @@ import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
 import { PageRepository } from '../infrastructure/PageRepository';
+
 import { FindPageById } from '../usecases/page/FindPageById';
+import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 
 const router = Router();
 
@@ -66,7 +68,9 @@ export const pages = (webevApp: WebevApp): Router => {
 
     let pageId;
     try {
-      const result = await webevApp.PageService.savePage({ url, title: 'loading...' }, user);
+      const pageRepository = new PageRepository();
+      const useCase = new PostPageByUrl(pageRepository);
+      const result = await useCase.execute(url, user);
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
@@ -180,7 +184,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const useCase = new FindPageById(pageRepository);
 
     try {
-      const page = await useCase.execute(id, user.id);
+      const page = await useCase.execute(id, user._id);
 
       return res.status(200).json(page);
     } catch (err) {

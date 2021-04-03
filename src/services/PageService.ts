@@ -34,12 +34,6 @@ export class PageService {
     }
   }
 
-  savePage(page: Partial<IPage>, user: Document<IUser>): Promise<Document<IPage>> {
-    // set creator id
-    page.createdUser = user;
-    return PageModel.create(page);
-  }
-
   async updatePageById(pageId: string, page: Partial<IPage>): Promise<Document<IPage>> {
     const result = await PageModel.findByIdAndUpdate(pageId, page);
 
