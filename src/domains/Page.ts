@@ -4,59 +4,37 @@ enum PageStatus {
   PAGE_STATUS_DELETED = 'deleted',
 }
 export class Page {
-  private _id: string;
-  private _url: string;
-  private _image: string;
-  private _description: string;
-  private _title: string;
-  private _siteName: string;
-  private _createdAt: Date;
-  private _updatedAt: Date;
-  private _status: PageStatus;
-  private _isFavorite: boolean;
-
-  get id(): string {
-    return this._id;
-  }
-
-  get url(): string {
-    return this._url;
-  }
-
-  get image(): string {
-    return this._image;
-  }
-
-  get description(): string {
-    return this._description;
-  }
-
-  get title(): string {
-    return this._title;
-  }
-
-  get siteName(): string {
-    return this._siteName;
-  }
-
-  get createdAt(): Date {
-    return this._createdAt;
-  }
-
-  get updatedAt(): Date {
-    return this._updatedAt;
-  }
-
-  get status(): PageStatus {
-    return this._status;
-  }
-
-  get isFavorite(): boolean {
-    return this._isFavorite;
-  }
-
-  constructor(url: string, description: string = null) {
-    this._url = url;
-    this._description = description;
+  _id: string;
+  url: string;
+  image: string;
+  description: string;
+  title: string;
+  siteName: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: PageStatus;
+  isFavorite: boolean;
+  constructor(
+    id: string,
+    url: string,
+    image: string,
+    description: string,
+    title: string,
+    siteName: string,
+    createdAt: Date,
+    updatedAt: Date,
+    status: PageStatus,
+    isFavorite: boolean,
+  ) {
+    this._id = id;
+    this.url = url;
+    this.image = image;
+    this.description = description;
+    this.title = title;
+    this.siteName = siteName;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.status = status;
+    this.isFavorite = isFavorite;
   }
 }
