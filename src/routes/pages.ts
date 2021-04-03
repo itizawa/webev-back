@@ -8,7 +8,7 @@ import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
 import { PageRepository } from '../infrastructure/PageRepository';
-import { CreatePage } from '../usecases/page/CreatePage';
+import { FindPageById } from '../usecases/page/FindPageById';
 
 const router = Router();
 
@@ -176,8 +176,11 @@ export const pages = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new FindPageById(pageRepository);
+
     try {
-      const page = await PageModel.findOne({ _id: id, createdUser: user._id });
+      const page = await useCase.execute(id, user.id);
 
       return res.status(200).json(page);
     } catch (err) {
@@ -304,21 +307,6 @@ export const pages = (webevApp: WebevApp): Router => {
       const page = await webevApp.PageService.deletePage(id, user);
 
       return res.status(200).json(page);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
-    }
-  });
-
-  router.post('/test', validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { url, description } = req.body;
-
-    const pageRepository = new PageRepository();
-    const useCase = new CreatePage(pageRepository);
-
-    try {
-      const result = await useCase.execute(url, description);
-      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
