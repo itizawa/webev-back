@@ -12,6 +12,19 @@ const rootDir = __dirname;
   mount: {
     '/api': [PageController],
   },
+  swagger: [
+    {
+      path: '/v1/docs',
+      specVersion: '2.0',
+    },
+  ],
+  mongoose: [
+    {
+      id: 'default',
+      url: process.env.MONGO_URI,
+      connectionOptions: {},
+    },
+  ],
 })
 export class Server {
   @Inject()
