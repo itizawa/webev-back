@@ -3,7 +3,6 @@ enum PageStatus {
   PAGE_STATUS_ARCHIVE = 'archived',
   PAGE_STATUS_DELETED = 'deleted',
 }
-
 export class Page {
   private _id: string;
   private _url: string;

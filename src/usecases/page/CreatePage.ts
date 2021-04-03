@@ -8,8 +8,8 @@ export class CreatePage {
     this.pageRepository = pageRepository;
   }
 
-  execute(title: string, description: string): Promise<Page> {
-    const page = new Page(title, description);
+  execute(url: string, description: string): Promise<Page> {
+    const page = new Page(url, description);
     return this.pageRepository.create(page);
   }
 }

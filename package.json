@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "tsc",
-    "dev": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node src/index.ts",
+    "dev": "env-cmd -f ./config/dev.env nodemon -x ts-node src/main.ts",
     "lint": "eslint src/**/**.ts",
     "deploy": "tsc && gcloud app deploy"
   },

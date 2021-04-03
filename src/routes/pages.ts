@@ -7,6 +7,9 @@ import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
+import { PageRepository } from '../infrastructure/PageRepository';
+import { CreatePage } from '../usecases/page/CreatePage';
+
 const router = Router();
 
 const validator = {
@@ -301,6 +304,21 @@ export const pages = (webevApp: WebevApp): Router => {
       const page = await webevApp.PageService.deletePage(id, user);
 
       return res.status(200).json(page);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
+
+  router.post('/test', validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { url, description } = req.body;
+
+    const pageRepository = new PageRepository();
+    const useCase = new CreatePage(pageRepository);
+
+    try {
+      const result = await useCase.execute(url, description);
+      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);

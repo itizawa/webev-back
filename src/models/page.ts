@@ -1,7 +1,10 @@
 import { model, Schema, Types, ObjectId, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
+import { Page } from '../domains/Page';
 
 import { UserModel, IUser } from './user';
+
+// TODO delete
 export interface IPage extends Document {
   _id: ObjectId;
   url: string;
@@ -50,4 +53,4 @@ const PageSchema: Schema = new Schema(
 PageSchema.plugin(mongoosePaginate);
 
 type PageModel<T extends Document> = mongoosePaginate<T>;
-export const PageModel: PageModel<IPage> = model<IPage>('Page', PageSchema);
+export const PageModel: PageModel<Page> = model<Page & Document>('Page', PageSchema);
