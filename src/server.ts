@@ -6,8 +6,7 @@ import * as methodOverride from 'method-override';
 
 import '@tsed/swagger';
 
-import { PageController } from './controllers/PageController';
-import { IndexController } from './controllers/IndexController';
+import { PageController, IndexController } from './controllers';
 
 const rootDir = __dirname;
 
