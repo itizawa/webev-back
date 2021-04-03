@@ -131,7 +131,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const limit = parseInt(req.query.limit) || 10;
 
     const query: { createdUser: string; status: string; isFavorite?: boolean } = {
-      createdUser: user.id,
+      createdUser: user._id,
       status,
     };
 
@@ -226,7 +226,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const page = await webevApp.PageService.updatePageFavorite(id, user, isFavorite);
+      const page = await webevApp.PageService.updatePageFavorite(id, user._id, isFavorite);
 
       return res.status(200).json(page);
     } catch (err) {
@@ -274,7 +274,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const page = await webevApp.PageService.updatePageArchive(id, user, isArchive);
+      const page = await webevApp.PageService.updatePageArchive(id, user._id, isArchive);
 
       return res.status(200).json(page);
     } catch (err) {
@@ -308,7 +308,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const page = await webevApp.PageService.deletePage(id, user);
+      const page = await webevApp.PageService.deletePage(id, user._id);
 
       return res.status(200).json(page);
     } catch (err) {

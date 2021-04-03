@@ -1,23 +1,7 @@
-import { model, Schema, Types, ObjectId, Document } from 'mongoose';
+import { model, Schema, Types, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Page } from '../domains/Page';
-
-import { UserModel, IUser } from './user';
-
-// TODO delete
-export interface IPage extends Document {
-  _id: ObjectId;
-  url: string;
-  image: string;
-  description: string;
-  title: string;
-  siteName: string;
-  status: PageStatus;
-  isFavorite: boolean;
-  createdUser: Document<IUser>;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { UserModel } from './user';
 
 export enum PageStatus {
   PAGE_STATUS_STOCK = 'stocked',

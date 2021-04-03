@@ -1,12 +1,12 @@
 import { model, Schema, Types, ObjectId, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
-import { UserModel, IUser } from './user';
+import { UserModel } from './user';
 
 export interface IDirectory extends Document {
   _id: ObjectId;
   name: string;
-  createdUser: Document<IUser>;
+  createdUser: string;
   createdAt: Date;
   updatedAt: Date;
 }

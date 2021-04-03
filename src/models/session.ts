@@ -1,10 +1,11 @@
 import { model, Schema, Types, ObjectId, Document } from 'mongoose';
-import { UserModel, IUser } from './user';
+import { User } from '../domains/User';
+import { UserModel } from './user';
 
 export interface ISession extends Document {
   _id: ObjectId;
   accessToken: string;
-  userId: Document<IUser>;
+  userId: string | User;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,4 +21,4 @@ const SessionSchema: Schema = new Schema(
   { timestamps: true },
 );
 
-export const SessionModel = model<ISession>('Session', SessionSchema);
+export const SessionModel = model<ISession & Document>('Session', SessionSchema);

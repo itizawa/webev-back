@@ -50,7 +50,7 @@ export const directories = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const result = await webevApp.DirectoryService.saveDirectory({ name }, user);
+      const result = await webevApp.DirectoryService.saveDirectory({ name }, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -89,7 +89,7 @@ export const directories = (webevApp: WebevApp): Router => {
     const limit = parseInt(req.query.limit) || 10;
 
     const query: { createdUser: string } = {
-      createdUser: user.id,
+      createdUser: user._id,
     };
 
     const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
@@ -168,7 +168,7 @@ export const directories = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const result = await webevApp.DirectoryService.renameDirectory(id, name, user);
+      const result = await webevApp.DirectoryService.renameDirectory(id, name, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -198,7 +198,7 @@ export const directories = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     try {
-      const result = await webevApp.DirectoryService.deleteDirectory(id, user);
+      const result = await webevApp.DirectoryService.deleteDirectory(id, user._id);
 
       return res.status(200).json(result);
     } catch (err) {

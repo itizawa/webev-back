@@ -1,8 +1,8 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Document } from 'mongoose';
-import { IPage, PageModel, PageStatus } from '../models/page';
-import { IUser } from '../models/user';
+import { Page } from '../domains/Page';
+import { PageModel, PageStatus } from '../models/page';
 import { WebevApp } from './WebevApp';
 
 export class PageService {
@@ -12,7 +12,7 @@ export class PageService {
     this.webevApp = WebevApp;
   }
 
-  async retrieveDataByUrl(url: string): Promise<Partial<IPage>> {
+  async retrieveDataByUrl(url: string): Promise<Partial<Page>> {
     try {
       const result = await axios.get(url);
       const $ = cheerio.load(result.data);
@@ -34,27 +34,27 @@ export class PageService {
     }
   }
 
-  async updatePageById(pageId: string, page: Partial<IPage>): Promise<Document<IPage>> {
+  async updatePageById(pageId: string, page: Partial<Page>): Promise<Document<Page>> {
     const result = await PageModel.findByIdAndUpdate(pageId, page);
 
     return result;
   }
 
-  async updatePageFavorite(pageId: string, user: Document<IUser>, isFavorite: boolean): Promise<Document<IPage>> {
-    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { isFavorite }, { new: true });
+  async updatePageFavorite(pageId: string, userId: string, isFavorite: boolean): Promise<Document<Page>> {
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { isFavorite }, { new: true });
 
     return page;
   }
 
-  async updatePageArchive(pageId: string, user: Document<IUser>, isArchive: boolean): Promise<Document<IPage>> {
+  async updatePageArchive(pageId: string, userId: string, isArchive: boolean): Promise<Document<Page>> {
     const status = isArchive ? PageStatus.PAGE_STATUS_ARCHIVE : PageStatus.PAGE_STATUS_STOCK;
-    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { status }, { new: true });
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status }, { new: true });
 
     return page;
   }
 
-  async deletePage(pageId: string, user: Document<IUser>): Promise<Document<IPage>> {
-    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: user._id }, { status: PageStatus.PAGE_STATUS_DELETED }, { new: true });
+  async deletePage(pageId: string, userId: string): Promise<Document<Page>> {
+    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status: PageStatus.PAGE_STATUS_DELETED }, { new: true });
 
     return page;
   }

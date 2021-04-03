@@ -1,4 +1,5 @@
 import { Response, NextFunction } from 'express';
+import { User } from '../domains/User';
 import { WebevRequest } from '../interfaces/webev-request';
 import { ISession, SessionModel } from '../models/session';
 
@@ -15,7 +16,7 @@ export const accessTokenParser = async (req: WebevRequest, res: Response, next: 
   const session: Partial<ISession> = await SessionModel.findOne({ accessToken: token }).select('userId').populate('userId');
 
   if (session?.userId != null) {
-    req.user = session.userId;
+    req.user = session.userId as User;
   }
 
   return next();
