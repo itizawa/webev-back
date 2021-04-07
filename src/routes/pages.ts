@@ -13,6 +13,7 @@ import { FindPageById } from '../usecases/page/FindPageById';
 import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 import { ArchivePage } from '../usecases/page/ArchivePage';
 import { DeletePage } from '../usecases/page/DeletePage';
+import { FavoritePage } from '../usecases/page/FavoritePage';
 
 const router = Router();
 
@@ -227,8 +228,11 @@ export const pages = (webevApp: WebevApp): Router => {
     const { isFavorite } = req.body;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new FavoritePage(pageRepository);
+
     try {
-      const page = await webevApp.PageService.updatePageFavorite(id, user._id, isFavorite);
+      const page = useCase.execute(id, user, isFavorite);
 
       return res.status(200).json(page);
     } catch (err) {
