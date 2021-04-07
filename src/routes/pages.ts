@@ -11,6 +11,7 @@ import { PageRepository } from '../infrastructure/PageRepository';
 
 import { FindPageById } from '../usecases/page/FindPageById';
 import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
+import { UpdatePageArchiveStatus } from '../usecases/page/UpdatePageArchiveStatus';
 
 const router = Router();
 
@@ -273,8 +274,11 @@ export const pages = (webevApp: WebevApp): Router => {
     const { isArchive } = req.body;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new UpdatePageArchiveStatus(pageRepository);
+
     try {
-      const page = await webevApp.PageService.updatePageArchive(id, user._id, isArchive);
+      const page = await useCase.execute(id, user, isArchive);
 
       return res.status(200).json(page);
     } catch (err) {
