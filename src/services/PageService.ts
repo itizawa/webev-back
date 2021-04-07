@@ -45,10 +45,4 @@ export class PageService {
 
     return page;
   }
-
-  async deletePage(pageId: string, userId: string): Promise<Document<Page>> {
-    const page = await PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status: PageStatus.PAGE_STATUS_DELETED }, { new: true });
-
-    return page;
-  }
 }
