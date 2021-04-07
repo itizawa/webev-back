@@ -11,4 +11,7 @@ export class PageRepository implements IPageRepository {
   async updatePageStatus(pageId: string, userId: string, status: PageStatus): Promise<Page> {
     return PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status }, { new: true });
   }
+  async updateIsFavorite(pageId: string, userId: string, isFavorite: boolean): Promise<Page> {
+    return PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { isFavorite }, { new: true });
+  }
 }
