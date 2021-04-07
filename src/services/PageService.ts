@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Document } from 'mongoose';
 import { Page } from '../domains/Page';
-import { PageModel, PageStatus } from '../models/page';
+import { PageModel } from '../models/page';
 import { WebevApp } from './WebevApp';
 
 export class PageService {
