@@ -60,7 +60,6 @@ export class WebevApp {
     this.setupSocketio();
 
     this.setupDirectoryService();
-    this.setupPageService();
 
     // setup Express Routes
     await this.setupRoutes();
@@ -94,12 +93,6 @@ export class WebevApp {
   setupDirectoryService(): void {
     if (this.DirectoryService == null) {
       this.DirectoryService = new DirectoryService(this);
-    }
-  }
-
-  setupPageService(): void {
-    if (this.PageService == null) {
-      this.PageService = new PageService(this);
     }
   }
 
