@@ -12,6 +12,7 @@ import { PageRepository } from '../infrastructure/PageRepository';
 import { FindPageById } from '../usecases/page/FindPageById';
 import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 import { ArchivePage } from '../usecases/page/ArchivePage';
+import { DeletePage } from '../usecases/page/DeletePage';
 
 const router = Router();
 
@@ -311,8 +312,11 @@ export const pages = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new DeletePage(pageRepository);
+
     try {
-      const page = await webevApp.PageService.deletePage(id, user._id);
+      const page = await useCase.execute(id, user);
 
       return res.status(200).json(page);
     } catch (err) {
