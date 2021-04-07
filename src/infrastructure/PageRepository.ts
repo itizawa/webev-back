@@ -8,6 +8,9 @@ export class PageRepository implements IPageRepository {
   async findPageById(id: string, userId: string): Promise<Page> {
     return PageModel.findOne({ _id: id, createdUser: userId });
   }
+  async updatePageById(pageId: string, page: Partial<Page>): Promise<Page> {
+    return PageModel.findByIdAndUpdate(pageId, page);
+  }
   async updatePageStatus(pageId: string, userId: string, status: PageStatus): Promise<Page> {
     return PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status }, { new: true });
   }
