@@ -14,6 +14,9 @@ import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 import { ArchivePage } from '../usecases/page/ArchivePage';
 import { DeletePage } from '../usecases/page/DeletePage';
 import { FavoritePage } from '../usecases/page/FavoritePage';
+import { FetchOgpAndUpdatePage } from '../usecases/page/FetchOgpAndUpdatePage';
+
+import { PageService } from '../services/PageService';
 
 const router = Router();
 
@@ -69,11 +72,12 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
     const { url } = req.body;
 
-    let pageId;
+    let pageId: string;
+    const pageRepository = new PageRepository();
+    const PostPageByUrlUseCase = new PostPageByUrl(pageRepository);
+
     try {
-      const pageRepository = new PageRepository();
-      const useCase = new PostPageByUrl(pageRepository);
-      const result = await useCase.execute(url, user);
+      const result = await PostPageByUrlUseCase.execute(url, user);
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
@@ -81,9 +85,11 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(500).json(err);
     }
 
+    const pageService = new PageService();
+    const FetchOgpAndUpdatePageUseCase = new FetchOgpAndUpdatePage(pageRepository, pageService);
+
     try {
-      const page = await webevApp.PageService.retrieveDataByUrl(url);
-      await webevApp.PageService.updatePageById(pageId, page);
+      await FetchOgpAndUpdatePageUseCase.execute(url, pageId);
       webevApp.io.emit('update-page');
     } catch (err) {
       console.log(err);
