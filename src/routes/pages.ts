@@ -102,6 +102,8 @@ export const pages = (webevApp: WebevApp): Router => {
       status: PageStatus;
       isFavorite?: boolean;
       sort?: string;
+      page?: number;
+      limit?: number;
     };
   };
 
@@ -136,9 +138,7 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { status, isFavorite, sort } = req.query;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const { status, isFavorite, sort, page = 1, limit = 10 } = req.query;
 
     const pageRepository = new PageRepository();
     const useCase = new FindPageList(pageRepository);
