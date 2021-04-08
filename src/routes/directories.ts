@@ -13,6 +13,7 @@ import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 import { CreateDirectory } from '../usecases/directory/CreateDirectory';
 import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
+import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
 
 const router = Router();
 
@@ -208,8 +209,11 @@ export const directories = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
+    const directoryRepository = new DirectoryRepository();
+    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository);
+
     try {
-      const result = await webevApp.DirectoryService.deleteDirectory(id, user._id);
+      const result = await DeleteDirectoryUseCase.execute(id, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
