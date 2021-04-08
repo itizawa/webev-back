@@ -3,7 +3,6 @@ import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Page, PageStatus } from '../domains/Page';
 import { IPageRepository } from '../repositories/IPageRepository';
 
-import { UserModel } from '../models/user';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
 const PageSchema: Schema = new Schema(
@@ -24,13 +23,12 @@ const PageSchema: Schema = new Schema(
     },
     createdUser: {
       type: Types.ObjectId,
-      ref: UserModel,
+      ref: 'User',
       required: true,
     },
   },
   { timestamps: true },
 );
-
 export class PageRepository implements IPageRepository {
   PageModel: Model<Page & Document> & { paginate?: mongoosePaginate };
 

@@ -1,7 +1,9 @@
+import { User } from './User';
+
 export class Session {
   _id: string;
   accessToken: string;
-  userId: string;
+  userId: string | User;
   createdAt: Date;
   updatedAt: Date;
   constructor(_id: string, accessToken: string, userId: string, createdAt: Date, updatedAt: Date) {

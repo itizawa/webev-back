@@ -4,15 +4,13 @@ import { Directory } from '../domains/Directory';
 import { IDirectoryRepository } from '../repositories/IDirectoryRepository';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
-import { UserModel } from '../models/user';
-
 const DirectorySchema: Schema = new Schema(
   {
     url: String,
     name: String,
     createdUser: {
       type: Types.ObjectId,
-      ref: UserModel,
+      ref: 'User',
       required: true,
     },
   },
