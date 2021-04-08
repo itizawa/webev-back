@@ -11,6 +11,7 @@ import { WebevRequest } from '../interfaces/webev-request';
 import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 
 import { CreateDirectory } from '../usecases/directory/CreateDirectory';
+import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 
 const router = Router();
 
@@ -67,6 +68,13 @@ export const directories = (webevApp: WebevApp): Router => {
     }
   });
 
+  type ListType = {
+    query: {
+      page?: number;
+      limit?: number;
+    };
+  };
+
   /**
    * @swagger
    * /directories/list:
@@ -91,24 +99,15 @@ export const directories = (webevApp: WebevApp): Router => {
    *              url: hogehoge.example.com
    *              title: loading...
    */
-  router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const { page = 1, limit = 10 } = req.query;
 
-    const query: { createdUser: string } = {
-      createdUser: user._id,
-    };
-
-    const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
-      page,
-      limit,
-      sort: { createdAt: -1 },
-    };
+    const directoryRepository = new DirectoryRepository();
+    const FindDirectoryListUseCase = new FindDirectoryList(directoryRepository);
 
     try {
-      const paginationResult = await DirectoryModel.paginate(query, options);
-
+      const paginationResult = await FindDirectoryListUseCase.execute(user, page, limit);
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
