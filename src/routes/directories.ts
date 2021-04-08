@@ -5,7 +5,12 @@ import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 import { DirectoryModel } from '../models/directory';
 import { WebevApp } from '../services/WebevApp';
+
 import { WebevRequest } from '../interfaces/webev-request';
+
+import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
+
+import { CreateDirectory } from '../usecases/directory/CreateDirectory';
 
 const router = Router();
 
@@ -49,8 +54,11 @@ export const directories = (webevApp: WebevApp): Router => {
     const { name } = req.body;
     const { user } = req;
 
+    const directoryRepository = new DirectoryRepository();
+    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository);
+
     try {
-      const result = await webevApp.DirectoryService.saveDirectory({ name }, user._id);
+      const result = await CreateDirectoryUseCase.execute(name, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
