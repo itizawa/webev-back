@@ -34,6 +34,9 @@ export class DirectoryRepository implements IDirectoryRepository {
   async countDirectoryByName(name: string, userId: string): Promise<number> {
     return this.DirectoryModel.count({ name, createdUser: userId });
   }
+  async deleteDirectory(directoryId: string, userId: string): Promise<Directory> {
+    return this.DirectoryModel.findOneAndDelete({ _id: directoryId, createdUser: userId });
+  }
   async findDirectoryList(query: PaginationQuery, options: PaginationOptions): Promise<Directory> {
     return this.DirectoryModel.paginate(query, options);
   }
