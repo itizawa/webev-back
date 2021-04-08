@@ -12,6 +12,7 @@ import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 
 import { CreateDirectory } from '../usecases/directory/CreateDirectory';
 import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
+import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 
 const router = Router();
 
@@ -174,8 +175,11 @@ export const directories = (webevApp: WebevApp): Router => {
     const { name } = req.body;
     const { user } = req;
 
+    const directoryRepository = new DirectoryRepository();
+    const RenameDirectoryUseCase = new RenameDirectory(directoryRepository);
+
     try {
-      const result = await webevApp.DirectoryService.renameDirectory(id, name, user._id);
+      const result = await RenameDirectoryUseCase.execute(id, name, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
