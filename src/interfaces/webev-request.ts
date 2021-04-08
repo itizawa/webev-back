@@ -1,7 +1,6 @@
 import { Request } from 'express';
-import { Document } from 'mongoose';
-import { IUser } from '../models/user';
+import { User } from '../domains/User';
 export interface WebevRequest extends Request {
-  user?: Document<IUser>;
+  user?: User;
   query: { [key: string]: never };
 }
