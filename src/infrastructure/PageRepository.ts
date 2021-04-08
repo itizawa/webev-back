@@ -1,4 +1,4 @@
-import { model, Schema, Types, Document } from 'mongoose';
+import { model, Model, Schema, Types, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Page, PageStatus } from '../domains/Page';
 import { IPageRepository } from '../repositories/IPageRepository';
@@ -32,7 +32,7 @@ const PageSchema: Schema = new Schema(
 );
 
 export class PageRepository implements IPageRepository {
-  PageModel: mongoosePaginate<Page>;
+  PageModel: Model<Page & Document> & { paginate?: mongoosePaginate };
 
   constructor() {
     PageSchema.plugin(mongoosePaginate);
