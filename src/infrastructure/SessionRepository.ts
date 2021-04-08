@@ -23,6 +23,6 @@ export class SessionRepository implements ISessionRepository {
   }
 
   async findSessionByAccessToken(accessToken: string): Promise<Session> {
-    return this.SessionModel.findOne({ accessToken }).select('userId').populate('userId');
+    return this.SessionModel.findOne({ accessToken });
   }
 }
