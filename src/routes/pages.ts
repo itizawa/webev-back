@@ -16,7 +16,7 @@ import { FindPageById } from '../usecases/page/FindPageById';
 import { FindPageList } from '../usecases/page/FindPageList';
 import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 
-import { PageService } from '../services/PageService';
+import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
 
 const router = Router();
@@ -86,8 +86,8 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(500).json(err);
     }
 
-    const pageService = new PageService();
-    const FetchOgpAndUpdatePageUseCase = new FetchOgpAndUpdatePage(pageRepository, pageService);
+    const cheerioService = new CheerioService();
+    const FetchOgpAndUpdatePageUseCase = new FetchOgpAndUpdatePage(pageRepository, cheerioService);
 
     try {
       await FetchOgpAndUpdatePageUseCase.execute(url, pageId);

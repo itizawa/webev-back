@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Page } from '../domains/Page';
 
-export class PageService {
+export class CheerioService {
   async retrieveDataByUrl(url: string): Promise<Partial<Page>> {
     try {
       const result = await axios.get(url);

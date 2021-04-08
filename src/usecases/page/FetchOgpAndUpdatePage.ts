@@ -1,18 +1,18 @@
 import { Page } from '../../domains/Page';
 import { IPageRepository } from '../../repositories/IPageRepository';
-import { PageService } from '../../services/PageService';
+import { CheerioService } from '../../services/CheerioService';
 
 export class FetchOgpAndUpdatePage {
   private pageRepository: IPageRepository;
-  private pageService: PageService;
+  private cheerioService: CheerioService;
 
-  constructor(pageRepository: IPageRepository, pageService: PageService) {
+  constructor(pageRepository: IPageRepository, cheerioService: CheerioService) {
     this.pageRepository = pageRepository;
-    this.pageService = pageService;
+    this.cheerioService = cheerioService;
   }
 
   async execute(url: string, pageId: string): Promise<Page> {
-    const page = await this.pageService.retrieveDataByUrl(url);
+    const page = await this.cheerioService.retrieveDataByUrl(url);
     return this.pageRepository.updatePageById(pageId, page);
   }
 }
