@@ -1,6 +1,6 @@
-import { Page } from '../domains/Page';
+import { Page, PageStatus } from '../domains/Page';
 import { IPageRepository } from '../repositories/IPageRepository';
-import { PageModel, PageStatus } from '../models/page';
+import { PageModel } from '../models/page';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 export class PageRepository implements IPageRepository {
   async createPage(page: Partial<Page>): Promise<Page> {
