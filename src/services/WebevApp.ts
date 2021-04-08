@@ -7,7 +7,6 @@ import { Server as SocketServer, Socket } from 'socket.io';
 
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
 import { setupExpressRoutes } from '../routes';
-import { DirectoryService } from './DirectoryService';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const swaggerUi = require('swagger-ui-express');
@@ -43,8 +42,6 @@ export class WebevApp {
   httpServer: httpServer;
   io: SocketServer;
 
-  DirectoryService: DirectoryService;
-
   constructor() {
     this.app = null;
     this.port = parseInt(process.env.PORT) || 8000;
@@ -56,8 +53,6 @@ export class WebevApp {
     await this.setupDB();
 
     this.setupSocketio();
-
-    this.setupDirectoryService();
 
     // setup Express Routes
     await this.setupRoutes();
@@ -86,12 +81,6 @@ export class WebevApp {
 
   setupRoutes(): void {
     setupExpressRoutes(this, this.app);
-  }
-
-  setupDirectoryService(): void {
-    if (this.DirectoryService == null) {
-      this.DirectoryService = new DirectoryService(this);
-    }
   }
 
   setupSocketio(): void {
