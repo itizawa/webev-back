@@ -2,6 +2,7 @@ import { model, Model, Schema, Types, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Directory } from '../domains/Directory';
 import { IDirectoryRepository } from '../repositories/IDirectoryRepository';
+import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
 import { UserModel } from '../models/user';
 
@@ -32,5 +33,8 @@ export class DirectoryRepository implements IDirectoryRepository {
   }
   async countDirectoryByName(name: string, userId: string): Promise<number> {
     return this.DirectoryModel.count({ name, createdUser: userId });
+  }
+  async findDirectoryList(query: PaginationQuery, options: PaginationOptions): Promise<Directory> {
+    return this.DirectoryModel.paginate(query, options);
   }
 }
