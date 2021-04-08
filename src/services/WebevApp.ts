@@ -8,7 +8,6 @@ import { Server as SocketServer, Socket } from 'socket.io';
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
 import { setupExpressRoutes } from '../routes';
 import { DirectoryService } from './DirectoryService';
-import { PageService } from './PageService';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const swaggerUi = require('swagger-ui-express');
@@ -45,7 +44,6 @@ export class WebevApp {
   io: SocketServer;
 
   DirectoryService: DirectoryService;
-  PageService: PageService;
 
   constructor() {
     this.app = null;
