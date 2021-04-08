@@ -3,7 +3,6 @@ import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
-import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
@@ -14,9 +13,11 @@ import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 import { ArchivePage } from '../usecases/page/ArchivePage';
 import { DeletePage } from '../usecases/page/DeletePage';
 import { FavoritePage } from '../usecases/page/FavoritePage';
+import { FindPageList } from '../usecases/page/FindPageList';
 import { FetchOgpAndUpdatePage } from '../usecases/page/FetchOgpAndUpdatePage';
 
 import { PageService } from '../services/PageService';
+import { PageStatus } from '../domains/Page';
 
 const router = Router();
 
@@ -98,7 +99,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
   type ListType = {
     query: {
-      status: string;
+      status: PageStatus;
       isFavorite?: boolean;
       sort?: string;
     };
@@ -139,28 +140,11 @@ export const pages = (webevApp: WebevApp): Router => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
-    const query: { createdUser: string; status: string; isFavorite?: boolean } = {
-      createdUser: user._id,
-      status,
-    };
-
-    if (isFavorite != null) {
-      query.isFavorite = isFavorite;
-    }
-
-    const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
-      page,
-      limit,
-    };
-
-    if (sort != null) {
-      const sortOrder = sort.startsWith('-') ? -1 : 1;
-      const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
-      options.sort = { [sortKey]: sortOrder };
-    }
+    const pageRepository = new PageRepository();
+    const useCase = new FindPageList(pageRepository);
 
     try {
-      const paginationResult = await PageModel.paginate(query, options);
+      const paginationResult = await useCase.execute(user, status, isFavorite, sort, page, limit);
 
       return res.status(200).json(paginationResult);
     } catch (err) {
