@@ -17,7 +17,7 @@ import { FindDirectory } from '../usecases/directory/FindDirectory';
 const router = Router();
 
 const validator = {
-  postDirectory: [body('name').isString()],
+  postDirectory: [body('name').isString().isLength({ min: 1 })],
   getDirectoryList: [
     query('page')
       .if((value) => value != null)
