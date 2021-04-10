@@ -13,6 +13,7 @@ import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
 import { FindDirectory } from '../usecases/directory/FindDirectory';
+import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
 
 const router = Router();
 
@@ -28,6 +29,7 @@ const validator = {
   ],
   getDirectory: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
+  updateOrder: [param('id').isMongoId(), body('order').isInt()],
   deleteDirectory: [param('id').isMongoId()],
 };
 
@@ -183,6 +185,48 @@ export const directories = (): Router => {
 
     try {
       const result = await RenameDirectoryUseCase.execute(id, name, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/order:
+   *   put:
+   *     description: order directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for order
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             name:
+   *               type: number
+   *               example: order
+   *     responses:
+   *       200:
+   *         description: Return directory after order
+   */
+  router.put('/:id/order', accessTokenParser, loginRequired, validator.updateOrder, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { order } = req.body;
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const UpdateOrderOfDirectoryUseCase = new UpdateOrderOfDirectory(directoryRepository);
+
+    try {
+      const result = await UpdateOrderOfDirectoryUseCase.execute(id, order, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
