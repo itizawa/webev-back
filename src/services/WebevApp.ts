@@ -66,7 +66,7 @@ export class WebevApp {
     this.app = express();
 
     this.app.use(cors());
-    this.app.use(bodyparser.json());
+    this.app.use(express.json());
 
     this.app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options)));
 
