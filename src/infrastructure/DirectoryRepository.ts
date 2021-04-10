@@ -1,4 +1,4 @@
-import { model, Model, Schema, Types, Document } from 'mongoose';
+import { model, Model, Schema, Types, Document, UpdateWriteOpResult } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Directory } from '../domains/Directory';
 import { IDirectoryRepository } from '../repositories/IDirectoryRepository';
@@ -47,5 +47,14 @@ export class DirectoryRepository implements IDirectoryRepository {
   }
   async renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { name }, { new: true });
+  }
+  async updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {
+    return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { order }, { new: true });
+  }
+  async increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
+    return this.DirectoryModel.updateMany({ order: { $gt: min, $lte: max }, createdUser: userId }, { $inc: { order: 1 } }, { new: true });
+  }
+  async decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
+    return this.DirectoryModel.updateMany({ order: { $gt: min, $lte: max }, createdUser: userId }, { $inc: { order: -1 } }, { new: true });
   }
 }
