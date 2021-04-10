@@ -30,7 +30,7 @@ export class DirectoryRepository implements IDirectoryRepository {
     return this.DirectoryModel.create(Directory);
   }
   async countDirectoryByName(name: string, userId: string): Promise<number> {
-    return this.DirectoryModel.count({ name, createdUser: userId });
+    return this.DirectoryModel.countDocuments({ name, createdUser: userId });
   }
   async deleteDirectory(directoryId: string, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOneAndDelete({ _id: directoryId, createdUser: userId });
