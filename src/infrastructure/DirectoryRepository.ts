@@ -8,6 +8,7 @@ const DirectorySchema: Schema = new Schema(
   {
     url: String,
     name: { type: String, index: true },
+    order: { type: Number, index: true },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
@@ -28,6 +29,9 @@ export class DirectoryRepository implements IDirectoryRepository {
 
   async createDirectory(Directory: Partial<Directory>): Promise<Directory> {
     return this.DirectoryModel.create(Directory);
+  }
+  async countDirectoryByUserId(userId: string): Promise<number> {
+    return this.DirectoryModel.countDocuments({ createdUser: userId });
   }
   async isExistDirectoryByName(name: string, userId: string): Promise<boolean> {
     return this.DirectoryModel.exists({ name, createdUser: userId });
