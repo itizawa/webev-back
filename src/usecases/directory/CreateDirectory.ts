@@ -16,6 +16,7 @@ export class CreateDirectory {
       throw new Error('This name directory already exists');
     }
 
+    // order is the number of count + 1
     const count = await this.directoryRepository.countDirectoryByUserId(createdUser);
 
     return this.directoryRepository.createDirectory({ name, createdUser, order: count + 1 });
