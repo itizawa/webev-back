@@ -52,9 +52,9 @@ export class DirectoryRepository implements IDirectoryRepository {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { order }, { new: true });
   }
   async increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
-    return this.DirectoryModel.updateMany({ order: { $gt: min, $lte: max }, createdUser: userId }, { $inc: { order: 1 } }, { new: true });
+    return this.DirectoryModel.updateMany({ order: { $gte: min, $lte: max }, createdUser: userId }, { $inc: { order: 1 } }, { new: true });
   }
   async decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
-    return this.DirectoryModel.updateMany({ order: { $gt: min, $lte: max }, createdUser: userId }, { $inc: { order: -1 } }, { new: true });
+    return this.DirectoryModel.updateMany({ order: { $gte: min, $lte: max }, createdUser: userId }, { $inc: { order: -1 } }, { new: true });
   }
 }
