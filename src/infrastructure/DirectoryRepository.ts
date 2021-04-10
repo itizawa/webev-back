@@ -7,7 +7,7 @@ import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 const DirectorySchema: Schema = new Schema(
   {
     url: String,
-    name: String,
+    name: { type: String, index: true },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
