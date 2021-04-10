@@ -17,7 +17,7 @@ import { FindDirectory } from '../usecases/directory/FindDirectory';
 const router = Router();
 
 const validator = {
-  postDirectory: [body('name').isString()],
+  postDirectory: [body('name').isString().isLength({ min: 1 })],
   getDirectoryList: [
     query('page')
       .if((value) => value != null)
@@ -65,7 +65,7 @@ export const directories = (): Router => {
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -112,7 +112,7 @@ export const directories = (): Router => {
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -145,7 +145,7 @@ export const directories = (): Router => {
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -187,7 +187,7 @@ export const directories = (): Router => {
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -220,7 +220,7 @@ export const directories = (): Router => {
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
     }
   });
 

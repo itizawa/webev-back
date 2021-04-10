@@ -1,7 +1,6 @@
 import { Server as httpServer, createServer } from 'http';
 import * as express from 'express';
 import * as cors from 'cors';
-import * as bodyparser from 'body-parser';
 import * as mongoose from 'mongoose';
 import { Server as SocketServer, Socket } from 'socket.io';
 
