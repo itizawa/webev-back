@@ -83,7 +83,7 @@ export const pages = (webevApp: WebevApp): Router => {
       res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
 
     const cheerioService = new CheerioService();
@@ -149,7 +149,7 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -182,7 +182,7 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -227,7 +227,7 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -278,7 +278,7 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -315,7 +315,7 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
