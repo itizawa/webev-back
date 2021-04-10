@@ -8,6 +8,7 @@ const DirectorySchema: Schema = new Schema(
   {
     url: String,
     name: { type: String, index: true },
+    order: { type: Number, index: true },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
