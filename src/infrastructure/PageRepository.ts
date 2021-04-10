@@ -9,9 +9,9 @@ const PageSchema: Schema = new Schema(
   {
     url: String,
     image: String,
-    description: String,
-    title: String,
-    siteName: String,
+    description: { type: String, index: true },
+    title: { type: String, index: true },
+    siteName: { type: String, index: true },
     status: {
       type: PageStatus,
       required: true,
