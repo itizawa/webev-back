@@ -18,7 +18,7 @@ export class FindDirectoryList {
     const options: PaginationOptions = {
       page,
       limit,
-      sort: { createdAt: -1 },
+      sort: { order: 1 },
     };
 
     return this.DirectoryRepository.findDirectoryList(query, options);
