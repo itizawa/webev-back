@@ -16,9 +16,9 @@ export class UpdateOrderOfDirectory {
     const max: number = isIncrease ? order : document.order - 1;
 
     if (isIncrease) {
-      await this.directoryRepository.increaseDirectory(min, max, userId);
-    } else {
       await this.directoryRepository.decreaseDirectory(min, max, userId);
+    } else {
+      await this.directoryRepository.increaseDirectory(min, max, userId);
     }
 
     return this.directoryRepository.updateOrder(directoryId, order, userId);
