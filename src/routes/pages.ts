@@ -3,9 +3,21 @@ import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
-import { PageModel } from '../models/page';
 import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
+
+import { PageRepository } from '../infrastructure/PageRepository';
+
+import { ArchivePage } from '../usecases/page/ArchivePage';
+import { DeletePage } from '../usecases/page/DeletePage';
+import { FavoritePage } from '../usecases/page/FavoritePage';
+import { FetchOgpAndUpdatePage } from '../usecases/page/FetchOgpAndUpdatePage';
+import { FindPageById } from '../usecases/page/FindPageById';
+import { FindPageList } from '../usecases/page/FindPageList';
+import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
+
+import { CheerioService } from '../services/CheerioService';
+import { PageStatus } from '../domains/Page';
 
 const router = Router();
 
@@ -61,19 +73,24 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
     const { url } = req.body;
 
-    let pageId;
+    let pageId: string;
+    const pageRepository = new PageRepository();
+    const PostPageByUrlUseCase = new PostPageByUrl(pageRepository);
+
     try {
-      const result = await webevApp.PageService.savePage({ url, title: 'loading...' }, user);
+      const result = await PostPageByUrlUseCase.execute(url, user);
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
 
+    const cheerioService = new CheerioService();
+    const FetchOgpAndUpdatePageUseCase = new FetchOgpAndUpdatePage(pageRepository, cheerioService);
+
     try {
-      const page = await webevApp.PageService.retrieveDataByUrl(url);
-      await webevApp.PageService.updatePageById(pageId, page);
+      await FetchOgpAndUpdatePageUseCase.execute(url, pageId);
       webevApp.io.emit('update-page');
     } catch (err) {
       console.log(err);
@@ -82,9 +99,11 @@ export const pages = (webevApp: WebevApp): Router => {
 
   type ListType = {
     query: {
-      status: string;
+      status: PageStatus;
       isFavorite?: boolean;
       sort?: string;
+      page?: number;
+      limit?: number;
     };
   };
 
@@ -119,37 +138,18 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { status, isFavorite, sort } = req.query;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const { status, isFavorite, sort, page = 1, limit = 10 } = req.query;
 
-    const query: { createdUser: string; status: string; isFavorite?: boolean } = {
-      createdUser: user.id,
-      status,
-    };
-
-    if (isFavorite != null) {
-      query.isFavorite = isFavorite;
-    }
-
-    const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
-      page,
-      limit,
-    };
-
-    if (sort != null) {
-      const sortOrder = sort.startsWith('-') ? -1 : 1;
-      const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
-      options.sort = { [sortKey]: sortOrder };
-    }
+    const pageRepository = new PageRepository();
+    const useCase = new FindPageList(pageRepository);
 
     try {
-      const paginationResult = await PageModel.paginate(query, options);
+      const paginationResult = await useCase.execute(user, status, isFavorite, sort, page, limit);
 
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -173,13 +173,16 @@ export const pages = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new FindPageById(pageRepository);
+
     try {
-      const page = await PageModel.findOne({ _id: id, createdUser: user._id });
+      const page = await useCase.execute(id, user._id);
 
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -215,13 +218,16 @@ export const pages = (webevApp: WebevApp): Router => {
     const { isFavorite } = req.body;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new FavoritePage(pageRepository);
+
     try {
-      const page = await webevApp.PageService.updatePageFavorite(id, user, isFavorite);
+      const page = useCase.execute(id, user, isFavorite);
 
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -263,13 +269,16 @@ export const pages = (webevApp: WebevApp): Router => {
     const { isArchive } = req.body;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new ArchivePage(pageRepository);
+
     try {
-      const page = await webevApp.PageService.updatePageArchive(id, user, isArchive);
+      const page = await useCase.execute(id, user, isArchive);
 
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -297,13 +306,16 @@ export const pages = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
+    const pageRepository = new PageRepository();
+    const useCase = new DeletePage(pageRepository);
+
     try {
-      const page = await webevApp.PageService.deletePage(id, user);
+      const page = await useCase.execute(id, user);
 
       return res.status(200).json(page);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 

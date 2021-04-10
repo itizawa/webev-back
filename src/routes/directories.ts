@@ -3,14 +3,22 @@ import { body, param, query } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
-import { DirectoryModel } from '../models/directory';
-import { WebevApp } from '../services/WebevApp';
+
 import { WebevRequest } from '../interfaces/webev-request';
+
+import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
+
+import { CreateDirectory } from '../usecases/directory/CreateDirectory';
+import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
+import { RenameDirectory } from '../usecases/directory/RenameDirectory';
+import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
+import { FindDirectory } from '../usecases/directory/FindDirectory';
+import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
 
 const router = Router();
 
 const validator = {
-  postDirectory: [body('name').isString()],
+  postDirectory: [body('name').isString().isLength({ min: 1 })],
   getDirectoryList: [
     query('page')
       .if((value) => value != null)
@@ -21,10 +29,11 @@ const validator = {
   ],
   getDirectory: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
+  updateOrder: [param('id').isMongoId(), body('order').isInt()],
   deleteDirectory: [param('id').isMongoId()],
 };
 
-export const directories = (webevApp: WebevApp): Router => {
+export const directories = (): Router => {
   /**
    * @swagger
    * /directories/:
@@ -49,15 +58,25 @@ export const directories = (webevApp: WebevApp): Router => {
     const { name } = req.body;
     const { user } = req;
 
+    const directoryRepository = new DirectoryRepository();
+    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository);
+
     try {
-      const result = await webevApp.DirectoryService.saveDirectory({ name }, user);
+      const result = await CreateDirectoryUseCase.execute(name, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
     }
   });
+
+  type ListType = {
+    query: {
+      page?: number;
+      limit?: number;
+    };
+  };
 
   /**
    * @swagger
@@ -83,28 +102,19 @@ export const directories = (webevApp: WebevApp): Router => {
    *              url: hogehoge.example.com
    *              title: loading...
    */
-  router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const { page = 1, limit = 10 } = req.query;
 
-    const query: { createdUser: string } = {
-      createdUser: user.id,
-    };
-
-    const options: { page: number; limit: number; sort?: { [key: string]: number } } = {
-      page,
-      limit,
-      sort: { createdAt: -1 },
-    };
+    const directoryRepository = new DirectoryRepository();
+    const FindDirectoryListUseCase = new FindDirectoryList(directoryRepository);
 
     try {
-      const paginationResult = await DirectoryModel.paginate(query, options);
-
+      const paginationResult = await FindDirectoryListUseCase.execute(user, page, limit);
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -128,13 +138,16 @@ export const directories = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
+    const directoryRepository = new DirectoryRepository();
+    const FindDirectoryUseCase = new FindDirectory(directoryRepository);
+
     try {
-      const result = await DirectoryModel.findOne({ _id: id, createdUser: user._id });
+      const result = await FindDirectoryUseCase.execute(id, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -167,13 +180,58 @@ export const directories = (webevApp: WebevApp): Router => {
     const { name } = req.body;
     const { user } = req;
 
+    const directoryRepository = new DirectoryRepository();
+    const RenameDirectoryUseCase = new RenameDirectory(directoryRepository);
+
     try {
-      const result = await webevApp.DirectoryService.renameDirectory(id, name, user);
+      const result = await RenameDirectoryUseCase.execute(id, name, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/order:
+   *   put:
+   *     description: order directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for order
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             name:
+   *               type: number
+   *               example: order
+   *     responses:
+   *       200:
+   *         description: Return directory after order
+   */
+  router.put('/:id/order', accessTokenParser, loginRequired, validator.updateOrder, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { order } = req.body;
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const UpdateOrderOfDirectoryUseCase = new UpdateOrderOfDirectory(directoryRepository);
+
+    try {
+      const result = await UpdateOrderOfDirectoryUseCase.execute(id, order, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -197,13 +255,16 @@ export const directories = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
+    const directoryRepository = new DirectoryRepository();
+    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository);
+
     try {
-      const result = await webevApp.DirectoryService.deleteDirectory(id, user);
+      const result = await DeleteDirectoryUseCase.execute(id, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ err: err.message });
+      return res.status(500).json({ message: err.message });
     }
   });
 

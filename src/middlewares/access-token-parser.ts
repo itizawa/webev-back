@@ -1,6 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { WebevRequest } from '../interfaces/webev-request';
-import { ISession, SessionModel } from '../models/session';
+import { SessionRepository } from '../infrastructure/SessionRepository';
+import { User } from '../domains/User';
 
 export const accessTokenParser = async (req: WebevRequest, res: Response, next: NextFunction): Promise<void> => {
   const bearToken = req.headers['authorization'];
@@ -12,10 +13,11 @@ export const accessTokenParser = async (req: WebevRequest, res: Response, next: 
   const bearer = bearToken.split(' ');
   const token = bearer[1];
 
-  const session: Partial<ISession> = await SessionModel.findOne({ accessToken: token }).select('userId').populate('userId');
+  const sessionRepository = new SessionRepository();
+  const session = await sessionRepository.findSessionByAccessToken(token);
 
   if (session?.userId != null) {
-    req.user = session.userId;
+    req.user = session.userId as User;
   }
 
   return next();

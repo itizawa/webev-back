@@ -10,5 +10,5 @@ export const apiValidatorMiddleware = (req: Request, res: Response, next: NextFu
     const message = `${err.msg}: ${err.param} in ${err.location}`;
     return { message };
   });
-  return res.status(400).json({ errors });
+  return res.status(400).json({ message: errors[0].message });
 };

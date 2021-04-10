@@ -1,14 +1,11 @@
 import { Server as httpServer, createServer } from 'http';
 import * as express from 'express';
 import * as cors from 'cors';
-import * as bodyparser from 'body-parser';
 import * as mongoose from 'mongoose';
 import { Server as SocketServer, Socket } from 'socket.io';
 
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
 import { setupExpressRoutes } from '../routes';
-import { DirectoryService } from './DirectoryService';
-import { PageService } from './PageService';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const swaggerUi = require('swagger-ui-express');
@@ -44,9 +41,6 @@ export class WebevApp {
   httpServer: httpServer;
   io: SocketServer;
 
-  DirectoryService: DirectoryService;
-  PageService: PageService;
-
   constructor() {
     this.app = null;
     this.port = parseInt(process.env.PORT) || 8000;
@@ -58,9 +52,6 @@ export class WebevApp {
     await this.setupDB();
 
     this.setupSocketio();
-
-    this.setupDirectoryService();
-    this.setupPageService();
 
     // setup Express Routes
     await this.setupRoutes();
@@ -74,7 +65,7 @@ export class WebevApp {
     this.app = express();
 
     this.app.use(cors());
-    this.app.use(bodyparser.json());
+    this.app.use(express.json());
 
     this.app.use('/spec', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(options)));
 
@@ -89,18 +80,6 @@ export class WebevApp {
 
   setupRoutes(): void {
     setupExpressRoutes(this, this.app);
-  }
-
-  setupDirectoryService(): void {
-    if (this.DirectoryService == null) {
-      this.DirectoryService = new DirectoryService(this);
-    }
-  }
-
-  setupPageService(): void {
-    if (this.PageService == null) {
-      this.PageService = new PageService(this);
-    }
   }
 
   setupSocketio(): void {
