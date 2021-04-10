@@ -9,10 +9,10 @@ export class RenameDirectory {
   }
 
   async execute(directoryId: string, name: string, createdUser: string): Promise<Directory> {
-    const count = await this.directoryRepository.countDirectoryByName(name, createdUser);
+    const isExist = await this.directoryRepository.isExistDirectoryByName(name, createdUser);
 
     // Cannot use the name have already created
-    if (count > 0) {
+    if (isExist) {
       throw new Error('This name directory already exists');
     }
 
