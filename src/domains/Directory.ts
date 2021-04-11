@@ -1,7 +1,10 @@
+import { Page } from './Page';
+
 export class Directory {
   _id: string;
   name: string;
   order: number;
+  pages: Page[];
   createdUser: string;
   createdAt: Date;
   updatedAt: Date;
