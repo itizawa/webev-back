@@ -7,12 +7,14 @@ import { Page } from '../domains/Page';
 import { IDirectoryRepository } from '../repositories/IDirectoryRepository';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
+import { PageSchema } from './PageRepository';
+
 const DirectorySchema: Schema = new Schema(
   {
     url: String,
     name: { type: String, index: true },
     order: { type: Number, index: true },
-    pages: { type: [Page], default: [] },
+    pages: { type: [PageSchema], default: [] },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',

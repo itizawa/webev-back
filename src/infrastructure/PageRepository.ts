@@ -5,7 +5,7 @@ import { IPageRepository } from '../repositories/IPageRepository';
 
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
-const PageSchema: Schema = new Schema(
+export const PageSchema: Schema = new Schema(
   {
     url: String,
     image: String,
