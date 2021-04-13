@@ -261,7 +261,7 @@ export const directories = (): Router => {
    *       200:
    *         description: Return directory after update pages
    */
-  router.put('/:id/pages', accessTokenParser, loginRequired, validator.updateOrder, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.put('/:id/pages', accessTokenParser, loginRequired, validator.updatePages, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
     const { pages } = req.body;
     const { user } = req;
