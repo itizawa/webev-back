@@ -1,14 +1,20 @@
 import { model, Model, Schema, Types, Document, UpdateWriteOpResult } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
+
 import { Directory } from '../domains/Directory';
+import { Page } from '../domains/Page';
+
 import { IDirectoryRepository } from '../repositories/IDirectoryRepository';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
+
+import { PageSchema } from './PageRepository';
 
 const DirectorySchema: Schema = new Schema(
   {
     url: String,
     name: { type: String, index: true },
     order: { type: Number, index: true },
+    pages: { type: [PageSchema], default: [] },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
@@ -50,6 +56,9 @@ export class DirectoryRepository implements IDirectoryRepository {
   }
   async updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { order }, { new: true });
+  }
+  async updatePagesOfDirectory(directoryId: string, pages: Page[], userId: string): Promise<Directory> {
+    return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { pages }, { new: true });
   }
   async increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
     return this.DirectoryModel.updateMany({ order: { $gte: min, $lte: max }, createdUser: userId }, { $inc: { order: 1 } }, { new: true });

@@ -1,5 +1,6 @@
 import { UpdateWriteOpResult } from 'mongoose';
 import { Directory } from '../domains/Directory';
+import { Page } from '../domains/Page';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
 export interface IDirectoryRepository {
@@ -11,6 +12,7 @@ export interface IDirectoryRepository {
   findDirectoryList(query: PaginationQuery, options: PaginationOptions): Promise<Directory>;
   renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory>;
   updateOrder(directoryId: string, order: number, userId: string): Promise<Directory>;
+  updatePagesOfDirectory(directoryId: string, pages: Page[], userId: string): Promise<Directory>;
   increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult>;
   decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult>;
 }
