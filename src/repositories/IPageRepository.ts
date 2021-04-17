@@ -10,4 +10,5 @@ export interface IPageRepository {
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page>;
   updatePageStatus(id: string, userId: string, status: PageStatus): Promise<Page>;
   updateIsFavorite(id: string, userId: string, isFavorite: boolean): Promise<Page>;
+  countAllPages(): Promise<number>;
 }
