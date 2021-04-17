@@ -14,7 +14,6 @@ import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
 import { FindDirectory } from '../usecases/directory/FindDirectory';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
-import { UpdatePagesOfDirectory } from '../usecases/directory/UpdatePagesOfDirectory';
 
 const router = Router();
 
@@ -229,48 +228,6 @@ export const directories = (): Router => {
 
     try {
       const result = await UpdateOrderOfDirectoryUseCase.execute(id, order, user._id);
-
-      return res.status(200).json(result);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ message: err.message });
-    }
-  });
-
-  /**
-   * @swagger
-   * /directories/:id/pages:
-   *   put:
-   *     description: update pages by id
-   *     produces:
-   *       - application/json
-   *     parameters:
-   *       - name: id
-   *         description: directory id for pages
-   *         in: path
-   *         type: string
-   *       - name: body
-   *         in: body
-   *         schema:
-   *           type: object
-   *           properties:
-   *             pages:
-   *               type: number
-   *               example: pages
-   *     responses:
-   *       200:
-   *         description: Return directory after update pages
-   */
-  router.put('/:id/pages', accessTokenParser, loginRequired, validator.updatePages, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
-    const { pages } = req.body;
-    const { user } = req;
-
-    const directoryRepository = new DirectoryRepository();
-    const UpdatePagesOfDirectoryUseCase = new UpdatePagesOfDirectory(directoryRepository);
-
-    try {
-      const result = await UpdatePagesOfDirectoryUseCase.execute(id, pages, user._id);
 
       return res.status(200).json(result);
     } catch (err) {
