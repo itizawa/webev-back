@@ -22,7 +22,7 @@ export const PageSchema: Schema = new Schema(
       default: false,
     },
     directoryId: {
-      type: String,
+      type: Types.ObjectId,
       default: null,
     },
     createdUser: {
