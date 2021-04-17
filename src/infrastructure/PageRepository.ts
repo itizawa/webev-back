@@ -21,6 +21,10 @@ export const PageSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    directoryId: {
+      type: String,
+      default: null,
+    },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
