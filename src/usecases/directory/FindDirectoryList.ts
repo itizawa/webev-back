@@ -1,6 +1,5 @@
 import { Directory } from '../../domains/Directory';
-import { User } from '../../domains/User';
-import { PaginationQuery, PaginationOptions } from '../../interfaces/pagination';
+import { PaginationOptions, PaginationDirectoryQuery } from '../../interfaces/pagination';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
 export class FindDirectoryList {
@@ -10,17 +9,7 @@ export class FindDirectoryList {
     this.DirectoryRepository = DirectoryRepository;
   }
 
-  execute(user: User, page: number, limit: number): Promise<Directory> {
-    const query: PaginationQuery = {
-      createdUser: user._id,
-    };
-
-    const options: PaginationOptions = {
-      page,
-      limit,
-      sort: { order: 1 },
-    };
-
+  execute(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
     return this.DirectoryRepository.findDirectoryList(query, options);
   }
 }

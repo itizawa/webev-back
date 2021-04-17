@@ -23,3 +23,10 @@ export class PaginationOptions {
     this.sort = sort;
   }
 }
+
+export class PaginationDirectoryQuery {
+  createdUser: string;
+  constructor(createdUser: string) {
+    this.createdUser = createdUser;
+  }
+}

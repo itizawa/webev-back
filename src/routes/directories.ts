@@ -16,6 +16,7 @@ import { FindDirectory } from '../usecases/directory/FindDirectory';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
 import { FindPageListByDirectoryId } from '../usecases/page/FindPageListByDirectoryId';
 import { PageRepository } from '../infrastructure/PageRepository';
+import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 
 const router = Router();
 
@@ -113,8 +114,12 @@ export const directories = (): Router => {
     const directoryRepository = new DirectoryRepository();
     const FindDirectoryListUseCase = new FindDirectoryList(directoryRepository);
 
+    const query = new PaginationDirectoryQuery(user._id);
+
+    const options = new PaginationOptions(page, limit, { order: 1 });
+
     try {
-      const paginationResult = await FindDirectoryListUseCase.execute(user, page, limit);
+      const paginationResult = await FindDirectoryListUseCase.execute(query, options);
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
