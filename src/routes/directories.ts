@@ -14,6 +14,8 @@ import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
 import { FindDirectory } from '../usecases/directory/FindDirectory';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
+import { FindPageListByDirectoryId } from '../usecases/page/FindPageListByDirectoryId';
+import { PageRepository } from '../infrastructure/PageRepository';
 
 const router = Router();
 
@@ -28,8 +30,10 @@ const validator = {
       .isInt(),
   ],
   getDirectory: [param('id').isMongoId()],
+  getPagesByDirectoryId: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   updateOrder: [param('id').isMongoId(), body('order').isInt()],
+  updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
 };
 
@@ -140,6 +144,39 @@ export const directories = (): Router => {
 
     const directoryRepository = new DirectoryRepository();
     const FindDirectoryUseCase = new FindDirectory(directoryRepository);
+
+    try {
+      const result = await FindDirectoryUseCase.execute(id, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/pages:
+   *   get:
+   *     description: get pages by directory id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for get
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return pages by directory id
+   */
+  router.get('/:id/pages', accessTokenParser, loginRequired, validator.getPagesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { user } = req;
+
+    const pageRepository = new PageRepository();
+    const FindDirectoryUseCase = new FindPageListByDirectoryId(pageRepository);
 
     try {
       const result = await FindDirectoryUseCase.execute(id, user._id);

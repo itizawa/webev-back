@@ -18,6 +18,8 @@ import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
+import { MovePageToDirectory } from '../usecases/page/MovePageToDirectory';
+import { CountAllPages } from '../usecases/page/CountAllPages';
 
 const router = Router();
 
@@ -39,6 +41,7 @@ const validator = {
       .isString(),
   ],
   getPage: [param('id').isMongoId()],
+  putPageDirectory: [param('id').isMongoId(), body('directoryId').isMongoId()],
   putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
   putPageArchive: [param('id').isMongoId(), body('isArchive').isBoolean()],
   deletePage: [param('id').isMongoId()],
@@ -94,6 +97,20 @@ export const pages = (webevApp: WebevApp): Router => {
       webevApp.io.emit('update-page');
     } catch (err) {
       console.log(err);
+    }
+  });
+
+  router.get('/all', async (req: WebevRequest, res: Response) => {
+    const pageRepository = new PageRepository();
+    const useCase = new CountAllPages(pageRepository);
+
+    try {
+      const number = await useCase.execute();
+
+      return res.status(200).json(number);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
     }
   });
 
@@ -178,6 +195,51 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const page = await useCase.execute(id, user._id);
+
+      return res.status(200).json(page);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /pages/:id/directories:
+   *   put:
+   *     description: Update directory information on the page
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: page id for update
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             directoryId:
+   *               type: string
+   *     responses:
+   *       200:
+   *         description: Return page after updated
+   *         examples:
+   *           result:
+   *              url: hogehoge.example.com
+   *              title: loading...
+   */
+  router.put('/:id/directories', accessTokenParser, loginRequired, validator.putPageDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { directoryId } = req.body;
+    const { user } = req;
+
+    const pageRepository = new PageRepository();
+    const useCase = new MovePageToDirectory(pageRepository);
+
+    try {
+      const page = useCase.execute(id, directoryId, user._id);
 
       return res.status(200).json(page);
     } catch (err) {
