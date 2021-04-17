@@ -4,7 +4,7 @@ import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Directory } from '../domains/Directory';
 
 import { IDirectoryRepository } from '../repositories/IDirectoryRepository';
-import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
+import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 
 import { PageSchema } from './PageRepository';
 
@@ -47,7 +47,7 @@ export class DirectoryRepository implements IDirectoryRepository {
   async findDirectory(directoryId: string, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOne({ _id: directoryId, createdUser: userId });
   }
-  async findDirectoryList(query: PaginationQuery, options: PaginationOptions): Promise<Directory> {
+  async findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
     return this.DirectoryModel.paginate(query, options);
   }
   async renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory> {

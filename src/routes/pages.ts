@@ -6,6 +6,7 @@ import { accessTokenParser } from '../middlewares/access-token-parser';
 import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 
+import { PaginationOptions, PaginationQuery } from '../interfaces/pagination';
 import { PageRepository } from '../infrastructure/PageRepository';
 
 import { ArchivePage } from '../usecases/page/ArchivePage';
@@ -155,13 +156,31 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { status, isFavorite, sort, page = 1, limit = 10 } = req.query;
+    const { status, isFavorite, directoryId, sort, page = 1, limit = 10 } = req.query;
 
     const pageRepository = new PageRepository();
     const useCase = new FindPageList(pageRepository);
 
+    const query = new PaginationQuery(user._id, status);
+
+    if (isFavorite != null) {
+      query.isFavorite = isFavorite;
+    }
+
+    if (directoryId != null) {
+      query.directoryId = directoryId;
+    }
+
+    const options = new PaginationOptions(page, limit);
+
+    if (sort != null) {
+      const sortOrder = sort.startsWith('-') ? -1 : 1;
+      const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
+      options.sort = { [sortKey]: sortOrder };
+    }
+
     try {
-      const paginationResult = await useCase.execute(user, status, isFavorite, sort, page, limit);
+      const paginationResult = await useCase.execute(query, options);
 
       return res.status(200).json(paginationResult);
     } catch (err) {
