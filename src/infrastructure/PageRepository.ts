@@ -66,4 +66,7 @@ export class PageRepository implements IPageRepository {
   async updateIsFavorite(pageId: string, userId: string, isFavorite: boolean): Promise<Page> {
     return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { isFavorite }, { new: true });
   }
+  async countAllPages(): Promise<number> {
+    return this.PageModel.estimatedDocumentCount();
+  }
 }
