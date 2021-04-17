@@ -5,11 +5,9 @@ export class PaginationQuery {
   status: PageStatus;
   isFavorite: boolean;
   directoryId: string;
-  constructor(createdUser: string, status: PageStatus, isFavorite?: boolean, directoryId?: string) {
+  constructor(createdUser: string, status: PageStatus) {
     this.createdUser = createdUser;
     this.status = status;
-    this.isFavorite = isFavorite;
-    this.directoryId = directoryId;
   }
 }
 
@@ -20,7 +18,9 @@ export class PaginationOptions {
   constructor(page: number, limit: number, sort?: { [key: string]: number }) {
     this.page = page;
     this.limit = limit;
-    this.sort = sort;
+    if (sort != null) {
+      this.sort = sort;
+    }
   }
 }
 
