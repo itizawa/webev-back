@@ -21,6 +21,10 @@ export const PageSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    directoryId: {
+      type: Types.ObjectId,
+      default: null,
+    },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
@@ -47,8 +51,14 @@ export class PageRepository implements IPageRepository {
   async findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page> {
     return this.PageModel.paginate(query, options);
   }
+  async findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]> {
+    return this.PageModel.find({ directoryId, createdUser: userId });
+  }
   async updatePageById(pageId: string, page: Partial<Page>): Promise<Page> {
     return this.PageModel.findByIdAndUpdate(pageId, page);
+  }
+  async updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
+    return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { directoryId }, { new: true });
   }
   async updatePageStatus(pageId: string, userId: string, status: PageStatus): Promise<Page> {
     return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status }, { new: true });
