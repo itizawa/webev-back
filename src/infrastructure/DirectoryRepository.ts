@@ -6,14 +6,11 @@ import { Directory } from '../domains/Directory';
 import { IDirectoryRepository } from '../repositories/IDirectoryRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 
-import { PageSchema } from './PageRepository';
-
 const DirectorySchema: Schema = new Schema(
   {
     url: String,
     name: { type: String, index: true },
     order: { type: Number, index: true },
-    pages: { type: [PageSchema], default: [] },
     createdUser: {
       type: Types.ObjectId,
       ref: 'User',
