@@ -167,9 +167,8 @@ export const pages = (webevApp: WebevApp): Router => {
       query.isFavorite = isFavorite;
     }
 
-    if (directoryId != null) {
-      query.directoryId = directoryId;
-    }
+    // Look for null if not specified
+    query.directoryId = directoryId;
 
     const options = new PaginationOptions(page, limit);
 
