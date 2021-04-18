@@ -2,12 +2,12 @@ import { PageStatus } from '../domains/Page';
 
 export class PaginationQuery {
   createdUser: string;
-  status: PageStatus;
+  status: PageStatus[];
+  $or: { status: PageStatus }[];
   isFavorite: boolean;
   directoryId: string;
-  constructor(createdUser: string, status: PageStatus) {
+  constructor(createdUser: string) {
     this.createdUser = createdUser;
-    this.status = status;
   }
 }
 
