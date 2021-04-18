@@ -27,7 +27,7 @@ const router = Router();
 const validator = {
   postPage: [body('url').isURL({ require_protocol: true })],
   getPageList: [
-    query('status').isString(),
+    query('status').toArray(),
     query('page')
       .if((value) => value != null)
       .isInt(),
@@ -117,7 +117,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
   type ListType = {
     query: {
-      status: PageStatus;
+      status: PageStatus[];
       isFavorite?: boolean;
       sort?: string;
       page?: number;
@@ -161,12 +161,15 @@ export const pages = (webevApp: WebevApp): Router => {
     const pageRepository = new PageRepository();
     const useCase = new FindPageList(pageRepository);
 
-    const query = new PaginationQuery(user._id, status);
+    const query = new PaginationQuery(user._id);
 
     if (isFavorite != null) {
       query.isFavorite = isFavorite;
     }
 
+    query.$or = status.map((v) => {
+      return { status: v };
+    });
     // Look for null if not specified
     query.directoryId = directoryId;
 
