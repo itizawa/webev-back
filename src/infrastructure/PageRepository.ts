@@ -1,4 +1,4 @@
-import { model, Model, Schema, Types, Document } from 'mongoose';
+import { model, Model, Schema, Types, Document, UpdateWriteOpResult } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Page, PageStatus } from '../domains/Page';
 import { IPageRepository } from '../repositories/IPageRepository';
@@ -53,6 +53,9 @@ export class PageRepository implements IPageRepository {
   }
   async findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]> {
     return this.PageModel.find({ directoryId, createdUser: userId });
+  }
+  async findByDirectoryIdAndDeleteDirectoryId(directoryId: string, userId: string): Promise<UpdateWriteOpResult> {
+    return this.PageModel.updateMany({ directoryId, createdUser: userId }, { directoryId: null }, { new: true });
   }
   async updatePageById(pageId: string, page: Partial<Page>): Promise<Page> {
     return this.PageModel.findByIdAndUpdate(pageId, page);
