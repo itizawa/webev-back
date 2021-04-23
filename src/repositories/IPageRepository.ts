@@ -1,3 +1,4 @@
+import { UpdateWriteOpResult } from 'mongoose';
 import { Page, PageStatus } from '../domains/Page';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
@@ -6,6 +7,7 @@ export interface IPageRepository {
   findPageById(id: string, userId: string): Promise<Page>;
   findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page>;
   findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]>;
+  findByDirectoryIdAndDeleteDirectoryId(directoryId: string, userId: string): Promise<UpdateWriteOpResult>;
   updatePageById(id: string, page: Partial<Page>): Promise<Page>;
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page>;
   updatePageStatus(id: string, userId: string, status: PageStatus): Promise<Page>;
