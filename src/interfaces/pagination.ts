@@ -1,9 +1,32 @@
-export interface PaginationQuery {
-  [key: string]: string | number | boolean;
+import { PageStatus } from '../domains/Page';
+
+export class PaginationQuery {
+  createdUser: string;
+  status: PageStatus[];
+  $or: { status: PageStatus }[];
+  isFavorite: boolean;
+  directoryId: string;
+  constructor(createdUser: string) {
+    this.createdUser = createdUser;
+  }
 }
 
-export interface PaginationOptions {
+export class PaginationOptions {
   page: number;
   limit: number;
   sort?: { [key: string]: number };
+  constructor(page: number, limit: number, sort?: { [key: string]: number }) {
+    this.page = page;
+    this.limit = limit;
+    if (sort != null) {
+      this.sort = sort;
+    }
+  }
+}
+
+export class PaginationDirectoryQuery {
+  createdUser: string;
+  constructor(createdUser: string) {
+    this.createdUser = createdUser;
+  }
 }
