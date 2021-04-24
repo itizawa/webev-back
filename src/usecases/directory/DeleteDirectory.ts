@@ -13,6 +13,8 @@ export class DeleteDirectory {
 
   async execute(directoryId: string, userId: string): Promise<Directory> {
     await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId(directoryId, userId);
-    return this.directoryRepository.deleteDirectory(directoryId, userId);
+    const deletedDirectory = await this.directoryRepository.deleteDirectory(directoryId, userId);
+    await this.directoryRepository.decreaseDirectory(deletedDirectory.order, 10000, userId);
+    return deletedDirectory;
   }
 }
