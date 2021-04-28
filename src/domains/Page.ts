@@ -16,20 +16,33 @@ export class Page {
   updatedAt: Date;
   status: PageStatus;
   isFavorite: boolean;
-  constructor(
-    id: string,
-    url: string,
-    image: string,
-    description: string,
-    title: string,
-    siteName: string,
-    directoryId: string,
-    createdUser: string,
-    createdAt: Date,
-    updatedAt: Date,
-    status: PageStatus,
-    isFavorite: boolean,
-  ) {
+  constructor({
+    id,
+    url,
+    image,
+    description,
+    title,
+    siteName,
+    directoryId,
+    createdUser,
+    createdAt,
+    updatedAt,
+    status,
+    isFavorite,
+  }: {
+    id: string;
+    url: string;
+    image: string;
+    description: string;
+    title: string;
+    siteName: string;
+    directoryId: string;
+    createdUser: string;
+    createdAt: Date;
+    updatedAt: Date;
+    status: PageStatus;
+    isFavorite: boolean;
+  }) {
     this._id = id;
     this.url = url;
     this.image = image;
