@@ -121,7 +121,7 @@ export const directories = (): Router => {
     const directoryRepository = new DirectoryRepository();
     const FindDirectoryListUseCase = new FindDirectoryList(directoryRepository);
 
-    const query = new PaginationDirectoryQuery(user._id);
+    const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
     const options = new PaginationOptions(page, limit, { order: 1 });
 

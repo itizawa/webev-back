@@ -16,6 +16,7 @@ const DirectorySchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
+    isRoot: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

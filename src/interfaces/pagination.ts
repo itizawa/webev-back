@@ -26,7 +26,11 @@ export class PaginationOptions {
 
 export class PaginationDirectoryQuery {
   createdUser: string;
-  constructor(createdUser: string) {
+  isRoot?: boolean;
+  constructor({ createdUser, isRoot }: PaginationDirectoryQuery) {
     this.createdUser = createdUser;
+    if (isRoot != null) {
+      this.isRoot = isRoot;
+    }
   }
 }
