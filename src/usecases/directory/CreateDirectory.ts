@@ -19,10 +19,16 @@ export class CreateDirectory {
       throw new Error('This name directory already exists');
     }
 
-    // order is the number of count + 1
-    const count = await this.directoryRepository.countDirectoryByUserId(createdUser);
+    let countForSave: number = null;
+    let isRoot = false;
+    if (parentDirectoryId == null) {
+      // order is the number of count + 1
+      const count = await this.directoryRepository.countDirectoryByUserId(createdUser);
+      countForSave = count + 1;
+      isRoot = true;
+    }
 
-    const createdDirectory = await this.directoryRepository.createDirectory({ name, createdUser, order: count + 1 });
+    const createdDirectory = await this.directoryRepository.createDirectory({ name, createdUser, order: countForSave, isRoot });
 
     // create SelfReference
     await this.directoryTreeRepository.createSelfReference(createdDirectory._id);
