@@ -1,4 +1,5 @@
 import { model, Model, Schema, Types, Document } from 'mongoose';
+import { Directory } from '../domains/Directory';
 
 import { DirectoryTree } from '../domains/DirectoryTree';
 
@@ -44,5 +45,8 @@ export class DirectoryTreeRepository implements IDirectoryTreeRepository {
     await this.DirectoryTreeModel.bulkWrite(requests);
 
     return;
+  }
+  async findChildrenDirectories(parentDirectoryId: string): Promise<DirectoryTree[]> {
+    return this.DirectoryTreeModel.find({ ancestor: parentDirectoryId, depth: 1 }).populate('descendant');
   }
 }
