@@ -1,11 +1,14 @@
 import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
+import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
 
 export class CreateDirectory {
   private directoryRepository: IDirectoryRepository;
+  private directoryTreeRepository: IDirectoryTreeRepository;
 
-  constructor(directoryRepository: IDirectoryRepository) {
+  constructor(directoryRepository: IDirectoryRepository, directoryTreeRepository: IDirectoryTreeRepository) {
     this.directoryRepository = directoryRepository;
+    this.directoryTreeRepository = directoryTreeRepository;
   }
 
   async execute(name: string, createdUser: string): Promise<Directory> {
@@ -19,6 +22,11 @@ export class CreateDirectory {
     // order is the number of count + 1
     const count = await this.directoryRepository.countDirectoryByUserId(createdUser);
 
-    return this.directoryRepository.createDirectory({ name, createdUser, order: count + 1 });
+    const createdDirectory = await this.directoryRepository.createDirectory({ name, createdUser, order: count + 1 });
+
+    // create SelfReference
+    await this.directoryTreeRepository.createSelfReference(createdDirectory._id);
+
+    return createdDirectory;
   }
 }

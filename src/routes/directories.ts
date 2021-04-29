@@ -17,6 +17,7 @@ import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirec
 import { FindPageListByDirectoryId } from '../usecases/page/FindPageListByDirectoryId';
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
+import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
 
 const router = Router();
 
@@ -64,7 +65,8 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository);
+    const directoryTreeRepository = new DirectoryTreeRepository();
+    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository, directoryTreeRepository);
 
     try {
       const result = await CreateDirectoryUseCase.execute(name, user._id);
