@@ -1,5 +1,4 @@
 import { model, Model, Schema, Types, Document } from 'mongoose';
-import { Directory } from '../domains/Directory';
 
 import { DirectoryTree } from '../domains/DirectoryTree';
 
