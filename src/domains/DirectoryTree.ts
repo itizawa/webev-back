@@ -1,9 +1,7 @@
-import { Directory } from './Directory';
-
 export class DirectoryTree {
   _id: string;
-  ancestor: Directory;
-  descendant: Directory;
+  ancestor: string;
+  descendant: string;
   depth: number;
   constructor({ _id, ancestor, descendant, depth }: DirectoryTree) {
     this._id = _id;
