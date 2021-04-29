@@ -11,7 +11,7 @@ export class CreateDirectory {
     this.directoryTreeRepository = directoryTreeRepository;
   }
 
-  async execute(name: string, createdUser: string): Promise<Directory> {
+  async execute(name: string, createdUser: string, parentDirectoryId?: string): Promise<Directory> {
     const isExist = await this.directoryRepository.isExistDirectoryByName(name, createdUser);
 
     // Cannot use the name have already created
@@ -26,6 +26,10 @@ export class CreateDirectory {
 
     // create SelfReference
     await this.directoryTreeRepository.createSelfReference(createdDirectory._id);
+
+    if (parentDirectoryId != null) {
+      this.directoryTreeRepository.createPathAsDescendant(parentDirectoryId, createdDirectory._id);
+    }
 
     return createdDirectory;
   }

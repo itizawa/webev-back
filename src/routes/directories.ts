@@ -22,7 +22,12 @@ import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeReposito
 const router = Router();
 
 const validator = {
-  postDirectory: [body('name').isString().isLength({ min: 1 })],
+  postDirectory: [
+    body('name').isString().isLength({ min: 1 }),
+    body('parentDirectoryId')
+      .if((value) => value != null)
+      .isMongoId(),
+  ],
   getDirectoryList: [
     query('page')
       .if((value) => value != null)
@@ -61,7 +66,7 @@ export const directories = (): Router => {
    *         description: Return directory by id
    */
   router.post('/', accessTokenParser, loginRequired, validator.postDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { name } = req.body;
+    const { name, parentDirectoryId } = req.body;
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
@@ -69,7 +74,7 @@ export const directories = (): Router => {
     const CreateDirectoryUseCase = new CreateDirectory(directoryRepository, directoryTreeRepository);
 
     try {
-      const result = await CreateDirectoryUseCase.execute(name, user._id);
+      const result = await CreateDirectoryUseCase.execute(name, user._id, parentDirectoryId);
 
       return res.status(200).json(result);
     } catch (err) {
