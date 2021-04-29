@@ -13,8 +13,10 @@ import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
 import { FindDirectory } from '../usecases/directory/FindDirectory';
+import { FindChildrenDirectories } from '../usecases/directory/FindChildrenDirectories';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
 import { FindPageListByDirectoryId } from '../usecases/page/FindPageListByDirectoryId';
+
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
@@ -38,6 +40,7 @@ const validator = {
   ],
   getDirectory: [param('id').isMongoId()],
   getPagesByDirectoryId: [param('id').isMongoId()],
+  getDirectoriesByDirectoryId: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   updateOrder: [param('id').isMongoId(), body('order').isInt()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
@@ -192,6 +195,38 @@ export const directories = (): Router => {
 
     try {
       const result = await FindDirectoryUseCase.execute(id, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/children:
+   *   get:
+   *     description: get children directories by directory id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for get
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return children directories by directory id
+   */
+  router.get('/:id/children', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+
+    const directoryTreeRepository = new DirectoryTreeRepository();
+    const FindChildrenDirectoriesUseCase = new FindChildrenDirectories(directoryTreeRepository);
+
+    try {
+      const result = await FindChildrenDirectoriesUseCase.execute(id);
 
       return res.status(200).json(result);
     } catch (err) {
