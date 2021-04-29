@@ -18,7 +18,7 @@ const DirectoryTreeSchema: Schema = new Schema(
       required: true,
       index: true,
     },
-    depth: { type: Number },
+    depth: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
@@ -34,6 +34,15 @@ export class DirectoryTreeRepository implements IDirectoryTreeRepository {
     return this.DirectoryTreeModel.create({ ancestor: directoryId, descendant: directoryId, depth: 0 });
   }
   async createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {
+    const trees = await this.DirectoryTreeModel.find({ descendant: ancestorId });
+
+    // generate request for bulk write
+    const requests = trees.map((tree) => {
+      return { insertOne: { document: { ancestor: tree.ancestor, descendant: descendantId, depth: tree.depth + 1 } } };
+    });
+
+    await this.DirectoryTreeModel.bulkWrite(requests);
+
     return;
   }
 }
