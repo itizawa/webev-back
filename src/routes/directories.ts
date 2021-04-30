@@ -20,6 +20,7 @@ import { FindPageListByDirectoryId } from '../usecases/page/FindPageListByDirect
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
+import { FindAncestorDirectories } from '../usecases/directory/FindAncestorDirectories';
 
 const router = Router();
 
@@ -227,6 +228,38 @@ export const directories = (): Router => {
 
     try {
       const result = await FindChildrenDirectoriesUseCase.execute(id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/ancestor:
+   *   get:
+   *     description: get ancestor directories by directory id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for get
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return ancestor directories by directory id
+   */
+  router.get('/:id/ancestor', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+
+    const directoryTreeRepository = new DirectoryTreeRepository();
+    const FindAncestorDirectoriesUseCase = new FindAncestorDirectories(directoryTreeRepository);
+
+    try {
+      const result = await FindAncestorDirectoriesUseCase.execute(id);
 
       return res.status(200).json(result);
     } catch (err) {
