@@ -13,15 +13,25 @@ import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
 import { FindDirectory } from '../usecases/directory/FindDirectory';
+import { FindChildrenDirectories } from '../usecases/directory/FindChildrenDirectories';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
 import { FindPageListByDirectoryId } from '../usecases/page/FindPageListByDirectoryId';
+
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
+import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
+import { FindAncestorDirectories } from '../usecases/directory/FindAncestorDirectories';
+import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
 
 const router = Router();
 
 const validator = {
-  postDirectory: [body('name').isString().isLength({ min: 1 })],
+  postDirectory: [
+    body('name').isString().isLength({ min: 1 }),
+    body('parentDirectoryId')
+      .if((value) => value != null)
+      .isMongoId(),
+  ],
   getDirectoryList: [
     query('page')
       .if((value) => value != null)
@@ -32,8 +42,10 @@ const validator = {
   ],
   getDirectory: [param('id').isMongoId()],
   getPagesByDirectoryId: [param('id').isMongoId()],
+  getDirectoriesByDirectoryId: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   updateOrder: [param('id').isMongoId(), body('order').isInt()],
+  updateDescription: [param('id').isMongoId(), body('description').isString()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
 };
@@ -60,14 +72,15 @@ export const directories = (): Router => {
    *         description: Return directory by id
    */
   router.post('/', accessTokenParser, loginRequired, validator.postDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { name } = req.body;
+    const { name, parentDirectoryId } = req.body;
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository);
+    const directoryTreeRepository = new DirectoryTreeRepository();
+    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository, directoryTreeRepository);
 
     try {
-      const result = await CreateDirectoryUseCase.execute(name, user._id);
+      const result = await CreateDirectoryUseCase.execute(name, user._id, parentDirectoryId);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -114,7 +127,7 @@ export const directories = (): Router => {
     const directoryRepository = new DirectoryRepository();
     const FindDirectoryListUseCase = new FindDirectoryList(directoryRepository);
 
-    const query = new PaginationDirectoryQuery(user._id);
+    const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
     const options = new PaginationOptions(page, limit, { order: 1 });
 
@@ -185,6 +198,70 @@ export const directories = (): Router => {
 
     try {
       const result = await FindDirectoryUseCase.execute(id, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/children:
+   *   get:
+   *     description: get children directories by directory id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for get
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return children directories by directory id
+   */
+  router.get('/:id/children', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+
+    const directoryTreeRepository = new DirectoryTreeRepository();
+    const FindChildrenDirectoriesUseCase = new FindChildrenDirectories(directoryTreeRepository);
+
+    try {
+      const result = await FindChildrenDirectoriesUseCase.execute(id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/ancestor:
+   *   get:
+   *     description: get ancestor directories by directory id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for get
+   *         in: path
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: Return ancestor directories by directory id
+   */
+  router.get('/:id/ancestor', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+
+    const directoryTreeRepository = new DirectoryTreeRepository();
+    const FindAncestorDirectoriesUseCase = new FindAncestorDirectories(directoryTreeRepository);
+
+    try {
+      const result = await FindAncestorDirectoriesUseCase.execute(id);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -279,6 +356,48 @@ export const directories = (): Router => {
 
   /**
    * @swagger
+   * /directories/:id/order:
+   *   put:
+   *     description: order directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for order
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             name:
+   *               type: number
+   *               example: order
+   *     responses:
+   *       200:
+   *         description: Return directory after order
+   */
+  router.put('/:id/description', accessTokenParser, loginRequired, validator.updateDescription, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { description } = req.body;
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const usecase = new UpdateDescriptionOfDirectoryUsecase(directoryRepository);
+
+    try {
+      const result = await usecase.execute(id, description, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
    * /directories/:id:
    *   delete:
    *     description: delete directory by id
@@ -298,8 +417,9 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
+    const directoryTreeRepository = new DirectoryTreeRepository();
     const pageRepository = new PageRepository();
-    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository, pageRepository);
+    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository, directoryTreeRepository, pageRepository);
 
     try {
       const result = await DeleteDirectoryUseCase.execute(id, user._id);

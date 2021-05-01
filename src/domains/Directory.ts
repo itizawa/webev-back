@@ -3,13 +3,17 @@ export class Directory {
   name: string;
   order: number;
   createdUser: string;
+  isRoot: boolean;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
-  constructor(_id: string, name: string, order: number, createdUser: string, createdAt: Date, updatedAt: Date) {
+  constructor({ _id, name, order, createdUser, isRoot, description, createdAt, updatedAt }: Directory) {
     this._id = _id;
     this.name = name;
     this.order = order;
     this.createdUser = createdUser;
+    this.isRoot = isRoot;
+    this.description = description;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
