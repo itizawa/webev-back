@@ -417,8 +417,9 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
+    const directoryTreeRepository = new DirectoryTreeRepository();
     const pageRepository = new PageRepository();
-    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository, pageRepository);
+    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository, directoryTreeRepository, pageRepository);
 
     try {
       const result = await DeleteDirectoryUseCase.execute(id, user._id);
