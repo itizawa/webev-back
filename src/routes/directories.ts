@@ -21,6 +21,7 @@ import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
 import { FindAncestorDirectories } from '../usecases/directory/FindAncestorDirectories';
+import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
 
 const router = Router();
 
@@ -44,6 +45,7 @@ const validator = {
   getDirectoriesByDirectoryId: [param('id').isMongoId()],
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   updateOrder: [param('id').isMongoId(), body('order').isInt()],
+  updateDescription: [param('id').isMongoId(), body('description').isString()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
 };
@@ -344,6 +346,48 @@ export const directories = (): Router => {
 
     try {
       const result = await UpdateOrderOfDirectoryUseCase.execute(id, order, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/order:
+   *   put:
+   *     description: order directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for order
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             name:
+   *               type: number
+   *               example: order
+   *     responses:
+   *       200:
+   *         description: Return directory after order
+   */
+  router.put('/:id/description', accessTokenParser, loginRequired, validator.updateDescription, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { description } = req.body;
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const usecase = new UpdateDescriptionOfDirectoryUsecase(directoryRepository);
+
+    try {
+      const result = await usecase.execute(id, description, user._id);
 
       return res.status(200).json(result);
     } catch (err) {

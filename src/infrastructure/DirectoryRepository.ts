@@ -17,6 +17,7 @@ const DirectorySchema: Schema = new Schema(
       required: true,
     },
     isRoot: { type: Boolean, default: false },
+    description: { type: String, default: '' },
   },
   { timestamps: true },
 );
@@ -53,6 +54,9 @@ export class DirectoryRepository implements IDirectoryRepository {
   }
   async updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { order }, { new: true });
+  }
+  async updateDescription(directoryId: string, description: string, userId: string): Promise<Directory> {
+    return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { description }, { new: true });
   }
   async increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
     return this.DirectoryModel.updateMany({ order: { $gte: min, $lte: max }, createdUser: userId, isRoot: true }, { $inc: { order: 1 } }, { new: true });
