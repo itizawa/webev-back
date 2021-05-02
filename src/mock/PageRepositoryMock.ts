@@ -1,7 +1,7 @@
 import { UpdateWriteOpResult } from 'mongoose';
-import { Page, PageStatus } from '../../../domains/Page';
-import { PaginationQuery, PaginationOptions } from '../../../interfaces/pagination';
-import { IPageRepository } from '../../../repositories/IPageRepository';
+import { Page, PageStatus } from '../domains/Page';
+import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
+import { IPageRepository } from '../repositories/IPageRepository';
 
 export class PageRepositoryMock implements IPageRepository {
   createPage(page: Partial<Page>): Promise<Page> {
