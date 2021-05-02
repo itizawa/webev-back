@@ -1,8 +1,6 @@
 import { PageStatus } from '../../../domains/Page';
-import { generateMockUser } from '../../../mock/generateMockUser';
-import { generateMockPage } from '../../../mock/generateMockPage';
+import { generateMockUser, generateMockPage, PageRepositoryMock } from '../../../mock';
 import { ArchivePageUseCase } from '../ArchivePageUseCase';
-import { PageRepositoryMock } from '../../../mock/PageRepositoryMock';
 
 describe('ArchivePageUseCase', () => {
   const mock = new PageRepositoryMock();
