@@ -12,7 +12,7 @@ import { PageRepository } from '../infrastructure/PageRepository';
 import { ArchivePageUseCase } from '../usecases/page/ArchivePageUseCase';
 import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
 import { FavoritePageUseCase } from '../usecases/page/FavoritePageUseCase';
-import { FetchOgpAndUpdatePage } from '../usecases/page/FetchOgpAndUpdatePage';
+import { FetchOgpAndUpdatePageUseCase } from '../usecases/page/FetchOgpAndUpdatePageUseCase';
 import { FindPageById } from '../usecases/page/FindPageById';
 import { FindPageList } from '../usecases/page/FindPageList';
 import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
@@ -79,6 +79,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
     let pageId: string;
     const pageRepository = new PageRepository();
+    const cheerioService = new CheerioService();
     const PostPageByUrlUseCase = new PostPageByUrl(pageRepository);
 
     try {
@@ -90,11 +91,9 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(500).json({ message: err.message });
     }
 
-    const cheerioService = new CheerioService();
-    const FetchOgpAndUpdatePageUseCase = new FetchOgpAndUpdatePage(pageRepository, cheerioService);
-
     try {
-      await FetchOgpAndUpdatePageUseCase.execute(url, pageId);
+      const useCase = new FetchOgpAndUpdatePageUseCase(pageRepository, cheerioService);
+      await useCase.execute(url, pageId);
       webevApp.io.emit('update-page');
     } catch (err) {
       console.log(err);
