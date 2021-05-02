@@ -15,7 +15,7 @@ import { FavoritePageUseCase } from '../usecases/page/FavoritePageUseCase';
 import { FetchOgpAndUpdatePageUseCase } from '../usecases/page/FetchOgpAndUpdatePageUseCase';
 import { FindPageByIdUseCase } from '../usecases/page/FindPageByIdUseCase';
 import { FindPageListUseCase } from '../usecases/page/FindPageListUseCase';
-import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
+import { PostPageByUrlUseCase } from '../usecases/page/PostPageByUrlUseCase';
 
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
@@ -80,10 +80,10 @@ export const pages = (webevApp: WebevApp): Router => {
     let pageId: string;
     const pageRepository = new PageRepository();
     const cheerioService = new CheerioService();
-    const PostPageByUrlUseCase = new PostPageByUrl(pageRepository);
 
     try {
-      const result = await PostPageByUrlUseCase.execute(url, user);
+      const useCase = new PostPageByUrlUseCase(pageRepository);
+      const result = await useCase.execute(url, user);
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
