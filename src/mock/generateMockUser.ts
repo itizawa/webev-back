@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { User } from '../domains/User';
 
-export const generateMockUser = ({ _id, name, email, image, createdAt, updatedAt }: any): User => {
+export const generateMockUser = (mock: Partial<User> = {}): User => {
+  const { _id, name, email, image, createdAt, updatedAt } = mock;
   return new User({
     _id: _id || 'mockUserId',
     name: name || 'mockUserName',

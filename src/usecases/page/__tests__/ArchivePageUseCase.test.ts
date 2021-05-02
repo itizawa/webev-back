@@ -1,21 +1,28 @@
 import { PageStatus } from '../../../domains/Page';
-import { generateMockUser } from '../../../mock/generateMockUser';
-import { generateMockPage } from '../../../mock/generateMockPage';
+import { generateMockUser, generateMockPage, PageRepositoryMock } from '../../../mock';
 import { ArchivePageUseCase } from '../ArchivePageUseCase';
-import { PageRepositoryMock } from '../../../mock/PageRepositoryMock';
 
 describe('ArchivePageUseCase', () => {
+  const mockUser = generateMockUser();
+  const mockPage = generateMockPage();
   const mock = new PageRepositoryMock();
-  const mockUser = generateMockUser({});
-  const mockPage = generateMockPage({});
+  mock.updatePageStatus = async (_id, userId, status) => generateMockPage({ _id, createdUser: userId, status });
+
+  const spy = jest.spyOn(mock, 'updatePageStatus');
+
   const useCase = new ArchivePageUseCase(mock);
+
   test('isArchive is true', async () => {
     const response = await useCase.execute(mockPage._id, mockUser, true);
+
+    expect(spy).toHaveBeenCalled();
     expect(response.status).toBe(PageStatus.PAGE_STATUS_ARCHIVE);
   });
 
   test('isArchive is false', async () => {
     const response = await useCase.execute(mockPage._id, mockUser, false);
+
+    expect(spy).toHaveBeenCalled();
     expect(response.status).toBe(PageStatus.PAGE_STATUS_STOCK);
   });
 });

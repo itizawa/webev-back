@@ -10,17 +10,17 @@ import { PaginationOptions, PaginationQuery } from '../interfaces/pagination';
 import { PageRepository } from '../infrastructure/PageRepository';
 
 import { ArchivePageUseCase } from '../usecases/page/ArchivePageUseCase';
-import { DeletePage } from '../usecases/page/DeletePage';
-import { FavoritePage } from '../usecases/page/FavoritePage';
-import { FetchOgpAndUpdatePage } from '../usecases/page/FetchOgpAndUpdatePage';
-import { FindPageById } from '../usecases/page/FindPageById';
-import { FindPageList } from '../usecases/page/FindPageList';
-import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
+import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
+import { FavoritePageUseCase } from '../usecases/page/FavoritePageUseCase';
+import { FetchOgpAndUpdatePageUseCase } from '../usecases/page/FetchOgpAndUpdatePageUseCase';
+import { FindPageByIdUseCase } from '../usecases/page/FindPageByIdUseCase';
+import { FindPageListUseCase } from '../usecases/page/FindPageListUseCase';
+import { PostPageByUrlUseCase } from '../usecases/page/PostPageByUrlUseCase';
 
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
-import { MovePageToDirectory } from '../usecases/page/MovePageToDirectory';
-import { CountAllPages } from '../usecases/page/CountAllPages';
+import { MovePageToDirectoryUseCase } from '../usecases/page/MovePageToDirectoryUseCase';
+import { CountAllPagesUseCase } from '../usecases/page/CountAllPagesUseCase';
 
 const router = Router();
 
@@ -79,10 +79,11 @@ export const pages = (webevApp: WebevApp): Router => {
 
     let pageId: string;
     const pageRepository = new PageRepository();
-    const PostPageByUrlUseCase = new PostPageByUrl(pageRepository);
+    const cheerioService = new CheerioService();
 
     try {
-      const result = await PostPageByUrlUseCase.execute(url, user);
+      const useCase = new PostPageByUrlUseCase(pageRepository);
+      const result = await useCase.execute(url, user);
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
@@ -90,11 +91,9 @@ export const pages = (webevApp: WebevApp): Router => {
       return res.status(500).json({ message: err.message });
     }
 
-    const cheerioService = new CheerioService();
-    const FetchOgpAndUpdatePageUseCase = new FetchOgpAndUpdatePage(pageRepository, cheerioService);
-
     try {
-      await FetchOgpAndUpdatePageUseCase.execute(url, pageId);
+      const useCase = new FetchOgpAndUpdatePageUseCase(pageRepository, cheerioService);
+      await useCase.execute(url, pageId);
       webevApp.io.emit('update-page');
     } catch (err) {
       console.log(err);
@@ -103,7 +102,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
   router.get('/all', async (req: WebevRequest, res: Response) => {
     const pageRepository = new PageRepository();
-    const useCase = new CountAllPages(pageRepository);
+    const useCase = new CountAllPagesUseCase(pageRepository);
 
     try {
       const number = await useCase.execute();
@@ -159,9 +158,9 @@ export const pages = (webevApp: WebevApp): Router => {
     const { status, isFavorite, directoryId, sort, page = 1, limit = 10 } = req.query;
 
     const pageRepository = new PageRepository();
-    const useCase = new FindPageList(pageRepository);
+    const useCase = new FindPageListUseCase(pageRepository);
 
-    const query = new PaginationQuery(user._id);
+    const query = new PaginationQuery({ createdUser: user._id });
 
     if (isFavorite != null) {
       query.isFavorite = isFavorite;
@@ -173,7 +172,7 @@ export const pages = (webevApp: WebevApp): Router => {
     // Look for null if not specified
     query.directoryId = directoryId;
 
-    const options = new PaginationOptions(page, limit);
+    const options = new PaginationOptions({ page, limit });
 
     if (sort != null) {
       const sortOrder = sort.startsWith('-') ? -1 : 1;
@@ -212,7 +211,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new FindPageById(pageRepository);
+    const useCase = new FindPageByIdUseCase(pageRepository);
 
     try {
       const page = await useCase.execute(id, user._id);
@@ -257,7 +256,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new MovePageToDirectory(pageRepository);
+    const useCase = new MovePageToDirectoryUseCase(pageRepository);
 
     try {
       const page = useCase.execute(id, directoryId, user._id);
@@ -302,7 +301,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new FavoritePage(pageRepository);
+    const useCase = new FavoritePageUseCase(pageRepository);
 
     try {
       const page = useCase.execute(id, user, isFavorite);
@@ -390,7 +389,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new DeletePage(pageRepository);
+    const useCase = new DeletePageUseCase(pageRepository);
 
     try {
       const page = await useCase.execute(id, user);

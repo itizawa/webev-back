@@ -2,7 +2,7 @@ import { Page } from '../../domains/Page';
 import { IPageRepository } from '../../repositories/IPageRepository';
 import { CheerioService } from '../../services/CheerioService';
 
-export class FetchOgpAndUpdatePage {
+export class FetchOgpAndUpdatePageUseCase {
   private pageRepository: IPageRepository;
   private cheerioService: CheerioService;
 

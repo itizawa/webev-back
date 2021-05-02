@@ -1,15 +1,15 @@
-import { Page, PageStatus } from '../../domains/Page';
+import { Page } from '../../domains/Page';
 import { User } from '../../domains/User';
 import { IPageRepository } from '../../repositories/IPageRepository';
 
-export class DeletePage {
+export class PostPageByUrlUseCase {
   private pageRepository: IPageRepository;
 
   constructor(pageRepository: IPageRepository) {
     this.pageRepository = pageRepository;
   }
 
-  execute(pageId: string, user: User): Promise<Page> {
-    return this.pageRepository.updatePageStatus(pageId, user._id, PageStatus.PAGE_STATUS_DELETED);
+  execute(url: string, user: User): Promise<Page> {
+    return this.pageRepository.createPage({ url, title: 'loading...', createdUser: user._id });
   }
 }
