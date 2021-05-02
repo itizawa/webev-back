@@ -2,7 +2,7 @@ import { Page } from '../../domains/Page';
 import { PaginationQuery, PaginationOptions } from '../../interfaces/pagination';
 import { IPageRepository } from '../../repositories/IPageRepository';
 
-export class FindPageList {
+export class FindPageListUseCase {
   private pageRepository: IPageRepository;
 
   constructor(pageRepository: IPageRepository) {
