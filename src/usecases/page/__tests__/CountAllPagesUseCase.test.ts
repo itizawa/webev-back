@@ -10,7 +10,6 @@ describe('CountAllPagesUseCase', () => {
   const spy = jest.spyOn(mock, 'countAllPages');
   test('excute', async () => {
     const response = await useCase.execute();
-    console.log(response);
 
     expect(spy).toHaveBeenCalled();
     expect(response).toBe(100);
