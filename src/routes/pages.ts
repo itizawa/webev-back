@@ -19,7 +19,7 @@ import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
-import { MovePageToDirectory } from '../usecases/page/MovePageToDirectory';
+import { MovePageToDirectoryUseCase } from '../usecases/page/MovePageToDirectoryUseCase';
 import { CountAllPagesUseCase } from '../usecases/page/CountAllPagesUseCase';
 
 const router = Router();
@@ -256,7 +256,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new MovePageToDirectory(pageRepository);
+    const useCase = new MovePageToDirectoryUseCase(pageRepository);
 
     try {
       const page = useCase.execute(id, directoryId, user._id);
