@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { UpdateWriteOpResult } from 'mongoose';
 import { Page, PageStatus } from '../domains/Page';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 import { IPageRepository } from '../repositories/IPageRepository';
-import { generateMockPage } from './generateMockPage';
 
 export class PageRepositoryMock implements IPageRepository {
   createPage(page: Partial<Page>): Promise<Page> {
@@ -26,8 +26,8 @@ export class PageRepositoryMock implements IPageRepository {
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
     throw 'not implement';
   }
-  async updatePageStatus(id: string, userId: string, status: PageStatus): Promise<Page> {
-    return generateMockPage({ id, userId, status });
+  updatePageStatus(id: string, userId: string, status: PageStatus): Promise<Page> {
+    throw 'not implement';
   }
   updateIsFavorite(id: string, userId: string, isFavorite: boolean): Promise<Page> {
     throw 'not implement';
