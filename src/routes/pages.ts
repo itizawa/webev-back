@@ -20,7 +20,7 @@ import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
 import { MovePageToDirectory } from '../usecases/page/MovePageToDirectory';
-import { CountAllPages } from '../usecases/page/CountAllPages';
+import { CountAllPagesUseCase } from '../usecases/page/CountAllPagesUseCase';
 
 const router = Router();
 
@@ -103,7 +103,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
   router.get('/all', async (req: WebevRequest, res: Response) => {
     const pageRepository = new PageRepository();
-    const useCase = new CountAllPages(pageRepository);
+    const useCase = new CountAllPagesUseCase(pageRepository);
 
     try {
       const number = await useCase.execute();
