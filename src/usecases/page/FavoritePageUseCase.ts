@@ -2,7 +2,7 @@ import { Page } from '../../domains/Page';
 import { User } from '../../domains/User';
 import { IPageRepository } from '../../repositories/IPageRepository';
 
-export class FavoritePage {
+export class FavoritePageUseCase {
   private pageRepository: IPageRepository;
 
   constructor(pageRepository: IPageRepository) {

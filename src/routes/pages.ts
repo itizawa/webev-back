@@ -11,7 +11,7 @@ import { PageRepository } from '../infrastructure/PageRepository';
 
 import { ArchivePageUseCase } from '../usecases/page/ArchivePageUseCase';
 import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
-import { FavoritePage } from '../usecases/page/FavoritePage';
+import { FavoritePageUseCase } from '../usecases/page/FavoritePageUseCase';
 import { FetchOgpAndUpdatePage } from '../usecases/page/FetchOgpAndUpdatePage';
 import { FindPageById } from '../usecases/page/FindPageById';
 import { FindPageList } from '../usecases/page/FindPageList';
@@ -302,7 +302,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new FavoritePage(pageRepository);
+    const useCase = new FavoritePageUseCase(pageRepository);
 
     try {
       const page = useCase.execute(id, user, isFavorite);
