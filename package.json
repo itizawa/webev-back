@@ -11,6 +11,7 @@
     "dev": "env-cmd -f ./config/dev.env nodemon -x ts-node src/main.ts",
     "lint": "eslint src/**/**.ts",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "deploy": "tsc && gcloud app deploy"
   },
   "dependencies": {

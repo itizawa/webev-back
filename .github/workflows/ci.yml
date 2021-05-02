@@ -115,9 +115,13 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: yarn test
-        run: |
-          yarn test
+      - name: Run Test
+        run: yarn test:coverage
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Slack Notification
         uses: weseek/ghaction-slack-notification@master
