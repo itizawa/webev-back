@@ -13,7 +13,7 @@ import { ArchivePageUseCase } from '../usecases/page/ArchivePageUseCase';
 import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
 import { FavoritePageUseCase } from '../usecases/page/FavoritePageUseCase';
 import { FetchOgpAndUpdatePageUseCase } from '../usecases/page/FetchOgpAndUpdatePageUseCase';
-import { FindPageById } from '../usecases/page/FindPageById';
+import { FindPageByIdUseCase } from '../usecases/page/FindPageByIdUseCase';
 import { FindPageList } from '../usecases/page/FindPageList';
 import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 
@@ -211,7 +211,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new FindPageById(pageRepository);
+    const useCase = new FindPageByIdUseCase(pageRepository);
 
     try {
       const page = await useCase.execute(id, user._id);
