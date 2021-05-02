@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Page, PageStatus } from '../domains/Page';
 
-export const generateMockPage = ({ _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status, isFavorite }: any): Page => {
+export const generateMockPage = (mock: Partial<Page> = {}): Page => {
+  const { _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status, isFavorite } = mock;
   return new Page({
     _id: _id || 'mockUserId',
     url: url || 'https://github.com/itizawa/webev-front',
