@@ -6,7 +6,7 @@ import { PageRepositoryMock } from '../../../mock/PageRepositoryMock';
 
 describe('ArchivePageUseCase', () => {
   const mock = new PageRepositoryMock();
-  const mockUser = generateMockUser({});
+  const mockUser = generateMockUser();
   const mockPage = generateMockPage({});
   const useCase = new ArchivePageUseCase(mock);
   test('isArchive is true', async () => {
