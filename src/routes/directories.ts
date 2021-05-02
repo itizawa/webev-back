@@ -15,7 +15,7 @@ import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
 import { FindDirectory } from '../usecases/directory/FindDirectory';
 import { FindChildrenDirectories } from '../usecases/directory/FindChildrenDirectories';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
-import { FindPageListByDirectoryId } from '../usecases/page/FindPageListByDirectoryId';
+import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
 
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
@@ -194,10 +194,10 @@ export const directories = (): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const FindDirectoryUseCase = new FindPageListByDirectoryId(pageRepository);
+    const useCase = new FindPageListByDirectoryIdUseCase(pageRepository);
 
     try {
-      const result = await FindDirectoryUseCase.execute(id, user._id);
+      const result = await useCase.execute(id, user._id);
 
       return res.status(200).json(result);
     } catch (err) {

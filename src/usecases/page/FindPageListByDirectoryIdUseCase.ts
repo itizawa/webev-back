@@ -1,7 +1,7 @@
 import { Page } from '../../domains/Page';
 import { IPageRepository } from '../../repositories/IPageRepository';
 
-export class FindPageListByDirectoryId {
+export class FindPageListByDirectoryIdUseCase {
   private pageRepository: IPageRepository;
 
   constructor(pageRepository: IPageRepository) {
