@@ -19,7 +19,7 @@ export class PaginationOptions {
   page: number;
   limit: number;
   sort?: { [key: string]: number };
-  constructor(page: number, limit: number, sort?: { [key: string]: number }) {
+  constructor({ page, limit, sort }: Partial<PaginationOptions>) {
     this.page = page;
     this.limit = limit;
     if (sort != null) {

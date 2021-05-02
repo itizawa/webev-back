@@ -14,7 +14,7 @@ import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
 import { FavoritePageUseCase } from '../usecases/page/FavoritePageUseCase';
 import { FetchOgpAndUpdatePageUseCase } from '../usecases/page/FetchOgpAndUpdatePageUseCase';
 import { FindPageByIdUseCase } from '../usecases/page/FindPageByIdUseCase';
-import { FindPageList } from '../usecases/page/FindPageList';
+import { FindPageListUseCase } from '../usecases/page/FindPageListUseCase';
 import { PostPageByUrl } from '../usecases/page/PostPageByUrl';
 
 import { CheerioService } from '../services/CheerioService';
@@ -158,9 +158,9 @@ export const pages = (webevApp: WebevApp): Router => {
     const { status, isFavorite, directoryId, sort, page = 1, limit = 10 } = req.query;
 
     const pageRepository = new PageRepository();
-    const useCase = new FindPageList(pageRepository);
+    const useCase = new FindPageListUseCase(pageRepository);
 
-    const query = new PaginationQuery(user._id);
+    const query = new PaginationQuery({ createdUser: user._id });
 
     if (isFavorite != null) {
       query.isFavorite = isFavorite;
@@ -172,7 +172,7 @@ export const pages = (webevApp: WebevApp): Router => {
     // Look for null if not specified
     query.directoryId = directoryId;
 
-    const options = new PaginationOptions(page, limit);
+    const options = new PaginationOptions({ page, limit });
 
     if (sort != null) {
       const sortOrder = sort.startsWith('-') ? -1 : 1;

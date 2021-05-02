@@ -129,7 +129,7 @@ export const directories = (): Router => {
 
     const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
-    const options = new PaginationOptions(page, limit, { order: 1 });
+    const options = new PaginationOptions({ page, limit, sort: { order: 1 } });
 
     try {
       const paginationResult = await FindDirectoryListUseCase.execute(query, options);
