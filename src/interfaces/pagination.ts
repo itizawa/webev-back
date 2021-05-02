@@ -6,8 +6,12 @@ export class PaginationQuery {
   $or: { status: PageStatus }[];
   isFavorite: boolean;
   directoryId: string;
-  constructor(createdUser: string) {
+  constructor({ createdUser, status, $or, isFavorite, directoryId }: Partial<PaginationQuery>) {
     this.createdUser = createdUser;
+    this.status = status;
+    this.$or = $or;
+    this.isFavorite = isFavorite;
+    this.directoryId = directoryId;
   }
 }
 
