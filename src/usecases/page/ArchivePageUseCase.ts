@@ -2,7 +2,7 @@ import { Page, PageStatus } from '../../domains/Page';
 import { User } from '../../domains/User';
 import { IPageRepository } from '../../repositories/IPageRepository';
 
-export class ArchivePage {
+export class ArchivePageUseCase {
   private pageRepository: IPageRepository;
 
   constructor(pageRepository: IPageRepository) {
