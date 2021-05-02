@@ -2,7 +2,7 @@ import { Page, PageStatus } from '../../domains/Page';
 import { User } from '../../domains/User';
 import { IPageRepository } from '../../repositories/IPageRepository';
 
-export class DeletePage {
+export class DeletePageUseCase {
   private pageRepository: IPageRepository;
 
   constructor(pageRepository: IPageRepository) {

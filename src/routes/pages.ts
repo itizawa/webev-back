@@ -10,7 +10,7 @@ import { PaginationOptions, PaginationQuery } from '../interfaces/pagination';
 import { PageRepository } from '../infrastructure/PageRepository';
 
 import { ArchivePageUseCase } from '../usecases/page/ArchivePageUseCase';
-import { DeletePage } from '../usecases/page/DeletePage';
+import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
 import { FavoritePage } from '../usecases/page/FavoritePage';
 import { FetchOgpAndUpdatePage } from '../usecases/page/FetchOgpAndUpdatePage';
 import { FindPageById } from '../usecases/page/FindPageById';
@@ -390,7 +390,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
 
     const pageRepository = new PageRepository();
-    const useCase = new DeletePage(pageRepository);
+    const useCase = new DeletePageUseCase(pageRepository);
 
     try {
       const page = await useCase.execute(id, user);
