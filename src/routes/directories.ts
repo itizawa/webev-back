@@ -12,7 +12,7 @@ import { CreateDirectoryUseCase } from '../usecases/directory/CreateDirectoryUse
 import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
-import { FindDirectory } from '../usecases/directory/FindDirectory';
+import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
 import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
@@ -161,10 +161,10 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const FindDirectoryUseCase = new FindDirectory(directoryRepository);
+    const useCase = new FindDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await FindDirectoryUseCase.execute(id, user._id);
+      const result = await useCase.execute(id, user);
 
       return res.status(200).json(result);
     } catch (err) {
