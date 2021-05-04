@@ -8,7 +8,7 @@ import { WebevRequest } from '../interfaces/webev-request';
 
 import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 
-import { CreateDirectory } from '../usecases/directory/CreateDirectory';
+import { CreateDirectoryUseCase } from '../usecases/directory/CreateDirectoryUseCase';
 import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
@@ -77,10 +77,10 @@ export const directories = (): Router => {
 
     const directoryRepository = new DirectoryRepository();
     const directoryTreeRepository = new DirectoryTreeRepository();
-    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository, directoryTreeRepository);
+    const useCase = new CreateDirectoryUseCase(directoryRepository, directoryTreeRepository);
 
     try {
-      const result = await CreateDirectoryUseCase.execute(name, user._id, parentDirectoryId);
+      const result = await useCase.execute(name, user._id, parentDirectoryId);
 
       return res.status(200).json(result);
     } catch (err) {

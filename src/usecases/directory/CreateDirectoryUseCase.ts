@@ -2,7 +2,7 @@ import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
 
-export class CreateDirectory {
+export class CreateDirectoryUseCase {
   private directoryRepository: IDirectoryRepository;
   private directoryTreeRepository: IDirectoryTreeRepository;
 
