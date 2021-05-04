@@ -1,8 +1,9 @@
+import { User } from '../../domains/User';
 import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
 
-export class CreateDirectory {
+export class CreateDirectoryUseCase {
   private directoryRepository: IDirectoryRepository;
   private directoryTreeRepository: IDirectoryTreeRepository;
 
@@ -11,17 +12,17 @@ export class CreateDirectory {
     this.directoryTreeRepository = directoryTreeRepository;
   }
 
-  async execute(name: string, createdUser: string, parentDirectoryId?: string): Promise<Directory> {
+  async execute(name: string, user: User, parentDirectoryId?: string): Promise<Directory> {
     let countForSave: number = null;
     let isRoot = false;
     if (parentDirectoryId == null) {
       // order is the number of count + 1
-      const count = await this.directoryRepository.countDirectoryByUserId(createdUser);
+      const count = await this.directoryRepository.countDirectoryByUserId(user._id);
       countForSave = count + 1;
       isRoot = true;
     }
 
-    const createdDirectory = await this.directoryRepository.createDirectory({ name, createdUser, order: countForSave, isRoot });
+    const createdDirectory = await this.directoryRepository.createDirectory({ name, createdUser: user._id, order: countForSave, isRoot });
 
     // create SelfReference
     await this.directoryTreeRepository.createSelfReference(createdDirectory._id);

@@ -8,19 +8,19 @@ import { WebevRequest } from '../interfaces/webev-request';
 
 import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 
-import { CreateDirectory } from '../usecases/directory/CreateDirectory';
-import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
-import { RenameDirectory } from '../usecases/directory/RenameDirectory';
-import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
-import { FindDirectory } from '../usecases/directory/FindDirectory';
-import { FindChildrenDirectories } from '../usecases/directory/FindChildrenDirectories';
-import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
+import { CreateDirectoryUseCase } from '../usecases/directory/CreateDirectoryUseCase';
+import { FindDirectoryListUseCase } from '../usecases/directory/FindDirectoryListUseCase';
+import { RenameDirectoryUseCase } from '../usecases/directory/RenameDirectoryUseCase';
+import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
+import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
+import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
+import { UpdateOrderOfDirectoryUseCase } from '../usecases/directory/UpdateOrderOfDirectoryUseCase';
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
 
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
-import { FindAncestorDirectories } from '../usecases/directory/FindAncestorDirectories';
+import { FindAncestorDirectoriesUseCase } from '../usecases/directory/FindAncestorDirectoriesUseCase';
 import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
 
 const router = Router();
@@ -77,10 +77,10 @@ export const directories = (): Router => {
 
     const directoryRepository = new DirectoryRepository();
     const directoryTreeRepository = new DirectoryTreeRepository();
-    const CreateDirectoryUseCase = new CreateDirectory(directoryRepository, directoryTreeRepository);
+    const useCase = new CreateDirectoryUseCase(directoryRepository, directoryTreeRepository);
 
     try {
-      const result = await CreateDirectoryUseCase.execute(name, user._id, parentDirectoryId);
+      const result = await useCase.execute(name, user, parentDirectoryId);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -125,14 +125,14 @@ export const directories = (): Router => {
     const { page = 1, limit = 10 } = req.query;
 
     const directoryRepository = new DirectoryRepository();
-    const FindDirectoryListUseCase = new FindDirectoryList(directoryRepository);
+    const useCase = new FindDirectoryListUseCase(directoryRepository);
 
     const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
     const options = new PaginationOptions({ page, limit, sort: { order: 1 } });
 
     try {
-      const paginationResult = await FindDirectoryListUseCase.execute(query, options);
+      const paginationResult = await useCase.execute(query, options);
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
@@ -161,10 +161,10 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const FindDirectoryUseCase = new FindDirectory(directoryRepository);
+    const useCase = new FindDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await FindDirectoryUseCase.execute(id, user._id);
+      const result = await useCase.execute(id, user);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -226,10 +226,10 @@ export const directories = (): Router => {
     const { id } = req.params;
 
     const directoryTreeRepository = new DirectoryTreeRepository();
-    const FindChildrenDirectoriesUseCase = new FindChildrenDirectories(directoryTreeRepository);
+    const useCase = new FindChildrenDirectoriesUseCase(directoryTreeRepository);
 
     try {
-      const result = await FindChildrenDirectoriesUseCase.execute(id);
+      const result = await useCase.execute(id);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -258,10 +258,10 @@ export const directories = (): Router => {
     const { id } = req.params;
 
     const directoryTreeRepository = new DirectoryTreeRepository();
-    const FindAncestorDirectoriesUseCase = new FindAncestorDirectories(directoryTreeRepository);
+    const useCase = new FindAncestorDirectoriesUseCase(directoryTreeRepository);
 
     try {
-      const result = await FindAncestorDirectoriesUseCase.execute(id);
+      const result = await useCase.execute(id);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -300,10 +300,10 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const RenameDirectoryUseCase = new RenameDirectory(directoryRepository);
+    const useCase = new RenameDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await RenameDirectoryUseCase.execute(id, name, user._id);
+      const result = await useCase.execute(id, name, user);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -342,10 +342,10 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const UpdateOrderOfDirectoryUseCase = new UpdateOrderOfDirectory(directoryRepository);
+    const useCase = new UpdateOrderOfDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await UpdateOrderOfDirectoryUseCase.execute(id, order, user._id);
+      const result = await useCase.execute(id, order, user);
 
       return res.status(200).json(result);
     } catch (err) {
@@ -419,10 +419,10 @@ export const directories = (): Router => {
     const directoryRepository = new DirectoryRepository();
     const directoryTreeRepository = new DirectoryTreeRepository();
     const pageRepository = new PageRepository();
-    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository, directoryTreeRepository, pageRepository);
+    const useCase = new DeleteDirectoryUseCase(directoryRepository, directoryTreeRepository, pageRepository);
 
     try {
-      const result = await DeleteDirectoryUseCase.execute(id, user._id);
+      const result = await useCase.execute(id, user);
 
       return res.status(200).json(result);
     } catch (err) {

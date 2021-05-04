@@ -1,4 +1,4 @@
-import { User } from '../domains/User';
+import { User } from '../../domains/User';
 
 export const generateMockUser = (mock: Partial<User> = {}): User => {
   const { _id, name, email, image, createdAt, updatedAt } = mock;
