@@ -44,6 +44,7 @@ describe('CreateDirectoryUseCase', () => {
     expect(createDirectorySpy).toHaveBeenCalled();
     expect(createSelfReferenceSpy).toHaveBeenCalled();
 
+    expect(response.order).toBe(2);
     expect(response.name).toBe('directory name');
     expect(response.isRoot).toBe(true);
   });
