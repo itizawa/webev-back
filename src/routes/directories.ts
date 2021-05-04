@@ -9,7 +9,7 @@ import { WebevRequest } from '../interfaces/webev-request';
 import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 
 import { CreateDirectoryUseCase } from '../usecases/directory/CreateDirectoryUseCase';
-import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
+import { FindDirectoryListUseCase } from '../usecases/directory/FindDirectoryListUseCase';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
 import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
 import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
@@ -125,14 +125,14 @@ export const directories = (): Router => {
     const { page = 1, limit = 10 } = req.query;
 
     const directoryRepository = new DirectoryRepository();
-    const FindDirectoryListUseCase = new FindDirectoryList(directoryRepository);
+    const useCase = new FindDirectoryListUseCase(directoryRepository);
 
     const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
     const options = new PaginationOptions({ page, limit, sort: { order: 1 } });
 
     try {
-      const paginationResult = await FindDirectoryListUseCase.execute(query, options);
+      const paginationResult = await useCase.execute(query, options);
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);

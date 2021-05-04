@@ -2,7 +2,7 @@ import { Directory } from '../../domains/Directory';
 import { PaginationOptions, PaginationDirectoryQuery } from '../../interfaces/pagination';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
-export class FindDirectoryList {
+export class FindDirectoryListUseCase {
   private DirectoryRepository: IDirectoryRepository;
 
   constructor(DirectoryRepository: IDirectoryRepository) {
