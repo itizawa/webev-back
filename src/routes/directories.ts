@@ -14,7 +14,7 @@ import { RenameDirectoryUseCase } from '../usecases/directory/RenameDirectoryUse
 import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
 import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
 import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
-import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
+import { UpdateOrderOfDirectoryUseCase } from '../usecases/directory/UpdateOrderOfDirectoryUseCase';
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
 
 import { PageRepository } from '../infrastructure/PageRepository';
@@ -342,10 +342,10 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const UpdateOrderOfDirectoryUseCase = new UpdateOrderOfDirectory(directoryRepository);
+    const useCase = new UpdateOrderOfDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await UpdateOrderOfDirectoryUseCase.execute(id, order, user._id);
+      const result = await useCase.execute(id, order, user);
 
       return res.status(200).json(result);
     } catch (err) {
