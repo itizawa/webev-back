@@ -20,7 +20,7 @@ import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListB
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
-import { FindAncestorDirectories } from '../usecases/directory/FindAncestorDirectories';
+import { FindAncestorDirectoriesUseCase } from '../usecases/directory/FindAncestorDirectoriesUseCase';
 import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
 
 const router = Router();
@@ -258,10 +258,10 @@ export const directories = (): Router => {
     const { id } = req.params;
 
     const directoryTreeRepository = new DirectoryTreeRepository();
-    const FindAncestorDirectoriesUseCase = new FindAncestorDirectories(directoryTreeRepository);
+    const useCase = new FindAncestorDirectoriesUseCase(directoryTreeRepository);
 
     try {
-      const result = await FindAncestorDirectoriesUseCase.execute(id);
+      const result = await useCase.execute(id);
 
       return res.status(200).json(result);
     } catch (err) {

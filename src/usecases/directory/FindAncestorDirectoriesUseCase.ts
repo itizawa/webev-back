@@ -1,7 +1,7 @@
 import { DirectoryTree } from '../../domains/DirectoryTree';
 import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
 
-export class FindAncestorDirectories {
+export class FindAncestorDirectoriesUseCase {
   private DirectoryTreeRepository: IDirectoryTreeRepository;
 
   constructor(DirectoryTreeRepository: IDirectoryTreeRepository) {
