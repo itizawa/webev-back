@@ -10,7 +10,7 @@ import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 
 import { CreateDirectoryUseCase } from '../usecases/directory/CreateDirectoryUseCase';
 import { FindDirectoryListUseCase } from '../usecases/directory/FindDirectoryListUseCase';
-import { RenameDirectory } from '../usecases/directory/RenameDirectory';
+import { RenameDirectoryUseCase } from '../usecases/directory/RenameDirectoryUseCase';
 import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
 import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
 import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
@@ -300,10 +300,10 @@ export const directories = (): Router => {
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
-    const RenameDirectoryUseCase = new RenameDirectory(directoryRepository);
+    const useCase = new RenameDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await RenameDirectoryUseCase.execute(id, name, user._id);
+      const result = await useCase.execute(id, name, user);
 
       return res.status(200).json(result);
     } catch (err) {
