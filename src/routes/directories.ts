@@ -80,7 +80,7 @@ export const directories = (): Router => {
     const useCase = new CreateDirectoryUseCase(directoryRepository, directoryTreeRepository);
 
     try {
-      const result = await useCase.execute(name, user._id, parentDirectoryId);
+      const result = await useCase.execute(name, user, parentDirectoryId);
 
       return res.status(200).json(result);
     } catch (err) {
