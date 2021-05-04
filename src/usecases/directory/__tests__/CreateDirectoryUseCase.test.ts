@@ -1,6 +1,6 @@
-import { generateMockUser } from '../../../mock';
+import { generateMockUser } from '../../../mock/domains';
 import { DirectoryRepositoryMock } from '../../../mock/repositories/DirectoryRepositoryMock';
-import { DirectoryTreeRepositoryMock } from '../../../mock/repositories/DirectoryTreeRepository';
+import { DirectoryTreeRepositoryMock } from '../../../mock/repositories/DirectoryTreeRepositoryMock';
 import { generateMockDirectory } from '../../../mock/domains/generateMockDirectory';
 import { generateMockDirectoryTree } from '../../../mock/domains/generateMockDirectoryTree';
 

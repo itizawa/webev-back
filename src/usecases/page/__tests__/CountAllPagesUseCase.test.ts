@@ -1,4 +1,4 @@
-import { PageRepositoryMock } from '../../../mock';
+import { PageRepositoryMock } from '../../../mock/repositories';
 import { CountAllPagesUseCase } from '../CountAllPagesUseCase';
 
 describe('CountAllPagesUseCase', () => {

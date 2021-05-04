@@ -1,4 +1,6 @@
-import { CheerioServiceMock, generateMockPage, generateMockUser, PageRepositoryMock } from '../../../mock';
+import { generateMockPage } from '../../../mock/domains';
+import { PageRepositoryMock } from '../../../mock/repositories';
+import { CheerioServiceMock } from '../../../mock/CheerioServiceMock';
 import { FetchOgpAndUpdatePageUseCase } from '../FetchOgpAndUpdatePageUseCase';
 
 describe('FetchOgpAndUpdatePageUseCase', () => {

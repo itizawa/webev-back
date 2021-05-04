@@ -1,4 +1,5 @@
-import { generateMockPage, generateMockUser, PageRepositoryMock } from '../../../mock';
+import { generateMockPage, generateMockUser } from '../../../mock/domains';
+import { PageRepositoryMock } from '../../../mock/repositories';
 import { PostPageByUrlUseCase } from '../PostPageByUrlUseCase';
 
 describe('PostPageByUrlUseCase', () => {

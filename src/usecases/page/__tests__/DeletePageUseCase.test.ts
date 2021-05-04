@@ -1,5 +1,6 @@
 import { PageStatus } from '../../../domains/Page';
-import { generateMockPage, generateMockUser, PageRepositoryMock } from '../../../mock';
+import { generateMockPage, generateMockUser } from '../../../mock/domains';
+import { PageRepositoryMock } from '../../../mock/repositories';
 import { DeletePageUseCase } from '../DeletePageUseCase';
 
 describe('DeletePageUseCase', () => {

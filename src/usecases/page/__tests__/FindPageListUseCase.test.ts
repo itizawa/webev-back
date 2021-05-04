@@ -1,6 +1,7 @@
 import { generateMockPaginationQuery } from '../../../mock/interfaces/generateMockPaginationQuery';
 import { generateMockPaginationOptions } from '../../../mock/interfaces/generateMockPaginationOptions';
-import { generateMockPage, PageRepositoryMock } from '../../../mock';
+import { generateMockPage } from '../../../mock/domains';
+import { PageRepositoryMock } from '../../../mock/repositories';
 import { FindPageListUseCase } from '../FindPageListUseCase';
 
 describe('FindPageListUseCase', () => {

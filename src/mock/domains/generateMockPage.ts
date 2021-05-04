@@ -1,4 +1,4 @@
-import { Page, PageStatus } from '../domains/Page';
+import { Page, PageStatus } from '../../domains/Page';
 
 export const generateMockPage = (mock: Partial<Page> = {}): Page => {
   const { _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status, isFavorite } = mock;
