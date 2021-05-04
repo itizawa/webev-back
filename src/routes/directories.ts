@@ -11,7 +11,7 @@ import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 import { CreateDirectoryUseCase } from '../usecases/directory/CreateDirectoryUseCase';
 import { FindDirectoryList } from '../usecases/directory/FindDirectoryList';
 import { RenameDirectory } from '../usecases/directory/RenameDirectory';
-import { DeleteDirectory } from '../usecases/directory/DeleteDirectory';
+import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
 import { FindDirectory } from '../usecases/directory/FindDirectory';
 import { FindChildrenDirectories } from '../usecases/directory/FindChildrenDirectories';
 import { UpdateOrderOfDirectory } from '../usecases/directory/UpdateOrderOfDirectory';
@@ -419,10 +419,10 @@ export const directories = (): Router => {
     const directoryRepository = new DirectoryRepository();
     const directoryTreeRepository = new DirectoryTreeRepository();
     const pageRepository = new PageRepository();
-    const DeleteDirectoryUseCase = new DeleteDirectory(directoryRepository, directoryTreeRepository, pageRepository);
+    const useCase = new DeleteDirectoryUseCase(directoryRepository, directoryTreeRepository, pageRepository);
 
     try {
-      const result = await DeleteDirectoryUseCase.execute(id, user._id);
+      const result = await useCase.execute(id, user);
 
       return res.status(200).json(result);
     } catch (err) {
