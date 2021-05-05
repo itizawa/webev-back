@@ -9,19 +9,19 @@ export class PageRepositoryMock implements IPageRepository {
     throw 'not implement';
   }
   findPageById(id: string, userId: string): Promise<Page> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
-  findByDirectoryIdAndDeleteDirectoryId(directoryId: string, userId: string): Promise<UpdateWriteOpResult> {
-    throw 'not implement';
+  findByDirectoryIdAndDeleteDirectoryId(directoryIds: string[], userId: string): Promise<UpdateWriteOpResult> {
+    throw new Error('Method not implemented.');
   }
   updatePageById(id: string, page: Partial<Page>): Promise<Page> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
     throw 'not implement';
