@@ -4,18 +4,18 @@ import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepos
 
 export class DirectoryTreeRepositoryMock implements IDirectoryTreeRepository {
   createSelfReference(directoryId: string): Promise<DirectoryTree> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   findChildrenDirectories(directoryId: string): Promise<DirectoryTree[]> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   findAncestorDirectories(directoryId: string): Promise<DirectoryTree[]> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
-  deleteDirectoryTree(directoryId: string): Promise<void> {
-    throw 'not implement';
+  deleteDirectoryTree(directoryId: string): Promise<string[]> {
+    throw new Error('Method not implemented.');
   }
 }

@@ -7,39 +7,42 @@ import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
 export class DirectoryRepositoryMock implements IDirectoryRepository {
   createPage(page: Partial<Page>): Promise<Page> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   createDirectory(directory: Partial<Directory>): Promise<Directory> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   countDirectoryByUserId(userId: string): Promise<number> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   isExistDirectoryByName(name: string, userId: string): Promise<boolean> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   deleteDirectory(directoryId: string, userId: string): Promise<Directory> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
+  }
+  deleteDirectories(directoryIds: string[], userId: string): Promise<number> {
+    throw new Error('Method not implemented.');
   }
   findDirectory(directoryId: string, userId: string): Promise<Directory> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   updateDescription(directoryId: string, description: string, userId: string): Promise<Directory> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
 }

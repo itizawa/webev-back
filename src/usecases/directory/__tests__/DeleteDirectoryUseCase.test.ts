@@ -13,6 +13,7 @@ describe('DeleteDirectoryUseCase', () => {
   const pageRepositoryMock = new PageRepositoryMock();
 
   const decreaseDirectorySpy = jest.spyOn(directoryRepositoryMock, 'decreaseDirectory').mockImplementation();
+  const deleteDirectoriesSpy = jest.spyOn(directoryRepositoryMock, 'deleteDirectories').mockImplementation(async () => 1);
   const deleteDirectoryTreeSpy = jest.spyOn(directoryTreeRepositoryMock, 'deleteDirectoryTree').mockImplementation();
   const findByDirectoryIdAndDeleteDirectoryIdSpy = jest.spyOn(pageRepositoryMock, 'findByDirectoryIdAndDeleteDirectoryId').mockImplementation();
 
@@ -26,6 +27,7 @@ describe('DeleteDirectoryUseCase', () => {
 
     expect(findByDirectoryIdAndDeleteDirectoryIdSpy).toHaveBeenCalled();
     expect(deleteDirectorySpy).toHaveBeenCalled();
+    expect(deleteDirectoriesSpy).toHaveBeenCalled();
     expect(decreaseDirectorySpy).toHaveBeenCalled();
     expect(deleteDirectoryTreeSpy).toHaveBeenCalled();
 
@@ -41,6 +43,7 @@ describe('DeleteDirectoryUseCase', () => {
 
     expect(findByDirectoryIdAndDeleteDirectoryIdSpy).toHaveBeenCalled();
     expect(deleteDirectorySpy).toHaveBeenCalled();
+    expect(deleteDirectoriesSpy).toHaveBeenCalled();
     expect(decreaseDirectorySpy).not.toHaveBeenCalled();
     expect(deleteDirectoryTreeSpy).toHaveBeenCalled();
 
