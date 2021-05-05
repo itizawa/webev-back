@@ -16,13 +16,13 @@ export class DeleteDirectoryUseCase {
   }
 
   async execute(directoryId: string, user: User): Promise<Directory> {
-    await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId(directoryId, user._id);
     const deletedDirectory = await this.directoryRepository.deleteDirectory(directoryId, user._id);
     if (deletedDirectory.isRoot) {
       await this.directoryRepository.decreaseDirectory(deletedDirectory.order, 10000, user._id);
     }
-
-    await this.directoryTreeRepository.deleteDirectoryTree(directoryId);
+    const directoryIds = await this.directoryTreeRepository.deleteDirectoryTree(directoryId);
+    await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId(directoryIds, user._id);
+    await this.directoryRepository.deleteDirectories(directoryIds, user._id);
 
     return deletedDirectory;
   }
