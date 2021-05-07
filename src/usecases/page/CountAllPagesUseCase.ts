@@ -1,6 +1,6 @@
 import { IPageRepository } from '../../repositories/IPageRepository';
 
-export class CountAllPages {
+export class CountAllPagesUseCase {
   private pageRepository: IPageRepository;
 
   constructor(pageRepository: IPageRepository) {

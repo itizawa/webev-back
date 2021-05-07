@@ -1,15 +1,15 @@
+import { User } from '../../domains/User';
 import { Directory } from '../../domains/Directory';
-import { PaginationOptions, PaginationDirectoryQuery } from '../../interfaces/pagination';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
-export class FindDirectoryList {
+export class FindDirectoryUseCase {
   private DirectoryRepository: IDirectoryRepository;
 
   constructor(DirectoryRepository: IDirectoryRepository) {
     this.DirectoryRepository = DirectoryRepository;
   }
 
-  execute(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
-    return this.DirectoryRepository.findDirectoryList(query, options);
+  execute(directoryId: string, user: User): Promise<Directory> {
+    return this.DirectoryRepository.findDirectory(directoryId, user._id);
   }
 }

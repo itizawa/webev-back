@@ -5,5 +5,5 @@ export interface IDirectoryTreeRepository {
   createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void>;
   findChildrenDirectories(directoryId: string): Promise<DirectoryTree[]>;
   findAncestorDirectories(directoryId: string): Promise<DirectoryTree[]>;
-  deleteDirectoryTree(directoryId: string): Promise<void>;
+  deleteDirectoryTree(directoryId: string): Promise<string[]>;
 }

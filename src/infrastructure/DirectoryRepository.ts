@@ -43,6 +43,11 @@ export class DirectoryRepository implements IDirectoryRepository {
   async deleteDirectory(directoryId: string, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOneAndDelete({ _id: directoryId, createdUser: userId });
   }
+  async deleteDirectories(directoryIds: string[], userId: string): Promise<number> {
+    const { deletedCount } = await this.DirectoryModel.deleteMany({ _id: { $in: directoryIds }, createdUser: userId });
+
+    return deletedCount;
+  }
   async findDirectory(directoryId: string, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOne({ _id: directoryId, createdUser: userId });
   }
