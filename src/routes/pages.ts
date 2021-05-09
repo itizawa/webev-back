@@ -75,7 +75,7 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.post('/', accessTokenParser, loginRequired, validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
-    const { url } = req.body;
+    const { url, socketId } = req.body;
 
     let pageId: string;
     const pageRepository = new PageRepository();
@@ -94,7 +94,9 @@ export const pages = (webevApp: WebevApp): Router => {
     try {
       const useCase = new FetchOgpAndUpdatePageUseCase(pageRepository, cheerioService);
       await useCase.execute(url, pageId);
-      webevApp.io.emit('update-page');
+      if (socketId != null) {
+        webevApp.io.to(socketId).emit('update-page');
+      }
     } catch (err) {
       console.log(err);
     }
