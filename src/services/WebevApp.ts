@@ -93,6 +93,9 @@ export class WebevApp {
 
     this.io.on('connection', (socket: Socket) => {
       console.log('id: ' + socket.id + ' is connected');
+
+      // Issue a token to the connected user
+      this.io.to(socket.id).emit('issue-token', { socketId: socket.id });
     });
   }
 }
