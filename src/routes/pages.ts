@@ -25,7 +25,12 @@ import { CountAllPagesUseCase } from '../usecases/page/CountAllPagesUseCase';
 const router = Router();
 
 const validator = {
-  postPage: [body('url').isURL({ require_protocol: true })],
+  postPage: [
+    body('url').isURL({ require_protocol: true }),
+    body('directoryId')
+      .if((value) => value != null)
+      .isMongoId(),
+  ],
   getPageList: [
     query('status').toArray(),
     query('page')
