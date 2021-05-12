@@ -70,6 +70,9 @@ export const pages = (webevApp: WebevApp): Router => {
    *             url:
    *               type: string
    *               example: example.com
+   *             directoryId:
+   *               type: string
+   *               example: Required when adding to directory at the same time as saving
    *     responses:
    *       200:
    *         description: Save and return temporary information
