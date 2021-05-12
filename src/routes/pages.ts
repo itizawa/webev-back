@@ -80,7 +80,7 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.post('/', accessTokenParser, loginRequired, validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
-    const { url, socketId } = req.body;
+    const { url, socketId, directoryId } = req.body;
 
     let pageId: string;
     const pageRepository = new PageRepository();
@@ -88,7 +88,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const useCase = new PostPageByUrlUseCase(pageRepository);
-      const result = await useCase.execute(url, user);
+      const result = await useCase.execute({ url, directoryId, user });
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
