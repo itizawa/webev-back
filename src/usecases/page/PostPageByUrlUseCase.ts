@@ -9,7 +9,9 @@ export class PostPageByUrlUseCase {
     this.pageRepository = pageRepository;
   }
 
-  execute(url: string, user: User): Promise<Page> {
-    return this.pageRepository.createPage({ url, title: 'loading...', createdUser: user._id });
+  execute({ url, directoryId, user }: { url: string; directoryId?: string; user: User }): Promise<Page> {
+    const page = new Page({ url, title: 'loading...', directoryId, createdUser: user._id });
+
+    return this.pageRepository.createPage(page);
   }
 }
