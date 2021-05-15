@@ -25,7 +25,12 @@ import { CountAllPagesUseCase } from '../usecases/page/CountAllPagesUseCase';
 const router = Router();
 
 const validator = {
-  postPage: [body('url').isURL({ require_protocol: true })],
+  postPage: [
+    body('url').isURL({ require_protocol: true }),
+    body('directoryId')
+      .if((value) => value != null)
+      .isMongoId(),
+  ],
   getPageList: [
     query('status').toArray(),
     query('page')
@@ -65,6 +70,9 @@ export const pages = (webevApp: WebevApp): Router => {
    *             url:
    *               type: string
    *               example: example.com
+   *             directoryId:
+   *               type: string
+   *               example: Required when adding to directory at the same time as saving
    *     responses:
    *       200:
    *         description: Save and return temporary information
@@ -75,7 +83,7 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.post('/', accessTokenParser, loginRequired, validator.postPage, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
-    const { url } = req.body;
+    const { url, socketId, directoryId } = req.body;
 
     let pageId: string;
     const pageRepository = new PageRepository();
@@ -83,7 +91,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const useCase = new PostPageByUrlUseCase(pageRepository);
-      const result = await useCase.execute(url, user);
+      const result = await useCase.execute({ url, directoryId, user });
       pageId = result._id;
       res.status(200).json(result);
     } catch (err) {
@@ -94,7 +102,9 @@ export const pages = (webevApp: WebevApp): Router => {
     try {
       const useCase = new FetchOgpAndUpdatePageUseCase(pageRepository, cheerioService);
       await useCase.execute(url, pageId);
-      webevApp.io.emit('update-page');
+      if (socketId != null) {
+        webevApp.io.to(socketId).emit('update-page');
+      }
     } catch (err) {
       console.log(err);
     }

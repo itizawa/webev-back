@@ -42,7 +42,7 @@ export class PageRepository implements IPageRepository {
     this.PageModel = model<Page & Document>('Page', PageSchema);
   }
 
-  async createPage(page: Partial<Page>): Promise<Page> {
+  async createPage(page: Page): Promise<Page> {
     return this.PageModel.create(page);
   }
   async findPageById(id: string, userId: string): Promise<Page> {

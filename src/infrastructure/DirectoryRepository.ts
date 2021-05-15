@@ -35,7 +35,7 @@ export class DirectoryRepository implements IDirectoryRepository {
     return this.DirectoryModel.create(Directory);
   }
   async countDirectoryByUserId(userId: string): Promise<number> {
-    return this.DirectoryModel.countDocuments({ createdUser: userId });
+    return this.DirectoryModel.countDocuments({ createdUser: userId, isRoot: true });
   }
   async isExistDirectoryByName(name: string, userId: string): Promise<boolean> {
     return this.DirectoryModel.exists({ name, createdUser: userId });
