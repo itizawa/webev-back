@@ -264,7 +264,7 @@ export const pages = (webevApp: WebevApp): Router => {
     }
   });
 
-  type archiveTyoe = {
+  type archiveType = {
     body: {
       isArchive: boolean;
     };
@@ -297,7 +297,7 @@ export const pages = (webevApp: WebevApp): Router => {
    *              url: hogehoge.example.com
    *              title: loading...
    */
-  router.put('/:id/archive', accessTokenParser, loginRequired, validator.putPageArchive, apiValidatorMiddleware, async (req: WebevRequest & archiveTyoe, res: Response) => {
+  router.put('/:id/archive', accessTokenParser, loginRequired, validator.putPageArchive, apiValidatorMiddleware, async (req: WebevRequest & archiveType, res: Response) => {
     const { id } = req.params;
     const { isArchive } = req.body;
     const { user } = req;
