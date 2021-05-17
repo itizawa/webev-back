@@ -11,7 +11,6 @@ import { PageRepository } from '../infrastructure/PageRepository';
 
 import { ArchivePageUseCase } from '../usecases/page/ArchivePageUseCase';
 import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
-import { FavoritePageUseCase } from '../usecases/page/FavoritePageUseCase';
 import { FetchOgpAndUpdatePageUseCase } from '../usecases/page/FetchOgpAndUpdatePageUseCase';
 import { FindPageByIdUseCase } from '../usecases/page/FindPageByIdUseCase';
 import { FindPageListUseCase } from '../usecases/page/FindPageListUseCase';
@@ -39,16 +38,12 @@ const validator = {
     query('limit')
       .if((value) => value != null)
       .isInt(),
-    query('isFavorite')
-      .if((value) => value != null)
-      .isBoolean(),
     query('sort')
       .if((value) => value != null)
       .isString(),
   ],
   getPage: [param('id').isMongoId()],
   putPageDirectory: [param('id').isMongoId(), body('directoryId').isMongoId()],
-  putPageFavorite: [param('id').isMongoId(), body('isFavorite').isBoolean()],
   putPageArchive: [param('id').isMongoId(), body('isArchive').isBoolean()],
   deletePage: [param('id').isMongoId()],
 };
@@ -127,7 +122,6 @@ export const pages = (webevApp: WebevApp): Router => {
   type ListType = {
     query: {
       status: PageStatus[];
-      isFavorite?: boolean;
       sort?: string;
       page?: number;
       limit?: number;
@@ -146,10 +140,6 @@ export const pages = (webevApp: WebevApp): Router => {
    *         description: status for search
    *         in: query
    *         type: string
-   *       - name: isFavorite
-   *         description: isFavorite for search
-   *         in: query
-   *         type: boolean
    *       - name: sort
    *         description: sort for search
    *         in: query
@@ -165,16 +155,12 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { status, isFavorite, directoryId, sort, page = 1, limit = 10 } = req.query;
+    const { status, directoryId, sort, page = 1, limit = 10 } = req.query;
 
     const pageRepository = new PageRepository();
     const useCase = new FindPageListUseCase(pageRepository);
 
     const query = new PaginationQuery({ createdUser: user._id });
-
-    if (isFavorite != null) {
-      query.isFavorite = isFavorite;
-    }
 
     query.$or = status.map((v) => {
       return { status: v };
@@ -270,51 +256,6 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const page = useCase.execute(id, directoryId, user._id);
-
-      return res.status(200).json(page);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ message: err.message });
-    }
-  });
-
-  /**
-   * @swagger
-   * /pages/:id/favorite:
-   *   put:
-   *     description: Update favorite information on the page
-   *     produces:
-   *       - application/json
-   *     parameters:
-   *       - name: id
-   *         description: page id for update
-   *         in: path
-   *         type: string
-   *       - name: body
-   *         in: body
-   *         schema:
-   *           type: object
-   *           properties:
-   *             isFavorite:
-   *               type: boolean
-   *     responses:
-   *       200:
-   *         description: Return page after updated
-   *         examples:
-   *           result:
-   *              url: hogehoge.example.com
-   *              title: loading...
-   */
-  router.put('/:id/favorite', accessTokenParser, loginRequired, validator.putPageFavorite, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
-    const { isFavorite } = req.body;
-    const { user } = req;
-
-    const pageRepository = new PageRepository();
-    const useCase = new FavoritePageUseCase(pageRepository);
-
-    try {
-      const page = useCase.execute(id, user, isFavorite);
 
       return res.status(200).json(page);
     } catch (err) {
