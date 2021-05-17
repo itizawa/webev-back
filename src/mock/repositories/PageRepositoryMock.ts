@@ -29,9 +29,6 @@ export class PageRepositoryMock implements IPageRepository {
   updatePageStatus(id: string, userId: string, status: PageStatus): Promise<Page> {
     throw 'not implement';
   }
-  updateIsFavorite(id: string, userId: string, isFavorite: boolean): Promise<Page> {
-    throw 'not implement';
-  }
   countAllPages(): Promise<number> {
     throw 'not implement';
   }

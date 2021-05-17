@@ -26,13 +26,6 @@ content-type: application/json
 Authorization: {{token}}
 
 ###
-@isFavorite = true
-
-PUT {{url}}/pages/{{pageId}}/favorite?isFavorite={{isFavorite}} HTTP/1.1
-content-type: application/json
-Authorization: {{token}}
-
-###
 @isArchive = true
 
 PUT {{url}}/pages/{{pageId}}/archive HTTP/1.1

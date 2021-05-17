@@ -3,14 +3,10 @@ import { PageStatus } from '../domains/Page';
 export class PaginationQuery {
   createdUser: string;
   $or: Array<{ status: PageStatus }>;
-  isFavorite: boolean;
   directoryId: string;
-  constructor({ createdUser, $or, isFavorite, directoryId }: Partial<PaginationQuery>) {
+  constructor({ createdUser, $or, directoryId }: Partial<PaginationQuery>) {
     this.createdUser = createdUser;
     this.$or = $or;
-    if (isFavorite != null) {
-      this.isFavorite = isFavorite;
-    }
     if (directoryId != null) {
       this.directoryId = directoryId;
     }
