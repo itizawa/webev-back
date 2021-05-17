@@ -26,7 +26,6 @@ describe('PostPageByUrlUseCase', () => {
 
   test('with directory', async () => {
     const response = await useCase.execute({ url: mockUrl, directoryId: mockDirectory._id, user: mockUser });
-    console.log(response);
 
     expect(spy).toHaveBeenCalled();
     expect(response.url).toBe(mockUrl);
