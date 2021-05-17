@@ -17,10 +17,6 @@ export const PageSchema: Schema = new Schema(
       required: true,
       default: PageStatus.PAGE_STATUS_STOCK,
     },
-    isFavorite: {
-      type: Boolean,
-      default: false,
-    },
     directoryId: {
       type: Types.ObjectId,
       default: null,
@@ -65,9 +61,6 @@ export class PageRepository implements IPageRepository {
   }
   async updatePageStatus(pageId: string, userId: string, status: PageStatus): Promise<Page> {
     return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status }, { new: true });
-  }
-  async updateIsFavorite(pageId: string, userId: string, isFavorite: boolean): Promise<Page> {
-    return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { isFavorite }, { new: true });
   }
   async countAllPages(): Promise<number> {
     return this.PageModel.estimatedDocumentCount();
