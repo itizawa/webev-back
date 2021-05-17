@@ -15,8 +15,7 @@ export class Page {
   createdAt: Date;
   updatedAt: Date;
   status: PageStatus;
-  isFavorite: boolean;
-  constructor({ _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status, isFavorite }: Partial<Page>) {
+  constructor({ _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status }: Partial<Page>) {
     this._id = _id;
     this.url = url || '';
     this.image = image || '';
@@ -28,6 +27,5 @@ export class Page {
     this.createdAt = createdAt || new Date();
     this.updatedAt = updatedAt || new Date();
     this.status = status || PageStatus.PAGE_STATUS_STOCK;
-    this.isFavorite = isFavorite || false;
   }
 }
