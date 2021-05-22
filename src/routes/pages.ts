@@ -32,6 +32,9 @@ const validator = {
   ],
   getPageList: [
     query('status').toArray(),
+    query('directoryId')
+      .if((value) => value != null)
+      .isMongoId(),
     query('page')
       .if((value) => value != null)
       .isInt(),
