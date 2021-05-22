@@ -165,8 +165,10 @@ export const pages = (webevApp: WebevApp): Router => {
     query.$or = status.map((v) => {
       return { status: v };
     });
-    // Look for null if not specified
-    query.directoryId = directoryId;
+
+    if (directoryId != null) {
+      query.directoryId = directoryId;
+    }
 
     const options = new PaginationOptions({ page, limit });
 
