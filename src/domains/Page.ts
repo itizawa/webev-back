@@ -14,8 +14,9 @@ export class Page {
   createdUser: string;
   createdAt: Date;
   updatedAt: Date;
+  archivedAt: Date;
   status: PageStatus;
-  constructor({ _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status }: Partial<Page>) {
+  constructor({ _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, archivedAt, status }: Partial<Page>) {
     this._id = _id;
     this.url = url || '';
     this.image = image || '';
@@ -26,6 +27,7 @@ export class Page {
     this.createdUser = createdUser || null;
     this.createdAt = createdAt || new Date();
     this.updatedAt = updatedAt || new Date();
+    this.archivedAt = archivedAt || null;
     this.status = status || PageStatus.PAGE_STATUS_STOCK;
   }
 }
