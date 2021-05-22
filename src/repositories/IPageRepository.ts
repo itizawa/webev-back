@@ -10,7 +10,6 @@ export interface IPageRepository {
   findByDirectoryIdAndDeleteDirectoryId(directoryIds: string[], userId: string): Promise<UpdateWriteOpResult>;
   updatePageById(id: string, page: Partial<Page>): Promise<Page>;
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page>;
-  updatePageStatus(id: string, userId: string, status: PageStatus): Promise<Page>;
-  updateIsFavorite(id: string, userId: string, isFavorite: boolean): Promise<Page>;
+  updatePageStatus(id: string, userId: string, status: PageStatus, archivedAt?: Date): Promise<Page>;
   countAllPages(): Promise<number>;
 }

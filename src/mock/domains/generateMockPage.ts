@@ -1,7 +1,7 @@
 import { Page, PageStatus } from '../../domains/Page';
 
 export const generateMockPage = (mock: Partial<Page> = {}): Page => {
-  const { _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status, isFavorite } = mock;
+  const { _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, status, archivedAt } = mock;
   return new Page({
     _id: _id || 'mockUserId',
     url: url || 'https://github.com/itizawa/webev-front',
@@ -13,7 +13,7 @@ export const generateMockPage = (mock: Partial<Page> = {}): Page => {
     createdUser: createdUser || 'mockUserId',
     createdAt: createdAt || new Date('2020-01-01'),
     updatedAt: updatedAt || new Date('2020-01-01'),
+    archivedAt: archivedAt,
     status: status || PageStatus.PAGE_STATUS_STOCK,
-    isFavorite: isFavorite || false,
   });
 };
