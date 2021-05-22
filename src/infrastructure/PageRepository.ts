@@ -26,6 +26,9 @@ export const PageSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
+    updatedAt: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );
