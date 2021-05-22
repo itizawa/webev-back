@@ -122,6 +122,7 @@ export const pages = (webevApp: WebevApp): Router => {
   type ListType = {
     query: {
       status: PageStatus[];
+      directoryId: string;
       sort?: string;
       page?: number;
       limit?: number;
