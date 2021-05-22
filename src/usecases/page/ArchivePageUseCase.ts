@@ -11,7 +11,7 @@ export class ArchivePageUseCase {
 
   execute(pageId: string, user: User, isArchive: boolean): Promise<Page> {
     const status = isArchive ? PageStatus.PAGE_STATUS_ARCHIVE : PageStatus.PAGE_STATUS_STOCK;
-    const updatedAt = isArchive ? new Date() : null;
-    return this.pageRepository.updatePageStatus(pageId, user._id, status, updatedAt);
+    const archivedAt = isArchive ? new Date() : null;
+    return this.pageRepository.updatePageStatus(pageId, user._id, status, archivedAt);
   }
 }
