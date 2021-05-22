@@ -1,6 +1,6 @@
 import { PageStatus } from '../../domains/Page';
 import { generateMockDirectory, generateMockUser } from '../../mock/domains';
-import { PaginationQuery } from '../pagination';
+import { PaginationQuery, PaginationOptions } from '../pagination';
 
 describe('Pagination interface test', () => {
   const mockUser = generateMockUser();
@@ -17,5 +17,19 @@ describe('Pagination interface test', () => {
     expect(response.createdUser).toBe(mockUser._id);
     expect(response.$or).toEqual([{ status: PageStatus.PAGE_STATUS_DELETED }]);
     expect(response.directoryId).toBe(undefined);
+  });
+
+  test('PaginationOptions with sort', async () => {
+    const response = new PaginationOptions({ page: 1, limit: 20, sort: { createdAt: 1 } });
+    expect(response.page).toBe(1);
+    expect(response.limit).toBe(20);
+    expect(response.sort).toEqual({ createdAt: 1 });
+  });
+
+  test('PaginationOptions without sort', async () => {
+    const response = new PaginationOptions({ page: 1, limit: 20 });
+    expect(response.page).toBe(1);
+    expect(response.limit).toBe(20);
+    expect(response.sort).toEqual(undefined);
   });
 });
