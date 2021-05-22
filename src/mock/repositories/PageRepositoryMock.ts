@@ -6,7 +6,7 @@ import { IPageRepository } from '../../repositories/IPageRepository';
 
 export class PageRepositoryMock implements IPageRepository {
   createPage(page: Partial<Page>): Promise<Page> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   findPageById(id: string, userId: string): Promise<Page> {
     throw new Error('Method not implemented.');
@@ -24,12 +24,12 @@ export class PageRepositoryMock implements IPageRepository {
     throw new Error('Method not implemented.');
   }
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   updatePageStatus(id: string, userId: string, status: PageStatus, archivedAt?: Date): Promise<Page> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
   countAllPages(): Promise<number> {
-    throw 'not implement';
+    throw new Error('Method not implemented.');
   }
 }
