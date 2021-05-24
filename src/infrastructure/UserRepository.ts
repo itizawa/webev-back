@@ -5,7 +5,7 @@ import { User } from '../domains/User';
 
 const UserSchema: Schema = new Schema(
   {
-    name: { type: String, unique: true },
+    name: String,
     email: String,
     image: String,
   },
@@ -19,7 +19,7 @@ export class UserRepository {
     this.UserModel = model<User & Document>('User', UserSchema);
   }
 
-  async findUserByUserName(name: string):Promise<User>{
-    return this.UserModel.findOne({ name })
+  async findUserByID(id: string):Promise<User>{
+    return this.UserModel.findOne({ id })
   }
 }
