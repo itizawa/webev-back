@@ -2,7 +2,7 @@ import { User } from '../../domains/User';
 import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
-export class FindAllDirectoryUseCase {
+export class FindAllDirectoriesUseCase {
   private DirectoryRepository: IDirectoryRepository;
 
   constructor(DirectoryRepository: IDirectoryRepository) {
@@ -10,6 +10,6 @@ export class FindAllDirectoryUseCase {
   }
 
   execute(user: User): Promise<Directory[]> {
-    return this.DirectoryRepository.findAllDirectory(user._id);
+    return this.DirectoryRepository.FindAllDirectories(user._id);
   }
 }
