@@ -129,6 +129,7 @@ export const pages = (webevApp: WebevApp): Router => {
       sort?: string;
       page?: number;
       limit?: number;
+      title?: string;
     };
   };
 
@@ -149,6 +150,10 @@ export const pages = (webevApp: WebevApp): Router => {
    *         in: query
    *         type: string
    *         example: -createdAt
+   *       - name: title
+   *         description: page title for search
+   *         in: query
+   *         type: string
    *     responses:
    *       200:
    *         description: Save and return temporary information
@@ -159,7 +164,7 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { status, directoryId, sort, page = 1, limit = 10 } = req.query;
+    const { status, directoryId, sort, page = 1, limit = 10, title } = req.query;
 
     const pageRepository = new PageRepository();
     const useCase = new FindPageListUseCase(pageRepository);
@@ -172,6 +177,10 @@ export const pages = (webevApp: WebevApp): Router => {
 
     if (directoryId != null) {
       query.directoryId = directoryId;
+    }
+
+    if (title != null) {
+      query.title = title;
     }
 
     const options = new PaginationOptions({ page, limit });
