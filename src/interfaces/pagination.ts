@@ -4,7 +4,7 @@ export class PaginationQuery {
   createdUser: string;
   $or: Array<{ status: PageStatus }>;
   directoryId: string;
-  title: string;
+  title: string | RegExp;
   constructor({ createdUser, $or, directoryId, title }: Partial<PaginationQuery>) {
     this.createdUser = createdUser;
     this.$or = $or;

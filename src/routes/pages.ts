@@ -180,7 +180,7 @@ export const pages = (webevApp: WebevApp): Router => {
     }
 
     if (title != null) {
-      query.title = title;
+      query.title = new RegExp(title);
     }
 
     const options = new PaginationOptions({ page, limit });
