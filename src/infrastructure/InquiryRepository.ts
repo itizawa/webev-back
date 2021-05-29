@@ -1,4 +1,4 @@
-import { model, Types, Model, Schema, Document } from 'mongoose';
+import { model, Model, Schema, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 import { Inquiry } from '../domains/Inquiry';
@@ -6,10 +6,14 @@ import { IInquiryRepository } from '../repositories/IInquiryRepository';
 
 const InquirySchema: Schema = new Schema(
   {
-    accessToken: String,
-    userId: {
-      type: Types.ObjectId,
-      ref: 'User',
+    type: {
+      type: String,
+      required: true,
+    },
+    email: String,
+    text: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true },
