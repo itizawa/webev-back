@@ -150,8 +150,8 @@ export const pages = (webevApp: WebevApp): Router => {
    *         in: query
    *         type: string
    *         example: -createdAt
-   *       - name: title
-   *         description: page title for search
+   *       - name: q
+   *         description: keyword for search
    *         in: query
    *         type: string
    *     responses:
@@ -164,24 +164,25 @@ export const pages = (webevApp: WebevApp): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getPageList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { status, directoryId, sort, page = 1, limit = 10, title } = req.query;
+    const { status, directoryId, sort, page = 1, limit = 10, q } = req.query;
 
     const pageRepository = new PageRepository();
     const useCase = new FindPageListUseCase(pageRepository);
 
     const query = new PaginationQuery({ createdUser: user._id });
 
-    query.$or = status.map((v) => {
-      return { status: v };
-    });
+    query.status = { $in: status };
 
     if (directoryId != null) {
       query.directoryId = directoryId;
     }
 
-    if (title != null) {
-      query.title = new RegExp(title);
+    // set keyword
+    if (q != null) {
+      query.$or = [{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }];
     }
+
+    console.log(q, query);
 
     const options = new PaginationOptions({ page, limit });
 
