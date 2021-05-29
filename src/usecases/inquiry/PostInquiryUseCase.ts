@@ -8,7 +8,7 @@ export class PostInquiryUseCase {
     this.inquiryRepository = inquiryRepository;
   }
 
-  execute({ type, email, text }: Inquiry): Promise<Inquiry> {
+  execute({ type, email, text }: Partial<Inquiry>): Promise<Inquiry> {
     return this.inquiryRepository.postInquiry({ type, email, text });
   }
 }
