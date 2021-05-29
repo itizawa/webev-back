@@ -10,6 +10,6 @@ export class FindAllDirectoriesUseCase {
   }
 
   execute(user: User): Promise<Partial<Directory>[]> {
-    return this.DirectoryRepository.FindAllDirectories(user._id);
+    return this.DirectoryRepository.findAllDirectories(user._id);
   }
 }
