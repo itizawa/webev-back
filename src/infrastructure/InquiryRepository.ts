@@ -26,7 +26,7 @@ export class InquiryRepository implements IInquiryRepository {
     this.InquiryModel = model<Inquiry & Document>('Inquiry', InquirySchema);
   }
 
-  async postInquiry({ type, email, text }: Inquiry): Promise<Inquiry> {
+  async postInquiry({ type, email, text }: Partial<Inquiry>): Promise<Inquiry> {
     return this.InquiryModel.create({ type, email, text });
   }
 }

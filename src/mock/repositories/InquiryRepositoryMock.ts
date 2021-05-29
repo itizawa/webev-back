@@ -3,7 +3,7 @@ import { Inquiry } from '../../domains/Inquiry';
 import { IInquiryRepository } from '../../repositories/IInquiryRepository';
 
 export class InquiryRepository implements IInquiryRepository {
-  postInquiry({ type, email, text }: Inquiry): Promise<Inquiry> {
+  postInquiry({ type, email, text }: Partial<Inquiry>): Promise<Inquiry> {
     throw new Error('Method not implemented.');
   }
 }
