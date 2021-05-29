@@ -49,4 +49,11 @@ describe('Pagination interface test', () => {
     expect(response.createdUser).toBe(mockUser._id);
     expect(response.isRoot).toBe(undefined);
   });
+
+  test('PaginationQuery $or', async () => {
+    const q = 'mockQ';
+    const response = new PaginationQuery({ createdUser: mockUser._id, $or: [{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }] });
+    expect(response.createdUser).toBe(mockUser._id);
+    expect(response.$or).toEqual([{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }]);
+  });
 });
