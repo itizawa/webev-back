@@ -9,6 +9,7 @@ import { WebevRequest } from '../interfaces/webev-request';
 import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 
 import { CreateDirectoryUseCase } from '../usecases/directory/CreateDirectoryUseCase';
+import { FindAllDirectoriesUseCase } from '../usecases/directory/FindAllDirectoriesUseCase';
 import { FindDirectoryListUseCase } from '../usecases/directory/FindDirectoryListUseCase';
 import { RenameDirectoryUseCase } from '../usecases/directory/RenameDirectoryUseCase';
 import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
@@ -134,6 +135,31 @@ export const directories = (): Router => {
     try {
       const paginationResult = await useCase.execute(query, options);
       return res.status(200).json(paginationResult);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/all:
+   *   get:
+   *     description: get all directory by user id
+   *     responses:
+   *       200:
+   *         description: Return all directory by user id
+   */
+  router.get('/all', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const useCase = new FindAllDirectoriesUseCase(directoryRepository);
+
+    try {
+      const result = await useCase.execute(user);
+
+      return res.status(200).json(result);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: err.message });
