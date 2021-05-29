@@ -4,11 +4,15 @@ export class PaginationQuery {
   createdUser: string;
   $or: Array<{ status: PageStatus }>;
   directoryId: string;
-  constructor({ createdUser, $or, directoryId }: Partial<PaginationQuery>) {
+  title: string;
+  constructor({ createdUser, $or, directoryId, title }: Partial<PaginationQuery>) {
     this.createdUser = createdUser;
     this.$or = $or;
     if (directoryId != null) {
       this.directoryId = directoryId;
+    }
+    if (title != null) {
+      this.title = title;
     }
   }
 }
