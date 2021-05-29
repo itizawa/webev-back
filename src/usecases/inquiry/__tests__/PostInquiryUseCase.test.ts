@@ -2,7 +2,7 @@ import { generateMockInquiry } from '../../../mock/domains';
 import { InquiryRepositoryMock } from '../../../mock/repositories';
 import { PostInquiryUseCase } from '../PostInquiryUseCase';
 
-describe('PostPageByUrlUseCase', () => {
+describe('PostInquiryUseCase', () => {
   const mock = new InquiryRepositoryMock();
   const mockInquiry = generateMockInquiry();
 
