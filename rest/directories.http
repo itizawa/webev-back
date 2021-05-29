@@ -12,6 +12,12 @@ Authorization: {{token}}
 
 ###
 
+GET  {{url}}/directories/all HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+###
+
 GET  {{url}}/directories/list HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
