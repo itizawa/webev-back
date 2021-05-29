@@ -9,7 +9,7 @@ export class FindAllDirectoriesUseCase {
     this.DirectoryRepository = DirectoryRepository;
   }
 
-  execute(user: User): Promise<Directory[]> {
+  execute(user: User): Promise<Partial<Directory>[]> {
     return this.DirectoryRepository.FindAllDirectories(user._id);
   }
 }
