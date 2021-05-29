@@ -5,8 +5,14 @@ export class PaginationQuery {
   status: { $in: Array<PageStatus> };
   $or: Array<{ title?: RegExp; siteName?: RegExp; description?: RegExp }>;
   directoryId: string;
-  constructor({ createdUser, directoryId }: Partial<PaginationQuery>) {
+  constructor({ createdUser, status, $or, directoryId }: Partial<PaginationQuery>) {
     this.createdUser = createdUser;
+    if (status != null) {
+      this.status = status;
+    }
+    if ($or != null) {
+      this.$or = $or;
+    }
     if (directoryId != null) {
       this.directoryId = directoryId;
     }
