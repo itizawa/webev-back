@@ -13,6 +13,6 @@ describe('CheerioService test', () => {
 
     const response = await cheerioService.retrieveDataByUrl(url);
     expect(axiosSpy).toHaveBeenCalled();
-    expect(response).toEqual({ description: '取得できませんでした', title: 'testUrl', url: 'testUrl' });
+    expect(response).toEqual({ description: '取得できませんでした', title: url, url });
   });
 });
