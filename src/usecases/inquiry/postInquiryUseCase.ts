@@ -1,7 +1,7 @@
 import { Inquiry } from '../../domains/Inquiry';
 import { IInquiryRepository } from '../../repositories/IInquiryRepository';
 
-export class PostInquiryPagesUseCase {
+export class PostInquiryUseCase {
   private inquiryRepository: IInquiryRepository;
 
   constructor(inquiryRepository: IInquiryRepository) {
