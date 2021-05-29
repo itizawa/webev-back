@@ -182,8 +182,6 @@ export const pages = (webevApp: WebevApp): Router => {
       query.$or = [{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }];
     }
 
-    console.log(q, query);
-
     const options = new PaginationOptions({ page, limit });
 
     if (sort != null) {
