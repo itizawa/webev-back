@@ -26,6 +26,9 @@ export const PageSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
+    archivedAt: {
+      type: Date,
+    },
     updatedAt: {
       type: Date,
     },
