@@ -8,6 +8,7 @@ export const InquiryType = {
 export type InquiryType = typeof InquiryType[keyof typeof InquiryType];
 
 export class Inquiry {
+  _id: string;
   type: InquiryType;
   email?: string;
   text: string;
