@@ -32,6 +32,9 @@ const validator = {
   ],
   getPageList: [
     query('status').toArray(),
+    query('directoryId')
+      .if((value) => value != null)
+      .isMongoId(),
     query('page')
       .if((value) => value != null)
       .isInt(),
@@ -122,6 +125,7 @@ export const pages = (webevApp: WebevApp): Router => {
   type ListType = {
     query: {
       status: PageStatus[];
+      directoryId: string;
       sort?: string;
       page?: number;
       limit?: number;
@@ -165,8 +169,10 @@ export const pages = (webevApp: WebevApp): Router => {
     query.$or = status.map((v) => {
       return { status: v };
     });
-    // Look for null if not specified
-    query.directoryId = directoryId;
+
+    if (directoryId != null) {
+      query.directoryId = directoryId;
+    }
 
     const options = new PaginationOptions({ page, limit });
 
