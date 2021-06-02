@@ -7,6 +7,9 @@ const rootDir = __dirname;
   rootDir,
   acceptMimes: ['application/json'],
   port: parseInt(process.env.PORT) || 8000,
+  mount: {
+    '/api/v1': '${rootDir}/controllers/**/*.ts',
+  },
 })
 export class Server {
   @Inject()
