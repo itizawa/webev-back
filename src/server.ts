@@ -1,4 +1,5 @@
 import { Configuration, Inject, PlatformApplication } from '@tsed/common';
+import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 import { mongooseConfig } from './config/mongoose';
 import { IndexCtrl } from './controllers/IndexController';
@@ -37,6 +38,6 @@ export class Server {
    * @returns {Server}
    */
   public $beforeRoutesInit(): void | Promise<any> {
-    this.app.use(cookieParser());
+    this.app.use(cookieParser(), express.json());
   }
 }
