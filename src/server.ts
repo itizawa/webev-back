@@ -6,6 +6,7 @@ const rootDir = __dirname;
 @Configuration({
   rootDir,
   acceptMimes: ['application/json'],
+  port: parseInt(process.env.PORT) || 8000,
 })
 export class Server {
   @Inject()
