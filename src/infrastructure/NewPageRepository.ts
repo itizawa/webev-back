@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@tsed/common';
 import { Default, Enum, Required } from '@tsed/schema';
 import { Indexed, ObjectID, MongooseModel } from '@tsed/mongoose';
 import { PageStatus, Page } from '../domains/Page';
+import { NewIPageRepository } from '../repositories/IPageRepository';
 
 export class PageModel {
   @ObjectID('id')
@@ -37,7 +38,7 @@ export class PageModel {
 }
 
 @Injectable()
-export class PageRepository {
+export class PageRepository implements NewIPageRepository {
   @Inject(PageModel)
   private model: MongooseModel<Page>;
 
