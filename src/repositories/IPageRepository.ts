@@ -13,7 +13,3 @@ export interface IPageRepository {
   updatePageStatus(id: string, userId: string, status: PageStatus, archivedAt?: Date): Promise<Page>;
   countAllPages(): Promise<number>;
 }
-
-export interface NewIPageRepository {
-  createPage(page: Page): Promise<Page>;
-}
