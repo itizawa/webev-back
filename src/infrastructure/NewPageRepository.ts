@@ -1,6 +1,7 @@
+import { Inject, Injectable } from '@tsed/common';
 import { Default, Enum, Required } from '@tsed/schema';
-import { Indexed, ObjectID } from '@tsed/mongoose';
-import { PageStatus } from '../domains/Page';
+import { Indexed, ObjectID, MongooseModel } from '@tsed/mongoose';
+import { PageStatus, Page } from '../domains/Page';
 
 export class PageModel {
   @ObjectID('id')
@@ -33,4 +34,14 @@ export class PageModel {
 
   @Default(null)
   archivedAt: Date;
+}
+
+@Injectable()
+export class PageRepository {
+  @Inject(PageModel)
+  private model: MongooseModel<Page>;
+
+  async createPage(page: Partial<Page>): Promise<Page> {
+    return this.model.create(page);
+  }
 }
