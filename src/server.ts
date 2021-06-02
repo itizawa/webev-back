@@ -1,5 +1,6 @@
 import { Configuration, Inject, PlatformApplication } from '@tsed/common';
 import * as cookieParser from 'cookie-parser';
+import { mongooseConfig } from './config/mongoose';
 import { IndexCtrl } from './controllers/IndexController';
 
 const rootDir = __dirname;
@@ -22,6 +23,7 @@ const rootDir = __dirname;
     root: `${rootDir}/views`,
     viewEngine: 'ejs',
   },
+  mongoose: mongooseConfig,
 })
 export class Server {
   @Inject()
