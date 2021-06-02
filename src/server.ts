@@ -1,5 +1,6 @@
 import { Configuration, Inject, PlatformApplication } from '@tsed/common';
 import * as cookieParser from 'cookie-parser';
+import { IndexCtrl } from './controllers/IndexController';
 
 const rootDir = __dirname;
 
@@ -8,7 +9,18 @@ const rootDir = __dirname;
   acceptMimes: ['application/json'],
   port: parseInt(process.env.PORT) || 8000,
   mount: {
-    '/api/v1': '${rootDir}/controllers/**/*.ts',
+    '/api/v1': `${rootDir}/controllers/**/*.ts`,
+    '/': [IndexCtrl],
+  },
+  swagger: [
+    {
+      path: '/v1/docs',
+      specVersion: '2.0',
+    },
+  ],
+  views: {
+    root: `${rootDir}/views`,
+    viewEngine: 'ejs',
   },
 })
 export class Server {
