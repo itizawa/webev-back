@@ -68,6 +68,14 @@ describe('DirectoryRepositoryMock test', () => {
     }
   });
 
+  test('findAllDirectories', async () => {
+    try {
+      await directoryRepositoryMock.findAllDirectories(mockUser._id);
+    } catch (e) {
+      expect(e).toEqual(new Error('Method not implemented.'));
+    }
+  });
+
   test('findDirectoryList', async () => {
     try {
       await directoryRepositoryMock.findDirectoryList(mockPaginationQuery, mockPaginationOptions);
