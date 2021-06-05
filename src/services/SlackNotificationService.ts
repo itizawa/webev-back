@@ -6,6 +6,7 @@ export class SlackNotificationService {
     try {
       const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
       await webhook.send({
+        username: 'お問い合わせ',
         icon_emoji: 'email',
         text: `${inquiry.email || 'No Email'} からお問い合わせが届きました。\n Type: ${inquiry.type} \n ${inquiry.text}`,
       });
