@@ -1,12 +1,15 @@
 import { generateMockInquiry } from '../../../mock/domains';
+import { SlackNotificationServiceMock } from '../../../mock/services/SlackNotificationServiceMock';
 import { InquiryRepositoryMock } from '../../../mock/repositories';
 import { PostInquiryUseCase } from '../PostInquiryUseCase';
 
 describe('PostInquiryUseCase', () => {
   const mock = new InquiryRepositoryMock();
+  const slackNotificationService = new SlackNotificationServiceMock();
+
   const mockInquiry = generateMockInquiry();
 
-  const useCase = new PostInquiryUseCase(mock);
+  const useCase = new PostInquiryUseCase(mock, slackNotificationService);
 
   const spy = jest.spyOn(mock, 'postInquiry').mockImplementation(async (Inquiry) => generateMockInquiry(Inquiry));
   test('execute', async () => {
