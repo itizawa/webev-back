@@ -20,6 +20,6 @@ export class UserRepository {
   }
 
   async findUserById(id: string): Promise<User> {
-    return this.UserModel.findById({ _id: id });
+    return this.UserModel.findById(id);
   }
 }
