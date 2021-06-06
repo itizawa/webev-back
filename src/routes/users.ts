@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { body, param, query } from 'express-validator';
+// import { body, param, query } from 'express-validator';
 // import { apiValidatorMiddleware } from '../middlewares/api-validator';
 // import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
@@ -13,6 +13,7 @@ const router = Router();
 
 // const validator = {};
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const users = (webevApp: WebevApp): Router => {
   /**
    * @swagger
@@ -25,8 +26,6 @@ export const users = (webevApp: WebevApp): Router => {
     const useCase = new FindUserPageUseCase(userRepository);
 
     try {
-      console.log('user');
-      console.log(user._id);
       const userPage = await useCase.execute(user._id);
       return res.status(200).json(userPage);
     } catch (err) {
