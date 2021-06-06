@@ -37,7 +37,7 @@ export class WebevApp {
     this.app = express();
 
     this.app.use(cors());
-    this.app.use(express.json());
+    this.app.use(express.json() as express.RequestHandler);
 
     this.app.use(requestLoggerMiddleware);
     this.httpServer = createServer(this.app);
