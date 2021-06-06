@@ -14,6 +14,9 @@ const router = Router();
 // const validator = {};
 
 export const users = (webevApp: WebevApp): Router => {
+  /**
+   * @swagger
+   */
   router.get('/me', async (req: WebevRequest, res: Response) => {
     // const {id} = req.params
     const { user } = req;
