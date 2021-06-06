@@ -4,7 +4,6 @@ import { Router, Response } from 'express';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
-import { WebevApp } from '../services/WebevApp';
 import { WebevRequest } from '../interfaces/webev-request';
 import { UserRepository } from '../infrastructure/UserRepository';
 import { FindUserPageUseCase } from '../usecases/user/FindUserPageUseCase';
@@ -13,11 +12,7 @@ const router = Router();
 
 // const validator = {};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const users = (webevApp: WebevApp): Router => {
-  /**
-   * @swagger
-   */
+export const users = (): Router => {
   router.get('/me', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
 
