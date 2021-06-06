@@ -9,6 +9,7 @@ export const PageSchema: Schema = new Schema(
   {
     url: String,
     image: String,
+    favicon: String,
     description: { type: String, index: true },
     title: { type: String, index: true },
     siteName: { type: String, index: true },
@@ -26,7 +27,7 @@ export const PageSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
-    updatedAt: {
+    archivedAt: {
       type: Date,
     },
   },
@@ -62,8 +63,8 @@ export class PageRepository implements IPageRepository {
   async updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
     return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { directoryId }, { new: true });
   }
-  async updatePageStatus(pageId: string, userId: string, status: PageStatus, updatedAt: Date | null): Promise<Page> {
-    return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status, updatedAt }, { new: true });
+  async updatePageStatus(pageId: string, userId: string, status: PageStatus, archivedAt: Date | null): Promise<Page> {
+    return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status, archivedAt }, { new: true });
   }
   async countAllPages(): Promise<number> {
     return this.PageModel.estimatedDocumentCount();

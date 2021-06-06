@@ -10,6 +10,7 @@ export class CheerioService {
 
       return {
         url: url,
+        favicon: $("link[rel='icon']").attr('href') || $("link[rel='shortcut icon']").attr('href'),
         image: $("meta[property='og:image']").attr('content'),
         description: $("meta[property='og:description']").attr('content'),
         title: $("meta[property='og:title']").attr('content'),

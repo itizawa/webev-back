@@ -2,11 +2,17 @@ import { PageStatus } from '../domains/Page';
 
 export class PaginationQuery {
   createdUser: string;
-  $or: Array<{ status: PageStatus }>;
+  status: { $in: Array<PageStatus> };
+  $or: Array<{ title?: RegExp; siteName?: RegExp; description?: RegExp }>;
   directoryId: string;
-  constructor({ createdUser, $or, directoryId }: Partial<PaginationQuery>) {
+  constructor({ createdUser, status, $or, directoryId }: Partial<PaginationQuery>) {
     this.createdUser = createdUser;
-    this.$or = $or;
+    if (status != null) {
+      this.status = status;
+    }
+    if ($or != null) {
+      this.$or = $or;
+    }
     if (directoryId != null) {
       this.directoryId = directoryId;
     }

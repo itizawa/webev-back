@@ -51,6 +51,9 @@ export class DirectoryRepository implements IDirectoryRepository {
   async findDirectory(directoryId: string, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOne({ _id: directoryId, createdUser: userId });
   }
+  async findAllDirectories(userId: string): Promise<Partial<Directory>[]> {
+    return this.DirectoryModel.find({ createdUser: userId }).select({ _id: 1, name: 1, description: 1 });
+  }
   async findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
     return this.DirectoryModel.paginate(query, options);
   }
