@@ -9,6 +9,6 @@ export class FindUserPageUseCase {
   }
 
   execute(name: string): Promise<User> {
-	  return this.userRepository.findUserByUserName(name)
+	  return this.userRepository.findUserById(name)
   }
 }
