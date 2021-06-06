@@ -19,14 +19,13 @@ export const users = (webevApp: WebevApp): Router => {
    */
   router.get('/me', async (req: WebevRequest, res: Response) => {
     // const {id} = req.params
-    const { user } = req.body;
+    const { user } = req;
 
     const userRepository = new UserRepository();
     const useCase = new FindUserPageUseCase(userRepository);
 
     try {
       console.log('user');
-      console.log(user);
       const userPage = await useCase.execute(user._id);
       return res.status(200).json(userPage);
     } catch (err) {
