@@ -19,7 +19,7 @@ export class UserRepository {
     this.UserModel = model<User & Document>('User', UserSchema);
   }
 
-  async findUserById(id: string):Promise<User>{
-    return this.UserModel.findOne({ id })
+  async findUserById(id: string): Promise<User> {
+    return this.UserModel.findOne({ id });
   }
 }
