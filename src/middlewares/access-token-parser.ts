@@ -4,13 +4,13 @@ import { SessionRepository } from '../infrastructure/SessionRepository';
 import { User } from '../domains/User';
 
 export const accessTokenParser = async (req: WebevRequest, res: Response, next: NextFunction): Promise<void> => {
-  const bearToken = req.headers['authorization'];
+  const bearerToken = req.headers['authorization'];
 
   // check null
-  if (bearToken == null) {
+  if (bearerToken == null) {
     return next();
   }
-  const bearer = bearToken.split(' ');
+  const bearer = bearerToken.split(' ');
   const token = bearer[1];
 
   const sessionRepository = new SessionRepository();
