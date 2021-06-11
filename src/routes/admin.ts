@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import { loginRequired } from '../middlewares/login-required';
+import { adminRequired } from '../middlewares/admin-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
@@ -7,7 +7,7 @@ import { WebevRequest } from '../interfaces/webev-request';
 const router = Router();
 
 export const admin = (): Router => {
-  router.get('/users', accessTokenParser, async (req: WebevRequest, res: Response) => {
+  router.get('/users', accessTokenParser, adminRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
     console.log(user);
 
