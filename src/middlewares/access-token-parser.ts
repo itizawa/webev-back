@@ -16,7 +16,7 @@ export const accessTokenParser = async (req: WebevRequest, res: Response, next: 
   const sessionRepository = new SessionRepository();
   const session = await sessionRepository.findSessionByAccessToken(token);
 
-  if (session.userId == null) {
+  if (session?.userId == null) {
     return next();
   }
 
