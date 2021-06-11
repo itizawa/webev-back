@@ -1,5 +1,5 @@
 @url = http://localhost:8000/api/v1
-@token = Bearer 321ae6c756c15bb7d90f6011a1fe6c17215285b27432b9ec7a5fba74470eadf9
+@token = Bearer ownId
 
 
 GET  {{url}}/admin/users HTTP/1.1
