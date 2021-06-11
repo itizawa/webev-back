@@ -29,4 +29,8 @@ export class InquiryRepository implements IInquiryRepository {
   async postInquiry({ type, email, text }: Partial<Inquiry>): Promise<Inquiry> {
     return this.InquiryModel.create({ type, email, text });
   }
+
+  async fetchAllInquiries(): Promise<Inquiry[]> {
+    return this.InquiryModel.find();
+  }
 }
