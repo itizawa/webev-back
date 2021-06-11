@@ -8,6 +8,7 @@ const UserSchema: Schema = new Schema(
     name: String,
     email: String,
     image: String,
+    admin: Boolean,
   },
   { timestamps: true },
 );
@@ -21,5 +22,9 @@ export class UserRepository {
 
   async findUserById(id: string): Promise<User> {
     return this.UserModel.findById(id);
+  }
+
+  async findAllUsers(): Promise<User[]> {
+    return this.UserModel.find();
   }
 }

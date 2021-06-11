@@ -1,0 +1,7 @@
+@url = http://localhost:8000/api/v1
+@token = Bearer ownId
+
+
+GET  {{url}}/admin/users HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
