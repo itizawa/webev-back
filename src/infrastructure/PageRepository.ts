@@ -9,6 +9,7 @@ export const PageSchema: Schema = new Schema(
   {
     url: String,
     image: String,
+    favicon: String,
     description: { type: String, index: true },
     title: { type: String, index: true },
     siteName: { type: String, index: true },
