@@ -8,6 +8,7 @@ const UserSchema: Schema = new Schema(
     name: String,
     email: String,
     image: String,
+    admin: Boolean,
   },
   { timestamps: true },
 );
