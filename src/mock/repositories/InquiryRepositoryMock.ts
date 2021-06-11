@@ -6,4 +6,7 @@ export class InquiryRepositoryMock implements IInquiryRepository {
   postInquiry({ type, email, text }: Partial<Inquiry>): Promise<Inquiry> {
     throw new Error('Method not implemented.');
   }
+  fetchAllInquiries(): Promise<Inquiry[]> {
+    throw new Error('Method not implemented.');
+  }
 }
