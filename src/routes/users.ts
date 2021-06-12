@@ -1,13 +1,13 @@
 import { Router, Response } from 'express';
 // import { body, param, query } from 'express-validator';
 // import { apiValidatorMiddleware } from '../middlewares/api-validator';
-import { UpdateUserInfoById } from 'src/usecases/user/UpdateUserInfoUseCase';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
 import { UserRepository } from '../infrastructure/UserRepository';
 import { FindUserPageUseCase } from '../usecases/user/FindUserPageUseCase';
+import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
 
 const router = Router();
 
@@ -33,7 +33,7 @@ export const users = (): Router => {
     const { name } = req.body;
 
     const userRepository = new UserRepository();
-    const useCase = new UpdateUserInfoById(userRepository);
+    const useCase = new UpdateUserInfoUseCase(userRepository);
 
     try {
       const userPage = await useCase.execute(user._id, name);

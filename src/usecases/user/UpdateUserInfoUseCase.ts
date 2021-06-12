@@ -1,7 +1,7 @@
 import { User } from '../../domains/User';
 import { IUserRepository } from '../../repositories/IUserRepository';
 
-export class UpdateUserInfoById {
+export class UpdateUserInfoUseCase {
   private userRepository: IUserRepository;
 
   constructor(userRepository: IUserRepository) {
