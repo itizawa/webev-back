@@ -10,6 +10,7 @@ const UserSchema: Schema = new Schema(
     email: String,
     image: String,
     admin: Boolean,
+    isExecutedTutorial: Boolean,
   },
   { timestamps: true },
 );
