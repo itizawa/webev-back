@@ -36,7 +36,7 @@ export const users = (): Router => {
     };
   };
 
-  router.put('/me/update-info', accessTokenParser, loginRequired, validator.updateUserInfo, apiValidatorMiddleware, async (req: WebevRequest & InfoType, res: Response) => {
+  router.put('/me', accessTokenParser, loginRequired, validator.updateUserInfo, apiValidatorMiddleware, async (req: WebevRequest & InfoType, res: Response) => {
     const { name } = req.body;
     const { user } = req;
 
