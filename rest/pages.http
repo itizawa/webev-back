@@ -13,6 +13,12 @@ Authorization: {{token}}
 
 ###
 
+GET {{url}}/pages/all HTTP/1.1
+content-type: application/json
+
+###
+
+
 @status = stocked
 
 GET  {{url}}/pages/list?status={{status}}&status[]=archived&limit=10&page=1&sort=-createdAt HTTP/1.1
