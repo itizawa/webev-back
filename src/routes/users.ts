@@ -8,6 +8,7 @@ import { WebevRequest } from '../interfaces/webev-request';
 import { UserRepository } from '../infrastructure/UserRepository';
 import { FindUserPageUseCase } from '../usecases/user/FindUserPageUseCase';
 import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
+import { UpdateIsExecutedTutorialUseCase } from '../usecases/user/UpdateIsExecutedTutorialUseCase';
 
 const router = Router();
 
@@ -40,9 +41,6 @@ export const users = (): Router => {
     const { name } = req.body;
     const { user } = req;
 
-    if (typeof name !== 'string') {
-      return res.status(400);
-    }
     const userRepository = new UserRepository();
     const useCase = new UpdateUserInfoUseCase(userRepository);
 
@@ -53,5 +51,20 @@ export const users = (): Router => {
       return res.status(500).json({ message: err.message });
     }
   });
+
+  router.put('/me/isExecutedTutorial', accessTokenParser, loginRequired, async (req: WebevRequest & InfoType, res: Response) => {
+    const { user } = req;
+
+    const userRepository = new UserRepository();
+    const useCase = new UpdateIsExecutedTutorialUseCase(userRepository);
+
+    try {
+      const userPage = await useCase.execute(user._id);
+      return res.status(200).json(userPage);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
   return router;
 };
