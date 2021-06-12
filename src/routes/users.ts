@@ -59,8 +59,8 @@ export const users = (): Router => {
     const useCase = new UpdateIsExecutedTutorialUseCase(userRepository);
 
     try {
-      const userPage = await useCase.execute(user._id);
-      return res.status(200).json(userPage);
+      const result = await useCase.execute(user._id);
+      return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
