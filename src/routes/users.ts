@@ -12,7 +12,7 @@ import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
 const router = Router();
 
 const validator = {
-  updateUserInfo: [body('name').isString()],
+  updateUserInfo: [body('name').isString().isLength({ min: 1 })],
 };
 
 export const users = (): Router => {
