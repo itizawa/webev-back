@@ -8,7 +8,7 @@ export class FindUserPageUseCase {
     this.userRepository = userRepository;
   }
 
-  execute(id: string): Promise<User> {
-    return this.userRepository.findUserById(id);
+  execute(userId: string): Promise<User> {
+    return this.userRepository.findUserById(userId);
   }
 }

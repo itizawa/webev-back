@@ -20,8 +20,8 @@ export class UserRepository {
     this.UserModel = model<User & Document>('User', UserSchema);
   }
 
-  async findUserById(id: string): Promise<User> {
-    return this.UserModel.findById(id);
+  async findUserById(userId: string): Promise<User> {
+    return this.UserModel.findById(userId);
   }
 
   async findAllUsers(): Promise<User[]> {

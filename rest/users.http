@@ -13,5 +13,5 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-	"name": "わいまつ"
+	"name": "waimatu"
 }
