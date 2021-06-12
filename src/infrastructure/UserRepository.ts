@@ -31,4 +31,8 @@ export class UserRepository {
   async updateUserInfoById(userId: string, name: string): Promise<User> {
     return this.UserModel.findOneAndUpdate({ _id: userId }, { name }, { new: true });
   }
+
+  async updateIsExecutedTutorial(userId: string): Promise<User> {
+    return this.UserModel.findOneAndUpdate({ _id: userId }, { isExecutedTutorial: true }, { new: true });
+  }
 }

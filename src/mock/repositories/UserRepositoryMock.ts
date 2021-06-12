@@ -12,4 +12,7 @@ export class UserRepositoryMock implements IUserRepository {
   updateUserInfoById(userId: string, name: string): Promise<User> {
     throw new Error('Method not implemented.');
   }
+  updateIsExecutedTutorial(userId: string): Promise<User> {
+    throw new Error('Method not implemented.');
+  }
 }
