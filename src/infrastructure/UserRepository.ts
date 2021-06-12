@@ -10,6 +10,7 @@ const UserSchema: Schema = new Schema(
     email: String,
     image: String,
     admin: Boolean,
+    isExecutedTutorial: Boolean,
   },
   { timestamps: true },
 );
@@ -31,5 +32,9 @@ export class UserRepository implements IUserRepository {
 
   async updateUserInfoById(userId: string, name: string): Promise<User> {
     return this.UserModel.findOneAndUpdate({ _id: userId }, { name }, { new: true });
+  }
+
+  async updateIsExecutedTutorial(userId: string): Promise<User> {
+    return this.UserModel.findOneAndUpdate({ _id: userId }, { isExecutedTutorial: true }, { new: true });
   }
 }
