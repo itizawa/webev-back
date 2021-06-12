@@ -24,19 +24,6 @@ services:
     networks:
       - webev_link
   
-  puppeteer:
-    build: puppeteer
-    image: puppeteer-chrome-linux
-    init: true
-    cap_add:
-      - SYS_ADMIN
-    container_name: puppeteer-chrome
-    tty: true
-    stdin_open: true
-    volumes:
-      - /path/to/puppeteer/app:/app
-    working_dir: /app
-
 networks:
   webev_link:
     external: true
