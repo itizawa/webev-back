@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as mongoose from 'mongoose';
 import { Server as SocketServer, Socket } from 'socket.io';
-
+import * as mongoSanitize from 'express-mongo-sanitize';
 import { requestLoggerMiddleware } from '../middlewares/request-logger';
 import { setupExpressRoutes } from '../routes';
 
@@ -38,6 +38,7 @@ export class WebevApp {
 
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.use(mongoSanitize());
 
     this.app.use(requestLoggerMiddleware);
     this.httpServer = createServer(this.app);
