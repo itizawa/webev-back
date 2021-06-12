@@ -40,6 +40,11 @@ export const users = (): Router => {
     const { name } = req.body;
     const { user } = req;
 
+    // prevent NoSQL ingection
+    if (typeof name !== 'string') {
+      return res.status(400);
+    }
+
     const userRepository = new UserRepository();
     const useCase = new UpdateUserInfoUseCase(userRepository);
 
