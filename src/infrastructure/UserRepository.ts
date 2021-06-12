@@ -27,4 +27,8 @@ export class UserRepository {
   async findAllUsers(): Promise<User[]> {
     return this.UserModel.find();
   }
+
+  async updateUserNameById(id: string): Promise<User> {
+    return this.UserModel.updateUserNameById(id);
+  }
 }
