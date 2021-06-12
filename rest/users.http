@@ -5,3 +5,11 @@
 GET  {{url}}/users/me HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
+
+PUT   {{url}}/users/me/update-info HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+	"name": "hogematu"
+}
