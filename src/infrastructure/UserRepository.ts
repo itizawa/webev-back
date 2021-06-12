@@ -28,7 +28,7 @@ export class UserRepository {
     return this.UserModel.find();
   }
 
-  async updateUserInfoById(userId: string, name: string): Promise<User> {
-    return this.UserModel.findOneAndUpdate({ _id: userId }, { name }, { new: true });
+  async updateUserInfoById(id: string, name: string): Promise<User> {
+    return this.UserModel.findOneAndUpdate({ _id: id }, { name }, { new: true });
   }
 }
