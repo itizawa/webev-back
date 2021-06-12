@@ -17,6 +17,7 @@ import { FindPageListUseCase } from '../usecases/page/FindPageListUseCase';
 import { PostPageByUrlUseCase } from '../usecases/page/PostPageByUrlUseCase';
 
 import { CheerioService } from '../services/CheerioService';
+import { PuppeteerService } from '../services/PuppeteerService';
 import { PageStatus } from '../domains/Page';
 import { MovePageToDirectoryUseCase } from '../usecases/page/MovePageToDirectoryUseCase';
 import { CountAllPagesUseCase } from '../usecases/page/CountAllPagesUseCase';
@@ -111,6 +112,9 @@ export const pages = (webevApp: WebevApp): Router => {
   router.get('/all', async (req: WebevRequest, res: Response) => {
     const pageRepository = new PageRepository();
     const useCase = new CountAllPagesUseCase(pageRepository);
+
+    const puppeteerService = new PuppeteerService();
+    await puppeteerService.fetchPage();
 
     try {
       const number = await useCase.execute();

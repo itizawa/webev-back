@@ -12,8 +12,7 @@
     "lint": "eslint src/**/**.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "deploy": "tsc && gcloud app deploy",
-    "main": "ts-node src/test.ts"
+    "deploy": "tsc && gcloud app deploy"
   },
   "dependencies": {
     "@slack/webhook": "^6.0.0",
