@@ -1,5 +1,6 @@
 import { model, Model, Schema, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
+import { IUserRepository } from '../repositories/IUserRepository';
 
 import { User } from '../domains/User';
 
@@ -13,7 +14,7 @@ const UserSchema: Schema = new Schema(
   { timestamps: true },
 );
 
-export class UserRepository {
+export class UserRepository implements IUserRepository {
   public UserModel: Model<User & Document> & { paginate?: mongoosePaginate };
 
   constructor() {
