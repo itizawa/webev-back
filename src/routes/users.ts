@@ -30,12 +30,13 @@ export const users = (): Router => {
 
   router.put('/me/update-info', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
+    const { name } = req.body;
 
     const userRepository = new UserRepository();
     const useCase = new UpdateUserInfoById(userRepository);
 
     try {
-      const userPage = await useCase.execute(user._id, user.name);
+      const userPage = await useCase.execute(user._id, name);
       return res.status(200).json(userPage);
     } catch (err) {
       return res.status(500).json({ message: err.message });
