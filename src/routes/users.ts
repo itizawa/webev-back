@@ -31,8 +31,8 @@ export const users = (): Router => {
   });
 
   router.put('/me/update-info', accessTokenParser, loginRequired, validator.updateUserInfo, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { user } = req;
     const { name } = req.body;
+    const { user } = req;
 
     const userRepository = new UserRepository();
     const useCase = new UpdateUserInfoUseCase(userRepository);
