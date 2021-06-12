@@ -4,4 +4,5 @@ export interface IUserRepository {
   findUserById(userId: string): Promise<User>;
   findAllUsers(): Promise<User[]>;
   updateUserInfoById(userId: string, name: string): Promise<User>;
+  updateIsExecutedTutorial(userId: string): Promise<User>;
 }
