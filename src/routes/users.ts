@@ -1,6 +1,6 @@
 import { Router, Response } from 'express';
-// import { body, param, query } from 'express-validator';
-// import { apiValidatorMiddleware } from '../middlewares/api-validator';
+import { body } from 'express-validator';
+import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
@@ -11,7 +11,9 @@ import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
 
 const router = Router();
 
-// const validator = {};
+const validator = {
+  updateUserInfo: [body('name').isString()],
+};
 
 export const users = (): Router => {
   router.get('/me', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
@@ -28,7 +30,7 @@ export const users = (): Router => {
     }
   });
 
-  router.put('/me/update-info', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+  router.put('/me/update-info', accessTokenParser, loginRequired, validator.updateUserInfo, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { user } = req;
     const { name } = req.body;
 
