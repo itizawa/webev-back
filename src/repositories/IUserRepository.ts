@@ -4,5 +4,5 @@ export interface IUserRepository {
   findUserById(id: string): Promise<User>;
   findAllUsers(): Promise<User[]>;
   // TODO imple updateUserInfoUseCase
-  updateUserInfoById(id: string): Promise<User>;
+  updateUserInfoById(userId: string, name: string): Promise<User>;
 }
