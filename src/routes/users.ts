@@ -29,8 +29,13 @@ export const users = (): Router => {
       return res.status(500).json({ message: err.message });
     }
   });
+  type InfoType = {
+    body: {
+      name: string;
+    };
+  };
 
-  router.put('/me/update-info', accessTokenParser, loginRequired, validator.updateUserInfo, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+  router.put('/me/update-info', accessTokenParser, loginRequired, validator.updateUserInfo, apiValidatorMiddleware, async (req: WebevRequest & InfoType, res: Response) => {
     const { name } = req.body;
     const { user } = req;
 
