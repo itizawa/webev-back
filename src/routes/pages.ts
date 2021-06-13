@@ -178,7 +178,7 @@ export const pages = (webevApp: WebevApp): Router => {
     }
 
     // set keyword
-    if (q != null) {
+    if (q != null && typeof q === 'string') {
       query.$or = [{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }];
     }
 
