@@ -7,6 +7,7 @@ export class Page {
   _id: string;
   url: string;
   image: string;
+  favicon: string;
   description: string;
   title: string;
   siteName: string;
@@ -16,10 +17,11 @@ export class Page {
   updatedAt: Date;
   archivedAt: Date;
   status: PageStatus;
-  constructor({ _id, url, image, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, archivedAt, status }: Partial<Page>) {
+  constructor({ _id, url, image, favicon, description, title, siteName, directoryId, createdUser, createdAt, updatedAt, archivedAt, status }: Partial<Page>) {
     this._id = _id;
     this.url = url || '';
     this.image = image || '';
+    this.favicon = favicon || '';
     this.description = description || '';
     this.title = title || '';
     this.siteName = siteName || '';

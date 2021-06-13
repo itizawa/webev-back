@@ -13,4 +13,12 @@ describe('InquiryRepositoryMock test', () => {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
   });
+
+  test('fetchAllInquiries', async () => {
+    try {
+      await inquiryRepositoryMock.fetchAllInquiries();
+    } catch (e) {
+      expect(e).toEqual(new Error('Method not implemented.'));
+    }
+  });
 });

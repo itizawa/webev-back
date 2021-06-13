@@ -1,5 +1,6 @@
 import { Router, Response } from 'express';
 import { body } from 'express-validator';
+import { SlackNotificationService } from '../services/SlackNotificationService';
 import { InquiryRepository } from '../infrastructure/InquiryRepository';
 import { PostInquiryUseCase } from '../usecases/inquiry/PostInquiryUseCase';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
@@ -45,7 +46,8 @@ export const inquiries = (): Router => {
     const { type, email, text } = req.body;
 
     const inquiryRepository = new InquiryRepository();
-    const useCase = new PostInquiryUseCase(inquiryRepository);
+    const slackNotificationService = new SlackNotificationService();
+    const useCase = new PostInquiryUseCase(inquiryRepository, slackNotificationService);
 
     try {
       const result = await useCase.execute({ type, email, text });
