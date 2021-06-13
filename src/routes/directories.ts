@@ -134,7 +134,7 @@ export const directories = (): Router => {
     const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
     // set keyword
-    if (q != null) {
+    if (q != null && typeof q === 'string') {
       query.$or = [{ name: new RegExp(q), description: new RegExp(q) }];
     }
 
