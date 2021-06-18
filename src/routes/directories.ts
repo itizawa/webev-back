@@ -40,6 +40,9 @@ const validator = {
     query('limit')
       .if((value) => value != null)
       .isInt(),
+    query('q')
+      .if((value) => value != null)
+      .isString(),
   ],
   getDirectory: [param('id').isMongoId()],
   getPagesByDirectoryId: [param('id').isMongoId()],
@@ -123,12 +126,17 @@ export const directories = (): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, q } = req.query;
 
     const directoryRepository = new DirectoryRepository();
     const useCase = new FindDirectoryListUseCase(directoryRepository);
 
     const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
+
+    // set keyword
+    if (q != null && typeof q === 'string') {
+      query.$or = [{ name: new RegExp(q), description: new RegExp(q) }];
+    }
 
     const options = new PaginationOptions({ page, limit, sort: { order: 1 } });
 

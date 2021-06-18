@@ -21,4 +21,20 @@ describe('InquiryRepositoryMock test', () => {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
   });
+
+  test('updateUserInfoById', async () => {
+    try {
+      await userRepositoryMock.updateUserInfoById(mockUser._id, mockUser.name);
+    } catch (e) {
+      expect(e).toEqual(new Error('Method not implemented.'));
+    }
+  });
+
+  test('updateIsExecutedTutorial', async () => {
+    try {
+      await userRepositoryMock.updateIsExecutedTutorial(mockUser._id);
+    } catch (e) {
+      expect(e).toEqual(new Error('Method not implemented.'));
+    }
+  });
 });

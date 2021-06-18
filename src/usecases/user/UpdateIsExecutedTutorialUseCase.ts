@@ -1,7 +1,7 @@
 import { User } from '../../domains/User';
 import { IUserRepository } from '../../repositories/IUserRepository';
 
-export class FindUserPageUseCase {
+export class UpdateIsExecutedTutorialUseCase {
   private userRepository: IUserRepository;
 
   constructor(userRepository: IUserRepository) {
@@ -9,6 +9,6 @@ export class FindUserPageUseCase {
   }
 
   execute(userId: string): Promise<User> {
-    return this.userRepository.findUserById(userId);
+    return this.userRepository.updateIsExecutedTutorial(userId);
   }
 }
