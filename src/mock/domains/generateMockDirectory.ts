@@ -9,8 +9,8 @@ export const generateMockDirectory = (mock: Partial<Directory> = {}): Directory 
     createdUser: createdUser || 'mockUserId',
     isRoot: isRoot || false,
     description: description || 'mockDescription',
+    emojiId: emojiId,
     createdAt: createdAt || new Date('2020-01-01'),
     updatedAt: updatedAt || new Date('2020-01-01'),
-    emojiId: emojiId,
   });
 };

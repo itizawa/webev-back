@@ -15,8 +15,8 @@ export class Directory {
     this.createdUser = createdUser;
     this.isRoot = isRoot;
     this.description = description;
+    this.emojiId = 'open_file_folder';
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.emojiId = 'open_file_folder';
   }
 }
