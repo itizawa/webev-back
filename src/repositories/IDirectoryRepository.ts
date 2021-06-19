@@ -16,5 +16,5 @@ export interface IDirectoryRepository {
   updateDescription(directoryId: string, description: string, userId: string): Promise<Directory>;
   increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult>;
   decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult>;
-  updateEmoji(directoryId: string, emojiId: string): Promise<any>;
+  updateEmoji(directoryId: string, emojiId: string): Promise<Directory>;
 }
