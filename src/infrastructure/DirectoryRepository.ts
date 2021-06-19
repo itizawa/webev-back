@@ -18,6 +18,7 @@ const DirectorySchema: Schema = new Schema(
     },
     isRoot: { type: Boolean, default: false },
     description: { type: String, default: '' },
+    emojiId: {type: String, default: 'open_file_folder'}
   },
   { timestamps: true },
 );
