@@ -1,5 +1,5 @@
 @url = http://localhost:8000/api/v1
-@token = Bearer 321ae6c756c15bb7d90f6011a1fe6c17215285b27432b9ec7a5fba74470eadf9
+@token = Bearer 9224100ec7aa73f009328ea5925c572964bcc003ccd020c5140a92a4dae48dfe
 
 
 GET  {{url}}/users/me HTTP/1.1
@@ -15,3 +15,9 @@ Authorization: {{token}}
 {
 	"name": "waimatu"
 }
+
+###
+
+PUT   {{url}}/users/me/isExecutedTutorial HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
