@@ -1,4 +1,4 @@
-import { generateMockUser, generateMockPage } from '../../../mock/domains';
+import { generateMockUser } from '../../../mock/domains';
 import { UserRepositoryMock } from '../../../mock/repositories';
 import { FindUserPageUseCase } from '../FindUserPageUseCase';
 
