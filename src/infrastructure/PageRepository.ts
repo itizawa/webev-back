@@ -60,7 +60,7 @@ export class PageRepository implements IPageRepository {
   async updatePageById({ pageId, page }: { pageId: string; page: Partial<Page> }): Promise<Page> {
     return this.PageModel.findByIdAndUpdate(pageId, page);
   }
-  async updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
+  async updateDirectory({ pageId, directoryId, userId }: { pageId: string; directoryId: string; userId: string }): Promise<Page> {
     return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { directoryId }, { new: true });
   }
   async updatePageStatus({ pageId, userId, status, archivedAt }: { pageId: string; userId: string; status: PageStatus; archivedAt: Date | null }): Promise<Page> {

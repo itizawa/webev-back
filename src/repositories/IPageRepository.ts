@@ -9,7 +9,7 @@ export interface IPageRepository {
   findPageListByDirectoryId({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Page[]>;
   findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<UpdateWriteOpResult>;
   updatePageById({ pageId, page }: { pageId: string; page: Partial<Page> }): Promise<Page>;
-  updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page>;
+  updateDirectory({ pageId, directoryId, userId }: { pageId: string; directoryId: string; userId: string }): Promise<Page>;
   updatePageStatus({ pageId, userId, status, archivedAt }: { pageId: string; userId: string; status: PageStatus; archivedAt?: Date }): Promise<Page>;
   countAllPages(): Promise<number>;
 }

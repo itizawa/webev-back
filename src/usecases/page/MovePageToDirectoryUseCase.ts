@@ -9,6 +9,6 @@ export class MovePageToDirectoryUseCase {
   }
 
   execute(pageId: string, directoryId: string, userId: string): Promise<Page> {
-    return this.pageRepository.updateDirectory(pageId, directoryId, userId);
+    return this.pageRepository.updateDirectory({ pageId, directoryId, userId });
   }
 }

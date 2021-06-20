@@ -7,7 +7,7 @@ describe('MovePageToDirectoryUseCase', () => {
   const mockUser = generateMockUser();
   const mock = new PageRepositoryMock();
 
-  mock.updateDirectory = async (_id, directoryId, createdUser) => generateMockPage({ _id, directoryId, createdUser });
+  mock.updateDirectory = async ({ pageId, directoryId, userId }) => generateMockPage({ _id: pageId, directoryId, createdUser: userId });
 
   const useCase = new MovePageToDirectoryUseCase(mock);
 
