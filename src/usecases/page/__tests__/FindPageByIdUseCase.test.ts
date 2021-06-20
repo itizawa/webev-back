@@ -7,13 +7,13 @@ describe('FindPageByIdUseCase', () => {
   const mockUser = generateMockUser();
   const mock = new PageRepositoryMock();
 
-  mock.findPageById = async (_id, userId) => generateMockPage({ _id, createdUser: userId });
+  mock.findPageById = async ({ pageId: _id, userId }) => generateMockPage({ _id, createdUser: userId });
 
   const useCase = new FindPageByIdUseCase(mock);
 
   const spy = jest.spyOn(mock, 'findPageById');
   test('excute', async () => {
-    const response = await useCase.execute(mockPage._id, mockUser._id);
+    const response = await useCase.execute({ pageId: mockPage._id, userId: mockUser._id });
 
     expect(spy).toHaveBeenCalled();
     expect(response.createdUser).toBe(mockUser._id);

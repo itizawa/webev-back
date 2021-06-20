@@ -9,13 +9,13 @@ describe('FetchOgpAndUpdatePageUseCase', () => {
   const cheerioServiceMock = new CheerioServiceMock();
 
   cheerioServiceMock.retrieveDataByUrl = async (url) => generateMockPage({ url });
-  mock.updatePageById = async (_id, page) => generateMockPage(page);
+  mock.updatePageById = async ({ pageId, page }) => generateMockPage({ _id: pageId, url: page.url });
   const useCase = new FetchOgpAndUpdatePageUseCase(mock, cheerioServiceMock);
 
   const cheerioServiceSpy = jest.spyOn(cheerioServiceMock, 'retrieveDataByUrl');
   const spy = jest.spyOn(mock, 'updatePageById');
   test('excute', async () => {
-    const response = await useCase.execute(mockPage.url, mockPage._id);
+    const response = await useCase.execute({ url: mockPage.url, pageId: mockPage._id });
 
     expect(cheerioServiceSpy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalled();

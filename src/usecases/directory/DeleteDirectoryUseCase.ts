@@ -21,7 +21,7 @@ export class DeleteDirectoryUseCase {
       await this.directoryRepository.decreaseDirectory(deletedDirectory.order, 10000, user._id);
     }
     const directoryIds = await this.directoryTreeRepository.deleteDirectoryTree(directoryId);
-    await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId(directoryIds, user._id);
+    await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId: user._id });
     await this.directoryRepository.deleteDirectories(directoryIds, user._id);
 
     return deletedDirectory;

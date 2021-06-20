@@ -14,7 +14,7 @@ describe('PageRepositoryMock test', () => {
 
   test('createPage', async () => {
     try {
-      await pageRepositoryMock.createPage(mockPage);
+      await pageRepositoryMock.createPage({ page: mockPage });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -22,7 +22,7 @@ describe('PageRepositoryMock test', () => {
 
   test('findPageById', async () => {
     try {
-      await pageRepositoryMock.findPageById(mockPage._id, mockUser._id);
+      await pageRepositoryMock.findPageById({ pageId: mockPage._id, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -30,7 +30,7 @@ describe('PageRepositoryMock test', () => {
 
   test('findPageList', async () => {
     try {
-      await pageRepositoryMock.findPageList(mockPaginationQuery, mockPaginationOptions);
+      await pageRepositoryMock.findPageList({ query: mockPaginationQuery, options: mockPaginationOptions });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -38,7 +38,7 @@ describe('PageRepositoryMock test', () => {
 
   test('findPageListByDirectoryId', async () => {
     try {
-      await pageRepositoryMock.findPageListByDirectoryId(mockPage._id, mockUser._id);
+      await pageRepositoryMock.findPageListByDirectoryId({ directoryId: mockDirectory._id, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -46,7 +46,7 @@ describe('PageRepositoryMock test', () => {
 
   test('findByDirectoryIdAndDeleteDirectoryId', async () => {
     try {
-      await pageRepositoryMock.findByDirectoryIdAndDeleteDirectoryId([mockPage._id], mockUser._id);
+      await pageRepositoryMock.findByDirectoryIdAndDeleteDirectoryId({ directoryIds: [mockDirectory._id], userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -54,7 +54,7 @@ describe('PageRepositoryMock test', () => {
 
   test('updatePageById', async () => {
     try {
-      await pageRepositoryMock.updatePageById(mockPage._id, mockPage);
+      await pageRepositoryMock.updatePageById({ pageId: mockPage._id, page: mockPage });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -62,7 +62,7 @@ describe('PageRepositoryMock test', () => {
 
   test('updateDirectory', async () => {
     try {
-      await pageRepositoryMock.updateDirectory(mockPage._id, mockDirectory._id, mockUser._id);
+      await pageRepositoryMock.updateDirectory({ pageId: mockPage._id, directoryId: mockDirectory._id, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -70,7 +70,7 @@ describe('PageRepositoryMock test', () => {
 
   test('updatePageStatus', async () => {
     try {
-      await pageRepositoryMock.updatePageStatus(mockPage._id, mockUser._id, PageStatus.PAGE_STATUS_STOCK);
+      await pageRepositoryMock.updatePageStatus({ pageId: mockPage._id, userId: mockUser._id, status: PageStatus.PAGE_STATUS_STOCK });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

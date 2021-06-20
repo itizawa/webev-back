@@ -11,8 +11,8 @@ export class FetchOgpAndUpdatePageUseCase {
     this.cheerioService = cheerioService;
   }
 
-  async execute(url: string, pageId: string): Promise<Page> {
+  async execute({ url, pageId }: { url: string; pageId: string }): Promise<Page> {
     const page = await this.cheerioService.retrieveDataByUrl(url);
-    return this.pageRepository.updatePageById(pageId, page);
+    return this.pageRepository.updatePageById({ pageId, page });
   }
 }

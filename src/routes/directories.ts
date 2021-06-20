@@ -235,7 +235,7 @@ export const directories = (): Router => {
     const useCase = new FindPageListByDirectoryIdUseCase(pageRepository);
 
     try {
-      const result = await useCase.execute(id, user._id);
+      const result = await useCase.execute({ directoryId: id, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
