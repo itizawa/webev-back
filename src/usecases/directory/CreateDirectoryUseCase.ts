@@ -22,7 +22,7 @@ export class CreateDirectoryUseCase {
       isRoot = true;
     }
 
-    const createdDirectory = await this.directoryRepository.createDirectory({ name, createdUser: user._id, order: countForSave, isRoot });
+    const createdDirectory = await this.directoryRepository.createDirectory({ directory: { name, createdUser: user._id, order: countForSave, isRoot } });
 
     // create SelfReference
     await this.directoryTreeRepository.createSelfReference(createdDirectory._id);

@@ -13,7 +13,7 @@ describe('CreateDirectoryUseCase', () => {
   const directoryTreeRepositoryMock = new DirectoryTreeRepositoryMock();
 
   directoryRepositoryMock.countDirectoryByUserId = async () => 1;
-  directoryRepositoryMock.createDirectory = async ({ name, createdUser, order, isRoot }) => generateMockDirectory({ name, createdUser, order, isRoot });
+  directoryRepositoryMock.createDirectory = async ({ directory: { name, createdUser, order, isRoot } }) => generateMockDirectory({ name, createdUser, order, isRoot });
   const countDirectoryByUserIdSpy = jest.spyOn(directoryRepositoryMock, 'countDirectoryByUserId');
   const createDirectorySpy = jest.spyOn(directoryRepositoryMock, 'createDirectory');
 

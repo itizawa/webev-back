@@ -22,7 +22,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('createDirectory', async () => {
     try {
-      await directoryRepositoryMock.createDirectory(mockDirectory);
+      await directoryRepositoryMock.createDirectory({ directory: mockDirectory });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

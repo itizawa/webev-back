@@ -9,7 +9,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   createPage(page: Partial<Page>): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  createDirectory(directory: Partial<Directory>): Promise<Directory> {
+  createDirectory({ directory }: { directory: Partial<Directory> }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
   countDirectoryByUserId(userId: string): Promise<number> {

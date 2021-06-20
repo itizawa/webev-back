@@ -33,8 +33,8 @@ export class DirectoryRepository implements IDirectoryRepository {
     this.DirectoryModel = model<Directory & Document>('Directory', DirectorySchema);
   }
 
-  async createDirectory(Directory: Partial<Directory>): Promise<Directory> {
-    return this.DirectoryModel.create(Directory);
+  async createDirectory({ directory }: { directory: Partial<Directory> }): Promise<Directory> {
+    return this.DirectoryModel.create(directory);
   }
   async countDirectoryByUserId(userId: string): Promise<number> {
     return this.DirectoryModel.countDocuments({ createdUser: userId, isRoot: true });
