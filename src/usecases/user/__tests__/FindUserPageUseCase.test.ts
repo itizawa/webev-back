@@ -19,6 +19,7 @@ describe('FindUserPageUseCase', () => {
     expect(response.image).toBe(mockUser.image);
     expect(response.admin).toBe(mockUser.admin);
     expect(response.createdAt).toStrictEqual(mockUser.createdAt);
+    expect(response.updatedAt).toStrictEqual(mockUser.updatedAt);
     expect(response.isExecutedTutorial).toBe(mockUser.isExecutedTutorial);
   });
 });
