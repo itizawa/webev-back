@@ -4,7 +4,7 @@ import { PaginationOptions, PaginationDirectoryQuery } from '../interfaces/pagin
 
 export interface IDirectoryRepository {
   createDirectory({ directory }: { directory: Partial<Directory> }): Promise<Directory>;
-  countDirectoryByUserId(userId: string): Promise<number>;
+  countDirectoryByUserId({ userId }: { userId: string }): Promise<number>;
   isExistDirectoryByName(name: string, userId: string): Promise<boolean>;
   deleteDirectory(directoryId: string, userId: string): Promise<Directory>;
   deleteDirectories(directoryIds: string[], userId: string): Promise<number>;

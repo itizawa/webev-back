@@ -12,7 +12,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   createDirectory({ directory }: { directory: Partial<Directory> }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  countDirectoryByUserId(userId: string): Promise<number> {
+  countDirectoryByUserId({ userId }: { userId: string }): Promise<number> {
     throw new Error('Method not implemented.');
   }
   isExistDirectoryByName(name: string, userId: string): Promise<boolean> {

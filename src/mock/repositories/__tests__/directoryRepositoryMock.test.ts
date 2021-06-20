@@ -30,7 +30,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('countDirectoryByUserId', async () => {
     try {
-      await directoryRepositoryMock.countDirectoryByUserId(mockUser._id);
+      await directoryRepositoryMock.countDirectoryByUserId({ userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

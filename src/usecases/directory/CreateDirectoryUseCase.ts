@@ -17,7 +17,7 @@ export class CreateDirectoryUseCase {
     let isRoot = false;
     if (parentDirectoryId == null) {
       // order is the number of count + 1
-      const count = await this.directoryRepository.countDirectoryByUserId(user._id);
+      const count = await this.directoryRepository.countDirectoryByUserId({ userId: user._id });
       countForSave = count + 1;
       isRoot = true;
     }
