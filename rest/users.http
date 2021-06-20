@@ -13,7 +13,7 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-	"name": "waimatu"
+	"name": "waimatuhoge"
 }
 
 ###
