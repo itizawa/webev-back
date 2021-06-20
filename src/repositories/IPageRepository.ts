@@ -8,7 +8,7 @@ export interface IPageRepository {
   findPageList({ query, options }: { query: PaginationQuery; options: PaginationOptions }): Promise<Page>;
   findPageListByDirectoryId({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Page[]>;
   findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<UpdateWriteOpResult>;
-  updatePageById(id: string, page: Partial<Page>): Promise<Page>;
+  updatePageById({ pageId, page }: { pageId: string; page: Partial<Page> }): Promise<Page>;
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page>;
   updatePageStatus({ pageId, userId, status, archivedAt }: { pageId: string; userId: string; status: PageStatus; archivedAt?: Date }): Promise<Page>;
   countAllPages(): Promise<number>;

@@ -13,6 +13,6 @@ export class FetchOgpAndUpdatePageUseCase {
 
   async execute(url: string, pageId: string): Promise<Page> {
     const page = await this.cheerioService.retrieveDataByUrl(url);
-    return this.pageRepository.updatePageById(pageId, page);
+    return this.pageRepository.updatePageById({ pageId, page });
   }
 }

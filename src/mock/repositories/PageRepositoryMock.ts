@@ -20,7 +20,7 @@ export class PageRepositoryMock implements IPageRepository {
   findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<UpdateWriteOpResult> {
     throw new Error('Method not implemented.');
   }
-  updatePageById(id: string, page: Partial<Page>): Promise<Page> {
+  updatePageById({ pageId, page }: { pageId: string; page: Partial<Page> }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {

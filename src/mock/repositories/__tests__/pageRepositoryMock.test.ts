@@ -54,7 +54,7 @@ describe('PageRepositoryMock test', () => {
 
   test('updatePageById', async () => {
     try {
-      await pageRepositoryMock.updatePageById(mockPage._id, mockPage);
+      await pageRepositoryMock.updatePageById({ pageId: mockPage._id, page: mockPage });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
