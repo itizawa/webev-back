@@ -123,4 +123,11 @@ describe('DirectoryRepositoryMock test', () => {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
   });
+  test('updateEmoji', async () => {
+    try {
+      await directoryRepositoryMock.updateEmoji(mockDirectory._id, mockDirectory.emojiId);
+    } catch (e) {
+      expect(e).toEqual(new Error('Method not implemented.'));
+    }
+  });
 });

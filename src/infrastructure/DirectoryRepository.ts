@@ -18,6 +18,7 @@ const DirectorySchema: Schema = new Schema(
     },
     isRoot: { type: Boolean, default: false },
     description: { type: String, default: '' },
+    emojiId: { type: String, default: 'open_file_folder' },
   },
   { timestamps: true },
 );
@@ -71,5 +72,8 @@ export class DirectoryRepository implements IDirectoryRepository {
   }
   async decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
     return this.DirectoryModel.updateMany({ order: { $gte: min, $lte: max }, createdUser: userId, isRoot: true }, { $inc: { order: -1 } }, { new: true });
+  }
+  async updateEmoji(directoryId: string, emojiId: string): Promise<Directory> {
+    return this.DirectoryModel.findOneAndUpdate({ _id: directoryId }, { emojiId }, { new: true });
   }
 }
