@@ -1,6 +1,6 @@
 import { generateMockUser } from '../../../mock/domains';
 import { UserRepositoryMock } from '../../../mock/repositories';
-import { FindUserPageUseCase } from '../FindUserPageUseCase';
+import { UpdateIsExecutedTutorialUseCase } from '../UpdateIsExecutedTutorialUseCase';
 
 describe('UpdateIsExecutedTutorialUseCase', () => {
   const mockUser = generateMockUser();
@@ -8,7 +8,7 @@ describe('UpdateIsExecutedTutorialUseCase', () => {
 
   mock.updateIsExecutedTutorial = async (userId) => generateMockUser({ _id: userId });
 
-  const useCase = new FindUserPageUseCase(mock);
+  const useCase = new UpdateIsExecutedTutorialUseCase(mock);
   const spy = jest.spyOn(mock, 'updateIsExecutedTutorial');
 
   test('execute', async () => {
