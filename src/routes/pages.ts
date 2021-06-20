@@ -320,7 +320,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const useCase = new ArchivePageUseCase(pageRepository);
 
     try {
-      const page = await useCase.execute(id, user, isArchive);
+      const page = await useCase.execute({ pageId: id, userId: user._id, isArchive });
 
       return res.status(200).json(page);
     } catch (err) {

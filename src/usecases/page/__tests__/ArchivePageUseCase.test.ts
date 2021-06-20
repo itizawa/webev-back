@@ -19,7 +19,7 @@ describe('ArchivePageUseCase', () => {
   const useCase = new ArchivePageUseCase(mock);
 
   test('isArchive is true', async () => {
-    const response = await useCase.execute(mockPage._id, mockUser, true);
+    const response = await useCase.execute({ pageId: mockPage._id, userId: mockUser._id, isArchive: true });
 
     expect(spy).toHaveBeenCalled();
     expect(response.status).toBe(PageStatus.PAGE_STATUS_ARCHIVE);
@@ -27,7 +27,7 @@ describe('ArchivePageUseCase', () => {
   });
 
   test('isArchive is false', async () => {
-    const response = await useCase.execute(mockPage._id, mockUser, false);
+    const response = await useCase.execute({ pageId: mockPage._id, userId: mockUser._id, isArchive: false });
 
     expect(spy).toHaveBeenCalled();
     expect(response.status).toBe(PageStatus.PAGE_STATUS_STOCK);
