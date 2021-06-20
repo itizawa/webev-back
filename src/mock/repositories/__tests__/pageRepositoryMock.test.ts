@@ -46,7 +46,7 @@ describe('PageRepositoryMock test', () => {
 
   test('findByDirectoryIdAndDeleteDirectoryId', async () => {
     try {
-      await pageRepositoryMock.findByDirectoryIdAndDeleteDirectoryId([mockPage._id], mockUser._id);
+      await pageRepositoryMock.findByDirectoryIdAndDeleteDirectoryId({ directoryIds: [mockDirectory._id], userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

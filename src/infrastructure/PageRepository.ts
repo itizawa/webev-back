@@ -54,7 +54,7 @@ export class PageRepository implements IPageRepository {
   async findPageListByDirectoryId({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Page[]> {
     return this.PageModel.find({ directoryId, createdUser: userId });
   }
-  async findByDirectoryIdAndDeleteDirectoryId(directoryIds: string[], userId: string): Promise<UpdateWriteOpResult> {
+  async findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<UpdateWriteOpResult> {
     return this.PageModel.updateMany({ directoryId: { $in: directoryIds }, createdUser: userId }, { directoryId: null }, { new: true });
   }
   async updatePageById(pageId: string, page: Partial<Page>): Promise<Page> {
