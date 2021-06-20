@@ -6,7 +6,7 @@ import { UpdateEmojiOfDirectoryUsecase } from '../UpdateEmojiOfDirectoryUseCase'
 describe('UpdateEmojiOfDirectoryUsecase', () => {
   const mockDirectory = generateMockDirectory();
   const directoryRepositoryMock = new DirectoryRepositoryMock();
-  const updateEmojiSpy = jest.spyOn(directoryRepositoryMock, 'updateEmoji').mockImplementation(async () => generateMockDirectory());
+  const updateEmojiSpy = jest.spyOn(directoryRepositoryMock, 'updateEmoji').mockImplementation(async () => generateMockDirectory({ emojiId: 'hoge' }));
 
   const useCase = new UpdateEmojiOfDirectoryUsecase(directoryRepositoryMock);
 
@@ -14,7 +14,6 @@ describe('UpdateEmojiOfDirectoryUsecase', () => {
     const response = await useCase.execute(mockDirectory._id, 'hoge');
 
     expect(updateEmojiSpy).toHaveBeenCalled();
-    expect(response).toEqual(generateMockDirectory());
-    // expect(response.emojiId).toBe('hoge');
+    expect(response.emojiId).toBe('hoge');
   });
 });
