@@ -30,7 +30,7 @@ describe('PageRepositoryMock test', () => {
 
   test('findPageList', async () => {
     try {
-      await pageRepositoryMock.findPageList(mockPaginationQuery, mockPaginationOptions);
+      await pageRepositoryMock.findPageList({ query: mockPaginationQuery, options: mockPaginationOptions });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

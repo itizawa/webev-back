@@ -11,7 +11,7 @@ export class PageRepositoryMock implements IPageRepository {
   findPageById({ pageId, userId }: { pageId: string; userId: string }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page> {
+  findPageList({ query, options }: { query: PaginationQuery; options: PaginationOptions }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
   findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]> {
