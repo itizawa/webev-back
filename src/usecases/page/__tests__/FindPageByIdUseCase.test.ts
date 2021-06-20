@@ -7,7 +7,7 @@ describe('FindPageByIdUseCase', () => {
   const mockUser = generateMockUser();
   const mock = new PageRepositoryMock();
 
-  mock.findPageById = async (_id, userId) => generateMockPage({ _id, createdUser: userId });
+  mock.findPageById = async ({ pageId: _id, userId }) => generateMockPage({ _id, createdUser: userId });
 
   const useCase = new FindPageByIdUseCase(mock);
 

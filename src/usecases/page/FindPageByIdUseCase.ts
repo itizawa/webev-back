@@ -9,6 +9,6 @@ export class FindPageByIdUseCase {
   }
 
   execute(id: string, userId: string): Promise<Page> {
-    return this.pageRepository.findPageById(id, userId);
+    return this.pageRepository.findPageById({ pageId: id, userId });
   }
 }

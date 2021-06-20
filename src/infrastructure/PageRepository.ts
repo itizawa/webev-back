@@ -45,8 +45,8 @@ export class PageRepository implements IPageRepository {
   async createPage({ page }: { page: Partial<Page> }): Promise<Page> {
     return this.PageModel.create(page);
   }
-  async findPageById(id: string, userId: string): Promise<Page> {
-    return this.PageModel.findOne({ _id: id, createdUser: userId });
+  async findPageById({ pageId, userId }: { pageId: string; userId: string }): Promise<Page> {
+    return this.PageModel.findOne({ _id: pageId, createdUser: userId });
   }
   async findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page> {
     return this.PageModel.paginate(query, options);

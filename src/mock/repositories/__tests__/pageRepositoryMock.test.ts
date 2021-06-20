@@ -22,7 +22,7 @@ describe('PageRepositoryMock test', () => {
 
   test('findPageById', async () => {
     try {
-      await pageRepositoryMock.findPageById(mockPage._id, mockUser._id);
+      await pageRepositoryMock.findPageById({ pageId: mockPage._id, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
