@@ -14,6 +14,7 @@ export interface IDirectoryRepository {
   renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory>;
   updateOrder(directoryId: string, order: number, userId: string): Promise<Directory>;
   updateDescription(directoryId: string, description: string, userId: string): Promise<Directory>;
+  updateIsPublic(directoryId: string, isPublic: boolean, userId: string): Promise<Directory>;
   increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult>;
   decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult>;
   updateEmoji(directoryId: string, emojiId: string): Promise<Directory>;

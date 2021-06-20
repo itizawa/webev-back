@@ -17,6 +17,7 @@ const DirectorySchema: Schema = new Schema(
       required: true,
     },
     isRoot: { type: Boolean, default: false },
+    isPublic: { type: Boolean, default: false },
     description: { type: String, default: '' },
     emojiId: { type: String, default: 'open_file_folder' },
   },
@@ -63,6 +64,9 @@ export class DirectoryRepository implements IDirectoryRepository {
   }
   async updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { order }, { new: true });
+  }
+  async updateIsPublic(directoryId: string, isPublic: boolean, userId: string): Promise<Directory> {
+    return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { isPublic }, { new: true });
   }
   async updateDescription(directoryId: string, description: string, userId: string): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { description }, { new: true });
