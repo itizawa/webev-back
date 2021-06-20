@@ -15,8 +15,8 @@ describe('UpdateUserInfoById', () => {
     const response = await useCase.execute(mockUser._id, 'hoge');
 
     expect(spy).toHaveBeenCalled();
-    expect(response.name).toBe('hoge');
     expect(response._id).toBe(mockUser._id);
+    expect(response.name).toBe('hoge');
     expect(response.email).toBe(mockUser.email);
     expect(response.image).toBe(mockUser.image);
     expect(response.admin).toBe(mockUser.admin);
