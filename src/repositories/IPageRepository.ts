@@ -6,7 +6,7 @@ export interface IPageRepository {
   createPage({ page }: { page: Partial<Page> }): Promise<Page>;
   findPageById({ pageId, userId }: { pageId: string; userId: string }): Promise<Page>;
   findPageList({ query, options }: { query: PaginationQuery; options: PaginationOptions }): Promise<Page>;
-  findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]>;
+  findPageListByDirectoryId({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Page[]>;
   findByDirectoryIdAndDeleteDirectoryId(directoryIds: string[], userId: string): Promise<UpdateWriteOpResult>;
   updatePageById(id: string, page: Partial<Page>): Promise<Page>;
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page>;
