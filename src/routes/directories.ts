@@ -53,7 +53,7 @@ const validator = {
   updateDescription: [param('id').isMongoId(), body('description').isString()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
-  updateEmoji: [param('id').isMongoId(), body('emoji').isString()],
+  updateEmoji: [param('id').isMongoId(), body('emojiId').isString()],
 };
 
 export const directories = (): Router => {
@@ -470,13 +470,13 @@ export const directories = (): Router => {
   // TODO: add swagger by #273
   router.put('/:id/emoji', accessTokenParser, loginRequired, validator.updateEmoji, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
-    const { emoji } = req.body;
+    const { emojiId } = req.body;
 
     const directoryRepository = new DirectoryRepository();
     const usecase = new UpdateEmojiOfDirectoryUsecase(directoryRepository);
 
     try {
-      const result = await usecase.execute(id, emoji);
+      const result = await usecase.execute(id, emojiId);
 
       return res.status(200).json(result);
     } catch (err) {
