@@ -54,7 +54,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('deleteDirectories', async () => {
     try {
-      await directoryRepositoryMock.deleteDirectories([mockDirectory._id], mockUser._id);
+      await directoryRepositoryMock.deleteDirectories({ directoryIds: [mockDirectory._id], userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

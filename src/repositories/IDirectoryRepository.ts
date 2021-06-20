@@ -7,7 +7,7 @@ export interface IDirectoryRepository {
   countDirectoryByUserId({ userId }: { userId: string }): Promise<number>;
   isExistDirectoryByName({ name, userId }: { name: string; userId: string }): Promise<boolean>;
   deleteDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory>;
-  deleteDirectories(directoryIds: string[], userId: string): Promise<number>;
+  deleteDirectories({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<number>;
   findDirectory(directoryId: string, userId: string): Promise<Directory>;
   findAllDirectories(userId: string): Promise<Partial<Directory>[]>;
   findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory>;

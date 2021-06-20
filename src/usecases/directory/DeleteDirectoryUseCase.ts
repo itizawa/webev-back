@@ -22,7 +22,7 @@ export class DeleteDirectoryUseCase {
     }
     const directoryIds = await this.directoryTreeRepository.deleteDirectoryTree(directoryId);
     await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId: user._id });
-    await this.directoryRepository.deleteDirectories(directoryIds, user._id);
+    await this.directoryRepository.deleteDirectories({ directoryIds, userId: user._id });
 
     return deletedDirectory;
   }
