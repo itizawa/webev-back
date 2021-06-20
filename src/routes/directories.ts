@@ -16,14 +16,15 @@ import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUse
 import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
 import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
 import { UpdateOrderOfDirectoryUseCase } from '../usecases/directory/UpdateOrderOfDirectoryUseCase';
+import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
+import { UpdateIsPublicOfDirectoryUseCase } from '../usecases/directory/UpdateIsPublicOfDirectoryUseCase';
 import { UpdateEmojiOfDirectoryUsecase } from '../usecases/directory/UpdateEmojiOfDirectoryUseCase';
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
+import { FindAncestorDirectoriesUseCase } from '../usecases/directory/FindAncestorDirectoriesUseCase';
 
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
-import { FindAncestorDirectoriesUseCase } from '../usecases/directory/FindAncestorDirectoriesUseCase';
-import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
 
 const router = Router();
 
@@ -51,6 +52,7 @@ const validator = {
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   updateOrder: [param('id').isMongoId(), body('order').isInt()],
   updateDescription: [param('id').isMongoId(), body('description').isString()],
+  updateIsPublic: [param('id').isMongoId(), body('isPublic').isBoolean()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
   updateEmoji: [param('id').isMongoId(), body('emojiId').isString()],
@@ -424,6 +426,47 @@ export const directories = (): Router => {
 
     try {
       const result = await usecase.execute(id, description, user._id);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/isPublic:
+   *   put:
+   *     description: order directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for order
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             isPublic:
+   *               type: boolean
+   *     responses:
+   *       200:
+   *         description: Return directory after order
+   */
+  router.put('/:id/isPublic', accessTokenParser, loginRequired, validator.updateIsPublic, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { isPublic } = req.body;
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const usecase = new UpdateIsPublicOfDirectoryUseCase(directoryRepository);
+
+    try {
+      const result = await usecase.execute(id, isPublic, user);
 
       return res.status(200).json(result);
     } catch (err) {
