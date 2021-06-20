@@ -11,16 +11,15 @@ describe('FindUserPageUseCase', () => {
   const useCase = new FindUserPageUseCase(mock);
   const spy = jest.spyOn(mock, 'findUserById');
 
-  test('user is exist', async () => {
+  test('exec', async () => {
     const response = await useCase.execute(mockUser._id);
-
     expect(spy).toHaveBeenCalled();
     expect(response._id).toBe(mockUser._id);
-  });
-
-  test('user is null', async () => {
-    const response = await useCase.execute(null);
-    expect(spy).toHaveBeenCalled();
-    expect(response._id).toBe(null);
+    expect(response.email).toBe(mockUser.email);
+    expect(response.image).toBe(mockUser.image);
+    expect(response.admin).toBe(mockUser.admin);
+    expect(response.createdAt).toStrictEqual(mockUser.createdAt);
+    expect(response.updatedAt).not.toEqual(mockUser.updatedAt);
+    expect(response.isExecutedTutorial).toBe(mockUser.isExecutedTutorial);
   });
 });
