@@ -12,14 +12,14 @@ describe('UpdateIsPublicOfDirectoryUseCase', () => {
 
   const useCase = new UpdateIsPublicOfDirectoryUseCase(directoryRepositoryMock);
 
-  test('execute', async () => {
+  test('isPublic is true', async () => {
     const response = await useCase.execute(mockDirectory._id, true, mockUser);
 
     expect(updateEmojiSpy).toHaveBeenCalled();
     expect(response.isPublic).toBe(true);
   });
 
-  test('execute', async () => {
+  test('isPublic is false', async () => {
     const response = await useCase.execute(mockDirectory._id, false, mockUser);
 
     expect(updateEmojiSpy).toHaveBeenCalled();
