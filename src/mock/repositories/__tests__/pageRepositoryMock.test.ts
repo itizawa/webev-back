@@ -14,7 +14,7 @@ describe('PageRepositoryMock test', () => {
 
   test('createPage', async () => {
     try {
-      await pageRepositoryMock.createPage(mockPage);
+      await pageRepositoryMock.createPage({ page: mockPage });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

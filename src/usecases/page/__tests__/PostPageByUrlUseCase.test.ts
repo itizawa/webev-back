@@ -9,7 +9,7 @@ describe('PostPageByUrlUseCase', () => {
   const mockDirectory = generateMockDirectory();
   const mock = new PageRepositoryMock();
 
-  mock.createPage = async (page: Page) => page;
+  mock.createPage = async ({ page }: { page: Page }) => page;
 
   const useCase = new PostPageByUrlUseCase(mock);
 

@@ -3,7 +3,7 @@ import { Page, PageStatus } from '../domains/Page';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
 
 export interface IPageRepository {
-  createPage(page: Page): Promise<Page>;
+  createPage({ page }: { page: Partial<Page> }): Promise<Page>;
   findPageById(id: string, userId: string): Promise<Page>;
   findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page>;
   findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]>;

@@ -5,7 +5,7 @@ import { PaginationQuery, PaginationOptions } from '../../interfaces/pagination'
 import { IPageRepository } from '../../repositories/IPageRepository';
 
 export class PageRepositoryMock implements IPageRepository {
-  createPage(page: Partial<Page>): Promise<Page> {
+  createPage({ page }: { page: Partial<Page> }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
   findPageById(id: string, userId: string): Promise<Page> {
