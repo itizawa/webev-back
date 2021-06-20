@@ -38,7 +38,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('isExistDirectoryByName', async () => {
     try {
-      await directoryRepositoryMock.isExistDirectoryByName(mockDirectory.name, mockUser._id);
+      await directoryRepositoryMock.isExistDirectoryByName({ name: mockDirectory.name, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
