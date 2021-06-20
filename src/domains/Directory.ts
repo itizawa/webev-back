@@ -8,14 +8,14 @@ export class Directory {
   createdAt: Date;
   updatedAt: Date;
   emojiId: string;
-  constructor({ _id, name, order, createdUser, isRoot, description, createdAt, updatedAt }: Directory) {
+  constructor({ _id, name, order, createdUser, isRoot, description, emojiId, createdAt, updatedAt }: Directory) {
     this._id = _id;
     this.name = name;
     this.order = order;
     this.createdUser = createdUser;
     this.isRoot = isRoot;
     this.description = description;
-    this.emojiId = 'open_file_folder';
+    this.emojiId = emojiId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
