@@ -53,7 +53,7 @@ const validator = {
   updateDescription: [param('id').isMongoId(), body('description').isString()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
-  updateEmoji: [param('id').isMongoId(), body('emoji').isInt()],
+  updateEmoji: [param('id').isMongoId(), body('emoji').isString()],
 };
 
 export const directories = (): Router => {
