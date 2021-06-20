@@ -16,6 +16,7 @@ import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUse
 import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
 import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
 import { UpdateOrderOfDirectoryUseCase } from '../usecases/directory/UpdateOrderOfDirectoryUseCase';
+import { UpdateEmojiOfDirectoryUsecase } from '../usecases/directory/UpdateEmojiOfDirectoryUseCase';
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
 
 import { PageRepository } from '../infrastructure/PageRepository';
@@ -52,6 +53,7 @@ const validator = {
   updateDescription: [param('id').isMongoId(), body('description').isString()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
+  updateEmoji: [param('id').isMongoId(), body('emoji').isInt()],
 };
 
 export const directories = (): Router => {
@@ -457,6 +459,24 @@ export const directories = (): Router => {
 
     try {
       const result = await useCase.execute(id, user);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  // TODO: add swagger by #273
+  router.put('/:id/emoji', accessTokenParser, loginRequired, validator.updateEmoji, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id } = req.params;
+    const { emoji } = req.body;
+
+    const directoryRepository = new DirectoryRepository();
+    const usecase = new UpdateEmojiOfDirectoryUsecase(directoryRepository);
+
+    try {
+      const result = await usecase.execute(id, emoji);
 
       return res.status(200).json(result);
     } catch (err) {
