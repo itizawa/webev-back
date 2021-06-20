@@ -18,7 +18,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   isExistDirectoryByName({ name, userId }: { name: string; userId: string }): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
-  deleteDirectory(directoryId: string, userId: string): Promise<Directory> {
+  deleteDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
   deleteDirectories(directoryIds: string[], userId: string): Promise<number> {

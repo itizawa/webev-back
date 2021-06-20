@@ -42,7 +42,7 @@ export class DirectoryRepository implements IDirectoryRepository {
   async isExistDirectoryByName({ name, userId }: { name: string; userId: string }): Promise<boolean> {
     return this.DirectoryModel.exists({ name, createdUser: userId });
   }
-  async deleteDirectory(directoryId: string, userId: string): Promise<Directory> {
+  async deleteDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     return this.DirectoryModel.findOneAndDelete({ _id: directoryId, createdUser: userId });
   }
   async deleteDirectories(directoryIds: string[], userId: string): Promise<number> {
