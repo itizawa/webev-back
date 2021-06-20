@@ -14,7 +14,7 @@ describe('DeletePageUseCase', () => {
 
   const spy = jest.spyOn(mock, 'updatePageStatus');
   test('excute', async () => {
-    const response = await useCase.execute(mockPage._id, mockUser);
+    const response = await useCase.execute({ pageId: mockPage._id, userId: mockUser._id });
 
     expect(spy).toHaveBeenCalled();
     expect(response.status).toBe(PageStatus.PAGE_STATUS_DELETED);

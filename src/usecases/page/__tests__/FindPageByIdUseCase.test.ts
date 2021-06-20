@@ -13,7 +13,7 @@ describe('FindPageByIdUseCase', () => {
 
   const spy = jest.spyOn(mock, 'findPageById');
   test('excute', async () => {
-    const response = await useCase.execute(mockPage._id, mockUser._id);
+    const response = await useCase.execute({ pageId: mockPage._id, userId: mockUser._id });
 
     expect(spy).toHaveBeenCalled();
     expect(response.createdUser).toBe(mockUser._id);

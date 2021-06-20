@@ -9,7 +9,7 @@ export class FindPageListUseCase {
     this.pageRepository = pageRepository;
   }
 
-  execute(query: PaginationQuery, options: PaginationOptions): Promise<Page> {
+  execute({ query, options }: { query: PaginationQuery; options: PaginationOptions }): Promise<Page> {
     return this.pageRepository.findPageList({ query, options });
   }
 }
