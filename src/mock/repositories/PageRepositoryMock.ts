@@ -26,7 +26,7 @@ export class PageRepositoryMock implements IPageRepository {
   updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  updatePageStatus(id: string, userId: string, status: PageStatus, archivedAt?: Date): Promise<Page> {
+  updatePageStatus({ pageId, userId, status, archivedAt }: { pageId: string; userId: string; status: PageStatus; archivedAt?: Date }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
   countAllPages(): Promise<number> {

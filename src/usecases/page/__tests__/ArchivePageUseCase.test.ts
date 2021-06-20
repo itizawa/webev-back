@@ -9,7 +9,7 @@ describe('ArchivePageUseCase', () => {
   const mockUser = generateMockUser();
   const mockPage = generateMockPage();
   const mock = new PageRepositoryMock();
-  mock.updatePageStatus = async (_id, userId, status, archivedAt) => generateMockPage({ _id, createdUser: userId, status, archivedAt });
+  mock.updatePageStatus = async ({ pageId, userId, status, archivedAt }) => generateMockPage({ _id: pageId, createdUser: userId, status, archivedAt });
 
   // mock new Date() and Date.now()
   const mockDate = new Date(2000, 1, 1, 0, 0, 0);

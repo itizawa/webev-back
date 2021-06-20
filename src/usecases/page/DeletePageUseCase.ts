@@ -10,6 +10,6 @@ export class DeletePageUseCase {
   }
 
   execute(pageId: string, user: User): Promise<Page> {
-    return this.pageRepository.updatePageStatus(pageId, user._id, PageStatus.PAGE_STATUS_DELETED);
+    return this.pageRepository.updatePageStatus({ pageId, userId: user._id, status: PageStatus.PAGE_STATUS_DELETED });
   }
 }

@@ -8,7 +8,7 @@ describe('DeletePageUseCase', () => {
   const mockUser = generateMockUser();
   const mock = new PageRepositoryMock();
 
-  mock.updatePageStatus = async (_id, userId) => generateMockPage({ _id, createdUser: userId, status: PageStatus.PAGE_STATUS_DELETED });
+  mock.updatePageStatus = async ({ pageId, userId }) => generateMockPage({ _id: pageId, createdUser: userId, status: PageStatus.PAGE_STATUS_DELETED });
 
   const useCase = new DeletePageUseCase(mock);
 
