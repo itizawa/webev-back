@@ -1,4 +1,3 @@
-import { User } from '../../domains/User';
 import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
@@ -9,7 +8,7 @@ export class UpdateIsPublicOfDirectoryUseCase {
     this.directoryRepository = directoryRepository;
   }
 
-  async execute(directoryId: string, isPublic: boolean, user: User): Promise<Directory> {
-    return this.directoryRepository.updateIsPublic({ directoryId, isPublic, userId: user._id });
+  async execute({ directoryId, isPublic, userId }: { directoryId: string; isPublic: boolean; userId: string }): Promise<Directory> {
+    return this.directoryRepository.updateIsPublic({ directoryId, isPublic, userId });
   }
 }
