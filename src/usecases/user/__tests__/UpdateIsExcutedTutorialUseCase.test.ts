@@ -12,7 +12,7 @@ describe('UpdateIsExecutedTutorialUseCase', () => {
   const spy = jest.spyOn(mock, 'updateIsExecutedTutorial');
 
   test('execute', async () => {
-    const response = await useCase.execute(mockUser._id);
+    const response = await useCase.execute({ userId: mockUser._id });
 
     expect(spy).toHaveBeenCalled();
     expect(response._id).toBe(mockUser._id);
