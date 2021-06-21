@@ -27,7 +27,7 @@ describe('CreateDirectoryUseCase', () => {
   const useCase = new CreateDirectoryUseCase(directoryRepositoryMock, directoryTreeRepositoryMock);
 
   test('CreateDirectoryUseCase with directoryId', async () => {
-    const response = await useCase.execute('directory name', mockUser, mockDirectory._id);
+    const response = await useCase.execute({ name: 'directory name', userId: mockUser._id, parentDirectoryId: mockDirectory._id });
 
     expect(createDirectorySpy).toHaveBeenCalled();
     expect(createSelfReferenceSpy).toHaveBeenCalled();
@@ -38,7 +38,7 @@ describe('CreateDirectoryUseCase', () => {
   });
 
   test('CreateDirectoryUseCase without directoryId', async () => {
-    const response = await useCase.execute('directory name', mockUser);
+    const response = await useCase.execute({ name: 'directory name', userId: mockUser._id });
 
     expect(countDirectoryByUserIdSpy).toHaveBeenCalled();
     expect(createDirectorySpy).toHaveBeenCalled();
