@@ -9,6 +9,6 @@ export class FindAncestorDirectoriesUseCase {
   }
 
   execute({ directoryId }: { directoryId: string }): Promise<DirectoryTree[]> {
-    return this.DirectoryTreeRepository.findAncestorDirectories(directoryId);
+    return this.DirectoryTreeRepository.findAncestorDirectories({ directoryId });
   }
 }

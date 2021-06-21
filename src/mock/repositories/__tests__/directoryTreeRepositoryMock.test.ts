@@ -33,7 +33,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('findAncestorDirectories', async () => {
     try {
-      await directoryTreeRepositoryMock.findAncestorDirectories(mockDirectory._id);
+      await directoryTreeRepositoryMock.findAncestorDirectories({ directoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
