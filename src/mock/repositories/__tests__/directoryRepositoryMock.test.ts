@@ -118,7 +118,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('increaseDirectory', async () => {
     try {
-      await directoryRepositoryMock.increaseDirectory(1, 10, mockUser._id);
+      await directoryRepositoryMock.increaseDirectory({ min: 1, max: 10, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
