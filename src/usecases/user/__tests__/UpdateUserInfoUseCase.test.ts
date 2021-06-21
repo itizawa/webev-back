@@ -6,7 +6,7 @@ describe('UpdateUserInfoById', () => {
   const mockUser = generateMockUser();
   const mock = new UserRepositoryMock();
 
-  mock.updateUserInfoById = async (userId, name) => generateMockUser({ _id: userId, name });
+  mock.updateUserInfoById = async ({ userId, name }) => generateMockUser({ _id: userId, name });
 
   const useCase = new UpdateUserInfoUseCase(mock);
   const spy = jest.spyOn(mock, 'updateUserInfoById');
