@@ -22,7 +22,7 @@ export class UserRepository implements IUserRepository {
     this.UserModel = model<User & Document>('User', UserSchema);
   }
 
-  async findUserById(userId: string): Promise<User> {
+  async findUserById({ userId }: { userId: string }): Promise<User> {
     return this.UserModel.findById(userId);
   }
 
@@ -30,11 +30,11 @@ export class UserRepository implements IUserRepository {
     return this.UserModel.find();
   }
 
-  async updateUserInfoById(userId: string, name: string): Promise<User> {
+  async updateUserInfoById({ userId, name }: { userId: string; name: string }): Promise<User> {
     return this.UserModel.findOneAndUpdate({ _id: userId }, { name }, { new: true });
   }
 
-  async updateIsExecutedTutorial(userId: string): Promise<User> {
+  async updateIsExecutedTutorial({ userId }: { userId: string }): Promise<User> {
     return this.UserModel.findOneAndUpdate({ _id: userId }, { isExecutedTutorial: true }, { new: true });
   }
 }
