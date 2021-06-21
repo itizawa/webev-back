@@ -145,7 +145,7 @@ export const directories = (): Router => {
     const options = new PaginationOptions({ page, limit, sort: { order: 1 } });
 
     try {
-      const paginationResult = await useCase.execute(query, options);
+      const paginationResult = await useCase.execute({ query, options });
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
