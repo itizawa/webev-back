@@ -27,7 +27,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   findDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  findAllDirectories(userId: string): Promise<Partial<Directory>[]> {
+  findAllDirectories({ userId }: { userId: string }): Promise<Partial<Directory>[]> {
     throw new Error('Method not implemented.');
   }
   findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
