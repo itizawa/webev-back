@@ -10,7 +10,7 @@ export interface IDirectoryRepository {
   deleteDirectories({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<number>;
   findDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory>;
   findAllDirectories({ userId }: { userId: string }): Promise<Partial<Directory>[]>;
-  findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory>;
+  findDirectoryList({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory>;
   renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory>;
   updateOrder(directoryId: string, order: number, userId: string): Promise<Directory>;
   updateDescription(directoryId: string, description: string, userId: string): Promise<Directory>;

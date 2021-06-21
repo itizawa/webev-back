@@ -30,7 +30,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   findAllDirectories({ userId }: { userId: string }): Promise<Partial<Directory>[]> {
     throw new Error('Method not implemented.');
   }
-  findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
+  findDirectoryList({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
   renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory> {
