@@ -24,7 +24,7 @@ export const users = (): Router => {
     const useCase = new FindUserPageUseCase(userRepository);
 
     try {
-      const userPage = await useCase.execute(user._id);
+      const userPage = await useCase.execute({ userId: user._id });
       return res.status(200).json(userPage);
     } catch (err) {
       return res.status(500).json({ message: err.message });
@@ -50,7 +50,7 @@ export const users = (): Router => {
     const useCase = new UpdateUserInfoUseCase(userRepository);
 
     try {
-      const userPage = await useCase.execute(user._id, name);
+      const userPage = await useCase.execute({ userId: user._id, name });
       return res.status(200).json(userPage);
     } catch (err) {
       return res.status(500).json({ message: err.message });
@@ -64,7 +64,7 @@ export const users = (): Router => {
     const useCase = new UpdateIsExecutedTutorialUseCase(userRepository);
 
     try {
-      const result = await useCase.execute(user._id);
+      const result = await useCase.execute({ userId: user._id });
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });

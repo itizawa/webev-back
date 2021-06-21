@@ -8,7 +8,7 @@ describe('FetchOgpAndUpdatePageUseCase', () => {
   const mock = new PageRepositoryMock();
   const cheerioServiceMock = new CheerioServiceMock();
 
-  cheerioServiceMock.retrieveDataByUrl = async (url) => generateMockPage({ url });
+  cheerioServiceMock.retrieveDataByUrl = async ({ url }) => generateMockPage({ url });
   mock.updatePageById = async ({ pageId, page }) => generateMockPage({ _id: pageId, url: page.url });
   const useCase = new FetchOgpAndUpdatePageUseCase(mock, cheerioServiceMock);
 

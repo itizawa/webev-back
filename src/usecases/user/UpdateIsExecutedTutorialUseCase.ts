@@ -8,7 +8,7 @@ export class UpdateIsExecutedTutorialUseCase {
     this.userRepository = userRepository;
   }
 
-  execute(userId: string): Promise<User> {
-    return this.userRepository.updateIsExecutedTutorial(userId);
+  execute({ userId }: { userId: string }): Promise<User> {
+    return this.userRepository.updateIsExecutedTutorial({ userId });
   }
 }

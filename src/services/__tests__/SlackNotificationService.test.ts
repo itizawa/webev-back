@@ -7,7 +7,7 @@ describe('SlackNotificationService test', () => {
   test('notifyInquiryToSlack', async () => {
     const incomingWebhookSpy = jest.spyOn(slackNotificationService, 'notifyInquiryToSlack').mockImplementation();
 
-    const response = await slackNotificationService.notifyInquiryToSlack(mockInquiry);
+    const response = await slackNotificationService.notifyInquiryToSlack({ inquiry: mockInquiry });
     expect(incomingWebhookSpy).toHaveBeenCalled();
     expect(response).toEqual(undefined);
   });

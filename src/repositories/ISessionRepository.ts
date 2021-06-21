@@ -1,5 +1,5 @@
 import { Session } from '../domains/Session';
 
 export interface ISessionRepository {
-  findSessionByAccessToken(accessToken: string): Promise<Session>;
+  findSessionByAccessToken({ accessToken }: { accessToken: string }): Promise<Session>;
 }

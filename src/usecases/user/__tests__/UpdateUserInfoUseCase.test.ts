@@ -6,13 +6,13 @@ describe('UpdateUserInfoById', () => {
   const mockUser = generateMockUser();
   const mock = new UserRepositoryMock();
 
-  mock.updateUserInfoById = async (userId, name) => generateMockUser({ _id: userId, name });
+  mock.updateUserInfoById = async ({ userId, name }) => generateMockUser({ _id: userId, name });
 
   const useCase = new UpdateUserInfoUseCase(mock);
   const spy = jest.spyOn(mock, 'updateUserInfoById');
 
   test('update user name', async () => {
-    const response = await useCase.execute(mockUser._id, 'hoge');
+    const response = await useCase.execute({ userId: mockUser._id, name: 'hoge' });
 
     expect(spy).toHaveBeenCalled();
     expect(response.name).toBe('hoge');
