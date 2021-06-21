@@ -8,7 +8,7 @@ export class FindChildrenDirectoriesUseCase {
     this.DirectoryTreeRepository = DirectoryTreeRepository;
   }
 
-  execute(parentDirectoryId: string): Promise<DirectoryTree[]> {
+  execute({ parentDirectoryId }: { parentDirectoryId: string }): Promise<DirectoryTree[]> {
     return this.DirectoryTreeRepository.findChildrenDirectories(parentDirectoryId);
   }
 }

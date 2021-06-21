@@ -261,13 +261,13 @@ export const directories = (): Router => {
    *         description: Return children directories by directory id
    */
   router.get('/:id/children', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: parentDirectoryId } = req.params;
 
     const directoryTreeRepository = new DirectoryTreeRepository();
     const useCase = new FindChildrenDirectoriesUseCase(directoryTreeRepository);
 
     try {
-      const result = await useCase.execute(id);
+      const result = await useCase.execute({ parentDirectoryId });
 
       return res.status(200).json(result);
     } catch (err) {
