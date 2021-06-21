@@ -15,7 +15,7 @@ export class DirectoryTreeRepositoryMock implements IDirectoryTreeRepository {
   findAncestorDirectories({ directoryId }: { directoryId: string }): Promise<DirectoryTree[]> {
     throw new Error('Method not implemented.');
   }
-  deleteDirectoryTree(directoryId: string): Promise<string[]> {
+  deleteDirectoryTree({ directoryId }: { directoryId: string }): Promise<string[]> {
     throw new Error('Method not implemented.');
   }
 }

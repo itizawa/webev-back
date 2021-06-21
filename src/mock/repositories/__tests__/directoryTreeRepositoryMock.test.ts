@@ -41,7 +41,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('deleteDirectoryTree', async () => {
     try {
-      await directoryTreeRepositoryMock.deleteDirectoryTree(mockDirectory._id);
+      await directoryTreeRepositoryMock.deleteDirectoryTree({ directoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
