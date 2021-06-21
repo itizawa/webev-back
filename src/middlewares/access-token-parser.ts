@@ -21,7 +21,7 @@ export const accessTokenParser = async (req: WebevRequest, res: Response, next: 
   }
 
   const userRepository = new UserRepository();
-  const user = await userRepository.findUserById(session.userId as string);
+  const user = await userRepository.findUserById({ userId: session.userId as string });
 
   if (user != null) {
     req.user = user;
