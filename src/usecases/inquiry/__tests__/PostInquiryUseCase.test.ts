@@ -11,7 +11,7 @@ describe('PostInquiryUseCase', () => {
 
   const useCase = new PostInquiryUseCase(mock, slackNotificationService);
 
-  const spy = jest.spyOn(mock, 'postInquiry').mockImplementation(async (Inquiry) => generateMockInquiry(Inquiry));
+  const spy = jest.spyOn(mock, 'postInquiry').mockImplementation(async (inquiry) => generateMockInquiry(inquiry));
   test('execute', async () => {
     const response = await useCase.execute({ type: mockInquiry.type, email: mockInquiry.email, text: mockInquiry.text });
 

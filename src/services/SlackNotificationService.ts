@@ -2,7 +2,7 @@ import { IncomingWebhook } from '@slack/webhook';
 import { Inquiry } from '../domains/Inquiry';
 
 export class SlackNotificationService {
-  async notifyInquiryToSlack(inquiry: Inquiry): Promise<void> {
+  async notifyInquiryToSlack({ inquiry }: { inquiry: Inquiry }): Promise<void> {
     try {
       const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
       await webhook.send({
