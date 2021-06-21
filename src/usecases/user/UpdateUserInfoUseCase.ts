@@ -8,7 +8,7 @@ export class UpdateUserInfoUseCase {
     this.userRepository = userRepository;
   }
 
-  execute(userId: string, name: string): Promise<User> {
-    return this.userRepository.updateUserInfoById(userId, name);
+  execute({ userId, name }: { userId: string; name: string }): Promise<User> {
+    return this.userRepository.updateUserInfoById({ userId, name });
   }
 }

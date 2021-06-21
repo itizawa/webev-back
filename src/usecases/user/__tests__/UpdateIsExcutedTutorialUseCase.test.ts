@@ -6,7 +6,7 @@ describe('UpdateIsExecutedTutorialUseCase', () => {
   const mockUser = generateMockUser();
   const mock = new UserRepositoryMock();
 
-  mock.updateIsExecutedTutorial = async (userId) => generateMockUser({ _id: userId });
+  mock.updateIsExecutedTutorial = async ({ userId }) => generateMockUser({ _id: userId });
 
   const useCase = new UpdateIsExecutedTutorialUseCase(mock);
   const spy = jest.spyOn(mock, 'updateIsExecutedTutorial');
