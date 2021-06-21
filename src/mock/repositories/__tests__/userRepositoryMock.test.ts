@@ -24,7 +24,7 @@ describe('InquiryRepositoryMock test', () => {
 
   test('updateUserInfoById', async () => {
     try {
-      await userRepositoryMock.updateUserInfoById(mockUser._id, mockUser.name);
+      await userRepositoryMock.updateUserInfoById({ userId: mockUser._id, name: mockUser.name });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
