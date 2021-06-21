@@ -8,7 +8,7 @@ describe('InquiryRepositoryMock test', () => {
 
   test('findUserById', async () => {
     try {
-      await userRepositoryMock.findUserById(mockUser._id);
+      await userRepositoryMock.findUserById({ userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
