@@ -42,7 +42,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   updateDescription({ directoryId, description, userId }: { directoryId: string; description: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  updateIsPublic(directoryId: string, isPublic: boolean, userId: string): Promise<Directory> {
+  updateIsPublic({ directoryId, isPublic, userId }: { directoryId: string; isPublic: boolean; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
   increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {

@@ -110,7 +110,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('updateIsPublic', async () => {
     try {
-      await directoryRepositoryMock.updateIsPublic(mockDirectory._id, true, mockUser._id);
+      await directoryRepositoryMock.updateIsPublic({ directoryId: mockDirectory._id, isPublic: true, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

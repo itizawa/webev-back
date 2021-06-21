@@ -65,7 +65,7 @@ export class DirectoryRepository implements IDirectoryRepository {
   async updateOrder({ directoryId, order, userId }: { directoryId: string; order: number; userId: string }): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { order }, { new: true });
   }
-  async updateIsPublic(directoryId: string, isPublic: boolean, userId: string): Promise<Directory> {
+  async updateIsPublic({ directoryId, isPublic, userId }: { directoryId: string; isPublic: boolean; userId: string }): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { isPublic }, { new: true });
   }
   async updateDescription({ directoryId, description, userId }: { directoryId: string; description: string; userId: string }): Promise<Directory> {

@@ -10,6 +10,6 @@ export class UpdateIsPublicOfDirectoryUseCase {
   }
 
   async execute(directoryId: string, isPublic: boolean, user: User): Promise<Directory> {
-    return this.directoryRepository.updateIsPublic(directoryId, isPublic, user._id);
+    return this.directoryRepository.updateIsPublic({ directoryId, isPublic, userId: user._id });
   }
 }

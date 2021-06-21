@@ -8,7 +8,9 @@ describe('UpdateIsPublicOfDirectoryUseCase', () => {
   const mockUser = generateMockUser();
 
   const directoryRepositoryMock = new DirectoryRepositoryMock();
-  const updateEmojiSpy = jest.spyOn(directoryRepositoryMock, 'updateIsPublic').mockImplementation(async (mockDirectory, isPublic) => generateMockDirectory({ isPublic }));
+  const updateEmojiSpy = jest
+    .spyOn(directoryRepositoryMock, 'updateIsPublic')
+    .mockImplementation(async ({ directoryId, isPublic }) => generateMockDirectory({ _id: directoryId, isPublic }));
 
   const useCase = new UpdateIsPublicOfDirectoryUseCase(directoryRepositoryMock);
 
