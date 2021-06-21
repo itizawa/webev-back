@@ -77,7 +77,7 @@ export class DirectoryRepository implements IDirectoryRepository {
   async decreaseDirectory({ min, max, userId }: { min: number; max: number; userId: string }): Promise<UpdateWriteOpResult> {
     return this.DirectoryModel.updateMany({ order: { $gte: min, $lte: max }, createdUser: userId, isRoot: true }, { $inc: { order: -1 } }, { new: true });
   }
-  async updateEmoji(directoryId: string, emojiId: string): Promise<Directory> {
-    return this.DirectoryModel.findOneAndUpdate({ _id: directoryId }, { emojiId }, { new: true });
+  async updateEmoji({ directoryId, emojiId, userId }: { directoryId: string; emojiId: string; userId: string }): Promise<Directory> {
+    return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { emojiId }, { new: true });
   }
 }

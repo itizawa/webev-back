@@ -514,12 +514,13 @@ export const directories = (): Router => {
   router.put('/:id/emoji', accessTokenParser, loginRequired, validator.updateEmoji, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id } = req.params;
     const { emojiId } = req.body;
+    const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
     const usecase = new UpdateEmojiOfDirectoryUsecase(directoryRepository);
 
     try {
-      const result = await usecase.execute(id, emojiId);
+      const result = await usecase.execute(id, emojiId, user._id);
 
       return res.status(200).json(result);
     } catch (err) {

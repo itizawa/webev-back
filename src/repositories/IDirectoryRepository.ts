@@ -17,5 +17,5 @@ export interface IDirectoryRepository {
   updateIsPublic({ directoryId, isPublic, userId }: { directoryId: string; isPublic: boolean; userId: string }): Promise<Directory>;
   increaseDirectory({ min, max, userId }: { min: number; max: number; userId: string }): Promise<UpdateWriteOpResult>;
   decreaseDirectory({ min, max, userId }: { min: number; max: number; userId: string }): Promise<UpdateWriteOpResult>;
-  updateEmoji(directoryId: string, emojiId: string): Promise<Directory>;
+  updateEmoji({ directoryId, emojiId, userId }: { directoryId: string; emojiId: string; userId: string }): Promise<Directory>;
 }
