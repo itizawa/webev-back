@@ -50,7 +50,7 @@ export class DirectoryRepository implements IDirectoryRepository {
 
     return deletedCount;
   }
-  async findDirectory(directoryId: string, userId: string): Promise<Directory> {
+  async findDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     return this.DirectoryModel.findOne({ _id: directoryId, createdUser: userId });
   }
   async findAllDirectories(userId: string): Promise<Partial<Directory>[]> {

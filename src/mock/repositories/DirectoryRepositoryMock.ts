@@ -24,7 +24,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   deleteDirectories({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<number> {
     throw new Error('Method not implemented.');
   }
-  findDirectory(directoryId: string, userId: string): Promise<Directory> {
+  findDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
   findAllDirectories(userId: string): Promise<Partial<Directory>[]> {

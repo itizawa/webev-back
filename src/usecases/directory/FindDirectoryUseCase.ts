@@ -10,6 +10,6 @@ export class FindDirectoryUseCase {
   }
 
   execute(directoryId: string, user: User): Promise<Directory> {
-    return this.DirectoryRepository.findDirectory(directoryId, user._id);
+    return this.DirectoryRepository.findDirectory({ directoryId, userId: user._id });
   }
 }
