@@ -23,7 +23,7 @@ describe('CheerioService test', () => {
       };
     });
 
-    const response = await cheerioService.retrieveDataByUrl(mockUrl);
+    const response = await cheerioService.retrieveDataByUrl({ url: mockUrl });
     expect(axiosSpy).toHaveBeenCalled();
     expect(response).toEqual({ title: mockTitle, siteName: mockSiteName, url: mockUrl, description: mockDescription, image: mockImage });
   });
@@ -33,7 +33,7 @@ describe('CheerioService test', () => {
       throw new Error();
     });
 
-    const response = await cheerioService.retrieveDataByUrl(mockUrl);
+    const response = await cheerioService.retrieveDataByUrl({ url: mockUrl });
     expect(axiosSpy).toHaveBeenCalled();
     expect(response).toEqual({ description: '取得できませんでした', title: mockUrl, url: mockUrl });
   });
