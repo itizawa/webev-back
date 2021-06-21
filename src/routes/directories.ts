@@ -169,7 +169,7 @@ export const directories = (): Router => {
     const useCase = new FindAllDirectoriesUseCase(directoryRepository);
 
     try {
-      const result = await useCase.execute(user);
+      const result = await useCase.execute({ userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {

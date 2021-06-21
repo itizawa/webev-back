@@ -1,4 +1,3 @@
-import { User } from '../../domains/User';
 import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
@@ -9,7 +8,7 @@ export class FindAllDirectoriesUseCase {
     this.DirectoryRepository = DirectoryRepository;
   }
 
-  execute(user: User): Promise<Partial<Directory>[]> {
-    return this.DirectoryRepository.findAllDirectories({ userId: user._id });
+  execute({ userId }: { userId: string }): Promise<Partial<Directory>[]> {
+    return this.DirectoryRepository.findAllDirectories({ userId });
   }
 }
