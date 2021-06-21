@@ -1,4 +1,3 @@
-import { User } from '../../domains/User';
 import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
@@ -15,14 +14,14 @@ export class DeleteDirectoryUseCase {
     this.pageRepository = pageRepository;
   }
 
-  async execute(directoryId: string, user: User): Promise<Directory> {
-    const deletedDirectory = await this.directoryRepository.deleteDirectory(directoryId, user._id);
+  async execute({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
+    const deletedDirectory = await this.directoryRepository.deleteDirectory({ directoryId, userId });
     if (deletedDirectory.isRoot) {
-      await this.directoryRepository.decreaseDirectory(deletedDirectory.order, 10000, user._id);
+      await this.directoryRepository.decreaseDirectory({ min: deletedDirectory.order, max: 10000, userId });
     }
     const directoryIds = await this.directoryTreeRepository.deleteDirectoryTree(directoryId);
-    await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId: user._id });
-    await this.directoryRepository.deleteDirectories(directoryIds, user._id);
+    await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId });
+    await this.directoryRepository.deleteDirectories({ directoryIds, userId });
 
     return deletedDirectory;
   }

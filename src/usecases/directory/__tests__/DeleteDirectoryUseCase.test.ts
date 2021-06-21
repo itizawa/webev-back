@@ -22,8 +22,8 @@ describe('DeleteDirectoryUseCase', () => {
   test('DeleteDirectoryUseCase: isRoot is false', async () => {
     const deleteDirectorySpy = jest
       .spyOn(directoryRepositoryMock, 'deleteDirectory')
-      .mockImplementation(async (directoryId, userId) => generateMockDirectory({ _id: directoryId, createdUser: userId, isRoot: true }));
-    const response = await useCase.execute(mockDirectory._id, mockUser);
+      .mockImplementation(async ({ directoryId, userId }) => generateMockDirectory({ _id: directoryId, createdUser: userId, isRoot: true }));
+    const response = await useCase.execute({ directoryId: mockDirectory._id, userId: mockUser._id });
 
     expect(findByDirectoryIdAndDeleteDirectoryIdSpy).toHaveBeenCalled();
     expect(deleteDirectorySpy).toHaveBeenCalled();
@@ -38,8 +38,8 @@ describe('DeleteDirectoryUseCase', () => {
   test('DeleteDirectoryUseCase: isRoot is true', async () => {
     const deleteDirectorySpy = jest
       .spyOn(directoryRepositoryMock, 'deleteDirectory')
-      .mockImplementation(async (directoryId, userId) => generateMockDirectory({ _id: directoryId, createdUser: userId, isRoot: false }));
-    const response = await useCase.execute(mockDirectory._id, mockUser);
+      .mockImplementation(async ({ directoryId, userId }) => generateMockDirectory({ _id: directoryId, createdUser: userId, isRoot: false }));
+    const response = await useCase.execute({ directoryId: mockDirectory._id, userId: mockUser._id });
 
     expect(findByDirectoryIdAndDeleteDirectoryIdSpy).toHaveBeenCalled();
     expect(deleteDirectorySpy).toHaveBeenCalled();

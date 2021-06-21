@@ -9,49 +9,49 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   createPage(page: Partial<Page>): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  createDirectory(directory: Partial<Directory>): Promise<Directory> {
+  createDirectory({ directory }: { directory: Partial<Directory> }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  countDirectoryByUserId(userId: string): Promise<number> {
+  countDirectoryByUserId({ userId }: { userId: string }): Promise<number> {
     throw new Error('Method not implemented.');
   }
-  isExistDirectoryByName(name: string, userId: string): Promise<boolean> {
+  isExistDirectoryByName({ name, userId }: { name: string; userId: string }): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
-  deleteDirectory(directoryId: string, userId: string): Promise<Directory> {
+  deleteDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  deleteDirectories(directoryIds: string[], userId: string): Promise<number> {
+  deleteDirectories({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<number> {
     throw new Error('Method not implemented.');
   }
-  findDirectory(directoryId: string, userId: string): Promise<Directory> {
+  findDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  findAllDirectories(userId: string): Promise<Partial<Directory>[]> {
+  findAllDirectories({ userId }: { userId: string }): Promise<Partial<Directory>[]> {
     throw new Error('Method not implemented.');
   }
-  findDirectoryList(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
+  findDirectoryList({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory> {
+  renameDirectory({ directoryId, name, userId }: { directoryId: string; name: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {
+  updateOrder({ directoryId, order, userId }: { directoryId: string; order: number; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  updateDescription(directoryId: string, description: string, userId: string): Promise<Directory> {
+  updateDescription({ directoryId, description, userId }: { directoryId: string; description: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  updateIsPublic(directoryId: string, isPublic: boolean, userId: string): Promise<Directory> {
+  updateIsPublic({ directoryId, isPublic, userId }: { directoryId: string; isPublic: boolean; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  increaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
+  increaseDirectory({ min, max, userId }: { min: number; max: number; userId: string }): Promise<UpdateWriteOpResult> {
     throw new Error('Method not implemented.');
   }
-  decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
+  decreaseDirectory({ min, max, userId }: { min: number; max: number; userId: string }): Promise<UpdateWriteOpResult> {
     throw new Error('Method not implemented.');
   }
-  updateEmoji(directoryId: string, emojiId: string): Promise<Directory> {
+  updateEmoji({ directoryId, emojiId, userId }: { directoryId: string; emojiId: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
 }

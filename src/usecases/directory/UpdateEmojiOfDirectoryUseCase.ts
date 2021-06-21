@@ -8,7 +8,7 @@ export class UpdateEmojiOfDirectoryUsecase {
     this.directoryRepository = directoryRepository;
   }
 
-  async execute(directoryId: string, emojiId: string): Promise<Directory> {
-    return this.directoryRepository.updateEmoji(directoryId, emojiId);
+  async execute({ directoryId, emojiId, userId }: { directoryId: string; emojiId: string; userId: string }): Promise<Directory> {
+    return this.directoryRepository.updateEmoji({ directoryId, emojiId, userId });
   }
 }

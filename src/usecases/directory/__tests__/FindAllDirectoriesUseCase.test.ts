@@ -12,7 +12,7 @@ describe('FindAllDirectoriesUseCase', () => {
   const useCase = new FindAllDirectoriesUseCase(directoryRepositoryMock);
 
   test('execute', async () => {
-    const response = await useCase.execute(mockUser);
+    const response = await useCase.execute({ userId: mockUser._id });
 
     expect(findAllDirectoriesSpy).toHaveBeenCalled();
     expect(response).toEqual([generateMockDirectory()]);

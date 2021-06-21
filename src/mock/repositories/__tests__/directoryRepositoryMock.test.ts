@@ -22,7 +22,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('createDirectory', async () => {
     try {
-      await directoryRepositoryMock.createDirectory(mockDirectory);
+      await directoryRepositoryMock.createDirectory({ directory: mockDirectory });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -30,7 +30,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('countDirectoryByUserId', async () => {
     try {
-      await directoryRepositoryMock.countDirectoryByUserId(mockUser._id);
+      await directoryRepositoryMock.countDirectoryByUserId({ userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -38,7 +38,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('isExistDirectoryByName', async () => {
     try {
-      await directoryRepositoryMock.isExistDirectoryByName(mockDirectory.name, mockUser._id);
+      await directoryRepositoryMock.isExistDirectoryByName({ name: mockDirectory.name, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -46,7 +46,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('deleteDirectory', async () => {
     try {
-      await directoryRepositoryMock.deleteDirectory(mockDirectory._id, mockUser._id);
+      await directoryRepositoryMock.deleteDirectory({ directoryId: mockDirectory._id, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -54,7 +54,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('deleteDirectories', async () => {
     try {
-      await directoryRepositoryMock.deleteDirectories([mockDirectory._id], mockUser._id);
+      await directoryRepositoryMock.deleteDirectories({ directoryIds: [mockDirectory._id], userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -62,7 +62,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('findDirectory', async () => {
     try {
-      await directoryRepositoryMock.findDirectory(mockDirectory._id, mockUser._id);
+      await directoryRepositoryMock.findDirectory({ directoryId: mockDirectory._id, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -70,7 +70,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('findAllDirectories', async () => {
     try {
-      await directoryRepositoryMock.findAllDirectories(mockUser._id);
+      await directoryRepositoryMock.findAllDirectories({ userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -78,7 +78,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('findDirectoryList', async () => {
     try {
-      await directoryRepositoryMock.findDirectoryList(mockPaginationQuery, mockPaginationOptions);
+      await directoryRepositoryMock.findDirectoryList({ query: mockPaginationQuery, options: mockPaginationOptions });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -86,7 +86,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('renameDirectory', async () => {
     try {
-      await directoryRepositoryMock.renameDirectory(mockDirectory._id, mockDirectory.name, mockUser._id);
+      await directoryRepositoryMock.renameDirectory({ directoryId: mockDirectory._id, name: mockDirectory.name, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -94,7 +94,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('updateOrder', async () => {
     try {
-      await directoryRepositoryMock.updateOrder(mockDirectory._id, mockDirectory.order, mockUser._id);
+      await directoryRepositoryMock.updateOrder({ directoryId: mockDirectory._id, order: mockDirectory.order, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -102,7 +102,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('updateDescription', async () => {
     try {
-      await directoryRepositoryMock.updateDescription(mockDirectory._id, mockDirectory.description, mockUser._id);
+      await directoryRepositoryMock.updateDescription({ directoryId: mockDirectory._id, description: mockDirectory.description, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -110,7 +110,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('updateIsPublic', async () => {
     try {
-      await directoryRepositoryMock.updateIsPublic(mockDirectory._id, true, mockUser._id);
+      await directoryRepositoryMock.updateIsPublic({ directoryId: mockDirectory._id, isPublic: true, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -118,7 +118,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('increaseDirectory', async () => {
     try {
-      await directoryRepositoryMock.increaseDirectory(1, 10, mockUser._id);
+      await directoryRepositoryMock.increaseDirectory({ min: 1, max: 10, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -126,14 +126,14 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('decreaseDirectory', async () => {
     try {
-      await directoryRepositoryMock.decreaseDirectory(1, 10, mockUser._id);
+      await directoryRepositoryMock.decreaseDirectory({ min: 1, max: 10, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
   });
   test('updateEmoji', async () => {
     try {
-      await directoryRepositoryMock.updateEmoji(mockDirectory._id, mockDirectory.emojiId);
+      await directoryRepositoryMock.updateEmoji({ directoryId: mockDirectory._id, emojiId: mockDirectory.emojiId, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
