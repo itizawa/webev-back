@@ -417,7 +417,7 @@ export const directories = (): Router => {
    *         description: Return directory after order
    */
   router.put('/:id/description', accessTokenParser, loginRequired, validator.updateDescription, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { description } = req.body;
     const { user } = req;
 
@@ -425,7 +425,7 @@ export const directories = (): Router => {
     const usecase = new UpdateDescriptionOfDirectoryUsecase(directoryRepository);
 
     try {
-      const result = await usecase.execute(id, description, user._id);
+      const result = await usecase.execute({ directoryId, description, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
