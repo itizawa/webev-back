@@ -12,7 +12,7 @@ describe('UpdateEmojiOfDirectoryUsecase', () => {
   const useCase = new UpdateEmojiOfDirectoryUsecase(directoryRepositoryMock);
 
   test('execute', async () => {
-    const response = await useCase.execute(mockDirectory._id, 'hoge', mockUser._id);
+    const response = await useCase.execute({ directoryId: mockDirectory._id, emojiId: 'hoge', userId: mockUser._id });
 
     expect(updateEmojiSpy).toHaveBeenCalled();
     expect(response.emojiId).toBe('hoge');
