@@ -30,7 +30,7 @@ export class DirectoryTreeRepository implements IDirectoryTreeRepository {
     this.DirectoryTreeModel = model<DirectoryTree & Document>('DirectoryTree', DirectoryTreeSchema);
   }
 
-  async createSelfReference(directoryId: string): Promise<DirectoryTree> {
+  async createSelfReference({ directoryId }: { directoryId: string }): Promise<DirectoryTree> {
     return this.DirectoryTreeModel.create({ ancestor: directoryId, descendant: directoryId, depth: 0 });
   }
   async createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {

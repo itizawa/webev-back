@@ -9,7 +9,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('createSelfReference', async () => {
     try {
-      await directoryTreeRepositoryMock.createSelfReference(mockDirectory._id);
+      await directoryTreeRepositoryMock.createSelfReference({ directoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

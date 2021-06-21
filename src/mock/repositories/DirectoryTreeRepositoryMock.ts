@@ -3,7 +3,7 @@ import { DirectoryTree } from '../../domains/DirectoryTree';
 import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
 
 export class DirectoryTreeRepositoryMock implements IDirectoryTreeRepository {
-  createSelfReference(directoryId: string): Promise<DirectoryTree> {
+  createSelfReference({ directoryId }: { directoryId: string }): Promise<DirectoryTree> {
     throw new Error('Method not implemented.');
   }
   createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {
