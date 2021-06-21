@@ -492,7 +492,7 @@ export const directories = (): Router => {
    *         description: Return directory after deleted
    */
   router.delete('/:id', accessTokenParser, loginRequired, validator.deleteDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
@@ -501,7 +501,7 @@ export const directories = (): Router => {
     const useCase = new DeleteDirectoryUseCase(directoryRepository, directoryTreeRepository, pageRepository);
 
     try {
-      const result = await useCase.execute(id, user);
+      const result = await useCase.execute({ directoryId, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
