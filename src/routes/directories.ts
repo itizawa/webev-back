@@ -375,7 +375,7 @@ export const directories = (): Router => {
    *         description: Return directory after order
    */
   router.put('/:id/order', accessTokenParser, loginRequired, validator.updateOrder, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { order } = req.body;
     const { user } = req;
 
@@ -383,7 +383,7 @@ export const directories = (): Router => {
     const useCase = new UpdateOrderOfDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await useCase.execute(id, order, user);
+      const result = await useCase.execute({ directoryId, order, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -458,7 +458,7 @@ export const directories = (): Router => {
    *         description: Return directory after order
    */
   router.put('/:id/isPublic', accessTokenParser, loginRequired, validator.updateIsPublic, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { isPublic } = req.body;
     const { user } = req;
 
@@ -466,7 +466,7 @@ export const directories = (): Router => {
     const usecase = new UpdateIsPublicOfDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await usecase.execute(id, isPublic, user);
+      const result = await usecase.execute({ directoryId, isPublic, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
