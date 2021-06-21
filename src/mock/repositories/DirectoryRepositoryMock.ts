@@ -33,7 +33,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   findDirectoryList({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory> {
+  renameDirectory({ directoryId, name, userId }: { directoryId: string; name: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
   updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {

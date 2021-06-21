@@ -59,7 +59,7 @@ export class DirectoryRepository implements IDirectoryRepository {
   async findDirectoryList({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory> {
     return this.DirectoryModel.paginate(query, options);
   }
-  async renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory> {
+  async renameDirectory({ directoryId, name, userId }: { directoryId: string; name: string; userId: string }): Promise<Directory> {
     return this.DirectoryModel.findOneAndUpdate({ _id: directoryId, createdUser: userId }, { name }, { new: true });
   }
   async updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {

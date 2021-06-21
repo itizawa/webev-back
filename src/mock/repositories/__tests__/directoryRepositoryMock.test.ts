@@ -86,7 +86,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('renameDirectory', async () => {
     try {
-      await directoryRepositoryMock.renameDirectory(mockDirectory._id, mockDirectory.name, mockUser._id);
+      await directoryRepositoryMock.renameDirectory({ directoryId: mockDirectory._id, name: mockDirectory.name, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

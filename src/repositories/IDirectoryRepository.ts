@@ -11,7 +11,7 @@ export interface IDirectoryRepository {
   findDirectory({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory>;
   findAllDirectories({ userId }: { userId: string }): Promise<Partial<Directory>[]>;
   findDirectoryList({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory>;
-  renameDirectory(directoryId: string, name: string, userId: string): Promise<Directory>;
+  renameDirectory({ directoryId, name, userId }: { directoryId: string; name: string; userId: string }): Promise<Directory>;
   updateOrder(directoryId: string, order: number, userId: string): Promise<Directory>;
   updateDescription(directoryId: string, description: string, userId: string): Promise<Directory>;
   updateIsPublic(directoryId: string, isPublic: boolean, userId: string): Promise<Directory>;
