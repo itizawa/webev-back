@@ -102,7 +102,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('updateDescription', async () => {
     try {
-      await directoryRepositoryMock.updateDescription(mockDirectory._id, mockDirectory.description, mockUser._id);
+      await directoryRepositoryMock.updateDescription({ directoryId: mockDirectory._id, description: mockDirectory.description, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
