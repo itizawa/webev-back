@@ -333,7 +333,7 @@ export const directories = (): Router => {
    *         description: Return directory after renamed
    */
   router.put('/:id/rename', accessTokenParser, loginRequired, validator.renameDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { name } = req.body;
     const { user } = req;
 
@@ -341,7 +341,7 @@ export const directories = (): Router => {
     const useCase = new RenameDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await useCase.execute(id, name, user);
+      const result = await useCase.execute({ directoryId, name, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
