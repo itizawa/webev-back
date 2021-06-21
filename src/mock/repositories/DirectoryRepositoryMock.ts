@@ -48,7 +48,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   increaseDirectory({ min, max, userId }: { min: number; max: number; userId: string }): Promise<UpdateWriteOpResult> {
     throw new Error('Method not implemented.');
   }
-  decreaseDirectory(min: number, max: number, userId: string): Promise<UpdateWriteOpResult> {
+  decreaseDirectory({ min, max, userId }: { min: number; max: number; userId: string }): Promise<UpdateWriteOpResult> {
     throw new Error('Method not implemented.');
   }
   updateEmoji(directoryId: string, emojiId: string): Promise<Directory> {

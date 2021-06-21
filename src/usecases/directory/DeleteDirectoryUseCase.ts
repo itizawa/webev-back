@@ -18,7 +18,7 @@ export class DeleteDirectoryUseCase {
   async execute(directoryId: string, user: User): Promise<Directory> {
     const deletedDirectory = await this.directoryRepository.deleteDirectory({ directoryId, userId: user._id });
     if (deletedDirectory.isRoot) {
-      await this.directoryRepository.decreaseDirectory(deletedDirectory.order, 10000, user._id);
+      await this.directoryRepository.decreaseDirectory({ min: deletedDirectory.order, max: 10000, userId: user._id });
     }
     const directoryIds = await this.directoryTreeRepository.deleteDirectoryTree(directoryId);
     await this.pageRepository.findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId: user._id });
