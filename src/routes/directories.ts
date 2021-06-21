@@ -512,7 +512,7 @@ export const directories = (): Router => {
 
   // TODO: add swagger by #273
   router.put('/:id/emoji', accessTokenParser, loginRequired, validator.updateEmoji, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { emojiId } = req.body;
     const { user } = req;
 
@@ -520,7 +520,7 @@ export const directories = (): Router => {
     const usecase = new UpdateEmojiOfDirectoryUsecase(directoryRepository);
 
     try {
-      const result = await usecase.execute(id, emojiId, user._id);
+      const result = await usecase.execute({ directoryId, emojiId, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
