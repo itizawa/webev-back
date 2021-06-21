@@ -25,7 +25,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('findChildrenDirectories', async () => {
     try {
-      await directoryTreeRepositoryMock.findChildrenDirectories(mockDirectory._id);
+      await directoryTreeRepositoryMock.findChildrenDirectories({ parentDirectoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

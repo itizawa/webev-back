@@ -45,7 +45,7 @@ export class DirectoryTreeRepository implements IDirectoryTreeRepository {
 
     return;
   }
-  async findChildrenDirectories(parentDirectoryId: string): Promise<DirectoryTree[]> {
+  async findChildrenDirectories({ parentDirectoryId }: { parentDirectoryId: string }): Promise<DirectoryTree[]> {
     return this.DirectoryTreeModel.find({ ancestor: parentDirectoryId, depth: 1 }).populate('descendant');
   }
   async findAncestorDirectories(directoryId: string): Promise<DirectoryTree[]> {

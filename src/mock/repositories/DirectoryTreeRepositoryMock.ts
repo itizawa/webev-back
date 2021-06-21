@@ -9,7 +9,7 @@ export class DirectoryTreeRepositoryMock implements IDirectoryTreeRepository {
   createPathAsDescendant({ ancestorId, descendantId }: { ancestorId: string; descendantId: string }): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  findChildrenDirectories(directoryId: string): Promise<DirectoryTree[]> {
+  findChildrenDirectories({ parentDirectoryId }: { parentDirectoryId: string }): Promise<DirectoryTree[]> {
     throw new Error('Method not implemented.');
   }
   findAncestorDirectories(directoryId: string): Promise<DirectoryTree[]> {
