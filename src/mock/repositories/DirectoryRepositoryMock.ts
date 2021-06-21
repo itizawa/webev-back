@@ -36,7 +36,7 @@ export class DirectoryRepositoryMock implements IDirectoryRepository {
   renameDirectory({ directoryId, name, userId }: { directoryId: string; name: string; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
-  updateOrder(directoryId: string, order: number, userId: string): Promise<Directory> {
+  updateOrder({ directoryId, order, userId }: { directoryId: string; order: number; userId: string }): Promise<Directory> {
     throw new Error('Method not implemented.');
   }
   updateDescription(directoryId: string, description: string, userId: string): Promise<Directory> {

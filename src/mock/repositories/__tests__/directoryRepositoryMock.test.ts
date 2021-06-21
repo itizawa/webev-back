@@ -94,7 +94,7 @@ describe('DirectoryRepositoryMock test', () => {
 
   test('updateOrder', async () => {
     try {
-      await directoryRepositoryMock.updateOrder(mockDirectory._id, mockDirectory.order, mockUser._id);
+      await directoryRepositoryMock.updateOrder({ directoryId: mockDirectory._id, order: mockDirectory.order, userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
