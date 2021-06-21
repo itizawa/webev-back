@@ -3,19 +3,19 @@ import { DirectoryTree } from '../../domains/DirectoryTree';
 import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
 
 export class DirectoryTreeRepositoryMock implements IDirectoryTreeRepository {
-  createSelfReference(directoryId: string): Promise<DirectoryTree> {
+  createSelfReference({ directoryId }: { directoryId: string }): Promise<DirectoryTree> {
     throw new Error('Method not implemented.');
   }
-  createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {
+  createPathAsDescendant({ ancestorId, descendantId }: { ancestorId: string; descendantId: string }): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  findChildrenDirectories(directoryId: string): Promise<DirectoryTree[]> {
+  findChildrenDirectories({ parentDirectoryId }: { parentDirectoryId: string }): Promise<DirectoryTree[]> {
     throw new Error('Method not implemented.');
   }
-  findAncestorDirectories(directoryId: string): Promise<DirectoryTree[]> {
+  findAncestorDirectories({ directoryId }: { directoryId: string }): Promise<DirectoryTree[]> {
     throw new Error('Method not implemented.');
   }
-  deleteDirectoryTree(directoryId: string): Promise<string[]> {
+  deleteDirectoryTree({ directoryId }: { directoryId: string }): Promise<string[]> {
     throw new Error('Method not implemented.');
   }
 }

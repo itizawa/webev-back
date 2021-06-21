@@ -30,10 +30,10 @@ export class DirectoryTreeRepository implements IDirectoryTreeRepository {
     this.DirectoryTreeModel = model<DirectoryTree & Document>('DirectoryTree', DirectoryTreeSchema);
   }
 
-  async createSelfReference(directoryId: string): Promise<DirectoryTree> {
+  async createSelfReference({ directoryId }: { directoryId: string }): Promise<DirectoryTree> {
     return this.DirectoryTreeModel.create({ ancestor: directoryId, descendant: directoryId, depth: 0 });
   }
-  async createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {
+  async createPathAsDescendant({ ancestorId, descendantId }: { ancestorId: string; descendantId: string }): Promise<void> {
     const trees = await this.DirectoryTreeModel.find({ descendant: ancestorId });
 
     // generate request for bulk write
@@ -45,13 +45,13 @@ export class DirectoryTreeRepository implements IDirectoryTreeRepository {
 
     return;
   }
-  async findChildrenDirectories(parentDirectoryId: string): Promise<DirectoryTree[]> {
+  async findChildrenDirectories({ parentDirectoryId }: { parentDirectoryId: string }): Promise<DirectoryTree[]> {
     return this.DirectoryTreeModel.find({ ancestor: parentDirectoryId, depth: 1 }).populate('descendant');
   }
-  async findAncestorDirectories(directoryId: string): Promise<DirectoryTree[]> {
+  async findAncestorDirectories({ directoryId }: { directoryId: string }): Promise<DirectoryTree[]> {
     return this.DirectoryTreeModel.find({ descendant: directoryId }).sort({ depth: -1 }).populate('ancestor');
   }
-  async deleteDirectoryTree(directoryId: string): Promise<string[]> {
+  async deleteDirectoryTree({ directoryId }: { directoryId: string }): Promise<string[]> {
     const trees = await this.DirectoryTreeModel.find({ ancestor: directoryId });
     await this.DirectoryTreeModel.deleteMany({ ancestor: directoryId });
 

@@ -24,10 +24,10 @@ export class CreateDirectoryUseCase {
     const createdDirectory = await this.directoryRepository.createDirectory({ directory: { name, createdUser: userId, order: countForSave, isRoot } });
 
     // create SelfReference
-    await this.directoryTreeRepository.createSelfReference(createdDirectory._id);
+    await this.directoryTreeRepository.createSelfReference({ directoryId: createdDirectory._id });
 
     if (parentDirectoryId != null) {
-      this.directoryTreeRepository.createPathAsDescendant(parentDirectoryId, createdDirectory._id);
+      this.directoryTreeRepository.createPathAsDescendant({ ancestorId: parentDirectoryId, descendantId: createdDirectory._id });
     }
 
     return createdDirectory;

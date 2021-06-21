@@ -17,8 +17,8 @@ describe('CreateDirectoryUseCase', () => {
   const countDirectoryByUserIdSpy = jest.spyOn(directoryRepositoryMock, 'countDirectoryByUserId');
   const createDirectorySpy = jest.spyOn(directoryRepositoryMock, 'createDirectory');
 
-  directoryTreeRepositoryMock.createSelfReference = async (_id) => generateMockDirectoryTree({ _id });
-  directoryTreeRepositoryMock.createPathAsDescendant = async (ancestorId, descendantId) => {
+  directoryTreeRepositoryMock.createSelfReference = async ({ directoryId }) => generateMockDirectoryTree({ _id: directoryId });
+  directoryTreeRepositoryMock.createPathAsDescendant = async ({ ancestorId, descendantId }) => {
     console.log(ancestorId, descendantId);
   };
   const createSelfReferenceSpy = jest.spyOn(directoryTreeRepositoryMock, 'createSelfReference');
