@@ -27,7 +27,7 @@ export class CreateDirectoryUseCase {
     await this.directoryTreeRepository.createSelfReference({ directoryId: createdDirectory._id });
 
     if (parentDirectoryId != null) {
-      this.directoryTreeRepository.createPathAsDescendant(parentDirectoryId, createdDirectory._id);
+      this.directoryTreeRepository.createPathAsDescendant({ ancestorId: parentDirectoryId, descendantId: createdDirectory._id });
     }
 
     return createdDirectory;

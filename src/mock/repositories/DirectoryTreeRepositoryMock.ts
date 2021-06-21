@@ -6,7 +6,7 @@ export class DirectoryTreeRepositoryMock implements IDirectoryTreeRepository {
   createSelfReference({ directoryId }: { directoryId: string }): Promise<DirectoryTree> {
     throw new Error('Method not implemented.');
   }
-  createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {
+  createPathAsDescendant({ ancestorId, descendantId }: { ancestorId: string; descendantId: string }): Promise<void> {
     throw new Error('Method not implemented.');
   }
   findChildrenDirectories(directoryId: string): Promise<DirectoryTree[]> {

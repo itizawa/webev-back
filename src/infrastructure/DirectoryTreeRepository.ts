@@ -33,7 +33,7 @@ export class DirectoryTreeRepository implements IDirectoryTreeRepository {
   async createSelfReference({ directoryId }: { directoryId: string }): Promise<DirectoryTree> {
     return this.DirectoryTreeModel.create({ ancestor: directoryId, descendant: directoryId, depth: 0 });
   }
-  async createPathAsDescendant(ancestorId: string, descendantId: string): Promise<void> {
+  async createPathAsDescendant({ ancestorId, descendantId }: { ancestorId: string; descendantId: string }): Promise<void> {
     const trees = await this.DirectoryTreeModel.find({ descendant: ancestorId });
 
     // generate request for bulk write

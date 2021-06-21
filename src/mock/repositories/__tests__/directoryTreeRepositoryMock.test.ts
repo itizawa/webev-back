@@ -17,7 +17,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('createPathAsDescendant', async () => {
     try {
-      await directoryTreeRepositoryMock.createPathAsDescendant(mockDirectoryTree.ancestor, mockDirectoryTree.descendant);
+      await directoryTreeRepositoryMock.createPathAsDescendant({ ancestorId: mockDirectoryTree.ancestor, descendantId: mockDirectoryTree.descendant });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
