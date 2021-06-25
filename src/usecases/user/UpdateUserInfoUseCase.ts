@@ -9,6 +9,6 @@ export class UpdateUserInfoUseCase {
   }
 
   execute({ userId, name }: { userId: string; name: string }): Promise<User> {
-    return this.userRepository.updateUserInfoById({ userId, name });
+    return this.userRepository.updateUserInfoById({ userId, properity: { name } });
   }
 }
