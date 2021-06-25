@@ -10,10 +10,12 @@ import { FindUserPageUseCase } from '../usecases/user/FindUserPageUseCase';
 import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
 import { UpdateIsExecutedTutorialUseCase } from '../usecases/user/UpdateIsExecutedTutorialUseCase';
 
+import { UpdatableProperity } from '../domains/User';
+
 const router = Router();
 
 const validator = {
-  updateUserInfo: [body('name').isString().isLength({ min: 1 })],
+  updateUserInfo: [body('properity').isObject({ strict: true })],
 };
 
 export const users = (): Router => {
@@ -33,24 +35,19 @@ export const users = (): Router => {
 
   type InfoType = {
     body: {
-      name: string;
+      properity: UpdatableProperity;
     };
   };
 
   router.put('/me', accessTokenParser, loginRequired, validator.updateUserInfo, apiValidatorMiddleware, async (req: WebevRequest & InfoType, res: Response) => {
-    const { name } = req.body;
+    const { properity } = req.body;
     const { user } = req;
-
-    // prevent NoSQL ingection
-    if (typeof name !== 'string') {
-      return res.status(400);
-    }
 
     const userRepository = new UserRepository();
     const useCase = new UpdateUserInfoUseCase(userRepository);
 
     try {
-      const userPage = await useCase.execute({ userId: user._id, properity: { name } });
+      const userPage = await useCase.execute({ userId: user._id, properity });
       return res.status(200).json(userPage);
     } catch (err) {
       return res.status(500).json({ message: err.message });
