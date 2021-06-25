@@ -1,4 +1,4 @@
-import { User } from '../../domains/User';
+import { User, UpdatableProperity } from '../../domains/User';
 import { IUserRepository } from '../../repositories/IUserRepository';
 
 export class UpdateUserInfoUseCase {
@@ -8,7 +8,9 @@ export class UpdateUserInfoUseCase {
     this.userRepository = userRepository;
   }
 
-  execute({ userId, name }: { userId: string; name: string }): Promise<User> {
-    return this.userRepository.updateUserInfoById({ userId, name });
+  execute({ userId, properity }: { userId: string; properity: UpdatableProperity }): Promise<User> {
+    console.log(properity);
+
+    return this.userRepository.updateUserInfoById({ userId, properity });
   }
 }
