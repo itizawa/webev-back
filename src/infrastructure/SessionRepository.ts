@@ -22,7 +22,7 @@ export class SessionRepository implements ISessionRepository {
     this.SessionModel = model<Session & Document>('Session', SessionSchema);
   }
 
-  async findSessionByAccessToken(accessToken: string): Promise<Session> {
+  async findSessionByAccessToken({ accessToken }: { accessToken: string }): Promise<Session> {
     return this.SessionModel.findOne({ accessToken });
   }
 }

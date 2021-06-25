@@ -8,7 +8,7 @@ describe('InquiryRepositoryMock test', () => {
 
   test('findUserById', async () => {
     try {
-      await userRepositoryMock.findUserById(mockUser._id);
+      await userRepositoryMock.findUserById({ userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -24,7 +24,7 @@ describe('InquiryRepositoryMock test', () => {
 
   test('updateUserInfoById', async () => {
     try {
-      await userRepositoryMock.updateUserInfoById(mockUser._id, mockUser.name);
+      await userRepositoryMock.updateUserInfoById({ userId: mockUser._id, properity: { name: mockUser.name } });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -32,7 +32,7 @@ describe('InquiryRepositoryMock test', () => {
 
   test('updateIsExecutedTutorial', async () => {
     try {
-      await userRepositoryMock.updateIsExecutedTutorial(mockUser._id);
+      await userRepositoryMock.updateIsExecutedTutorial({ userId: mockUser._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

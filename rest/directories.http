@@ -42,6 +42,16 @@ Authorization: {{token}}
 
 ###
 
+PUT  {{url}}/directories/{{directoryId}}/emoji HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+   "emojiId": "smile"
+}
+
+###
+
 DELETE  {{url}}/directories/{{directoryId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}

@@ -2,7 +2,7 @@ import { model, Model, Schema, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { IUserRepository } from '../repositories/IUserRepository';
 
-import { User } from '../domains/User';
+import { User, UpdatableProperity } from '../domains/User';
 
 const UserSchema: Schema = new Schema(
   {
@@ -22,7 +22,7 @@ export class UserRepository implements IUserRepository {
     this.UserModel = model<User & Document>('User', UserSchema);
   }
 
-  async findUserById(userId: string): Promise<User> {
+  async findUserById({ userId }: { userId: string }): Promise<User> {
     return this.UserModel.findById(userId);
   }
 
@@ -30,11 +30,11 @@ export class UserRepository implements IUserRepository {
     return this.UserModel.find();
   }
 
-  async updateUserInfoById(userId: string, name: string): Promise<User> {
-    return this.UserModel.findOneAndUpdate({ _id: userId }, { name }, { new: true });
+  async updateUserInfoById({ userId, properity }: { userId: string; properity: UpdatableProperity }): Promise<User> {
+    return this.UserModel.findOneAndUpdate({ _id: userId }, properity, { new: true });
   }
 
-  async updateIsExecutedTutorial(userId: string): Promise<User> {
+  async updateIsExecutedTutorial({ userId }: { userId: string }): Promise<User> {
     return this.UserModel.findOneAndUpdate({ _id: userId }, { isExecutedTutorial: true }, { new: true });
   }
 }

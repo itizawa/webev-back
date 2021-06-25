@@ -13,12 +13,12 @@ describe('CreateDirectoryUseCase', () => {
   const directoryTreeRepositoryMock = new DirectoryTreeRepositoryMock();
 
   directoryRepositoryMock.countDirectoryByUserId = async () => 1;
-  directoryRepositoryMock.createDirectory = async ({ name, createdUser, order, isRoot }) => generateMockDirectory({ name, createdUser, order, isRoot });
+  directoryRepositoryMock.createDirectory = async ({ directory: { name, createdUser, order, isRoot } }) => generateMockDirectory({ name, createdUser, order, isRoot });
   const countDirectoryByUserIdSpy = jest.spyOn(directoryRepositoryMock, 'countDirectoryByUserId');
   const createDirectorySpy = jest.spyOn(directoryRepositoryMock, 'createDirectory');
 
-  directoryTreeRepositoryMock.createSelfReference = async (_id) => generateMockDirectoryTree({ _id });
-  directoryTreeRepositoryMock.createPathAsDescendant = async (ancestorId, descendantId) => {
+  directoryTreeRepositoryMock.createSelfReference = async ({ directoryId }) => generateMockDirectoryTree({ _id: directoryId });
+  directoryTreeRepositoryMock.createPathAsDescendant = async ({ ancestorId, descendantId }) => {
     console.log(ancestorId, descendantId);
   };
   const createSelfReferenceSpy = jest.spyOn(directoryTreeRepositoryMock, 'createSelfReference');
@@ -27,7 +27,7 @@ describe('CreateDirectoryUseCase', () => {
   const useCase = new CreateDirectoryUseCase(directoryRepositoryMock, directoryTreeRepositoryMock);
 
   test('CreateDirectoryUseCase with directoryId', async () => {
-    const response = await useCase.execute('directory name', mockUser, mockDirectory._id);
+    const response = await useCase.execute({ name: 'directory name', userId: mockUser._id, parentDirectoryId: mockDirectory._id });
 
     expect(createDirectorySpy).toHaveBeenCalled();
     expect(createSelfReferenceSpy).toHaveBeenCalled();
@@ -38,7 +38,7 @@ describe('CreateDirectoryUseCase', () => {
   });
 
   test('CreateDirectoryUseCase without directoryId', async () => {
-    const response = await useCase.execute('directory name', mockUser);
+    const response = await useCase.execute({ name: 'directory name', userId: mockUser._id });
 
     expect(countDirectoryByUserIdSpy).toHaveBeenCalled();
     expect(createDirectorySpy).toHaveBeenCalled();

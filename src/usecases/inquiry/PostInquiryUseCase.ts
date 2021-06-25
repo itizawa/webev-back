@@ -13,7 +13,7 @@ export class PostInquiryUseCase {
 
   async execute({ type, email, text }: Partial<Inquiry>): Promise<Inquiry> {
     const inquiry = await this.inquiryRepository.postInquiry({ type, email, text });
-    this.slackNotificationService.notifyInquiryToSlack(inquiry);
+    this.slackNotificationService.notifyInquiryToSlack({ inquiry });
     return inquiry;
   }
 }

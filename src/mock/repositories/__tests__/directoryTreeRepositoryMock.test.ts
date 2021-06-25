@@ -9,7 +9,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('createSelfReference', async () => {
     try {
-      await directoryTreeRepositoryMock.createSelfReference(mockDirectory._id);
+      await directoryTreeRepositoryMock.createSelfReference({ directoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -17,7 +17,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('createPathAsDescendant', async () => {
     try {
-      await directoryTreeRepositoryMock.createPathAsDescendant(mockDirectoryTree.ancestor, mockDirectoryTree.descendant);
+      await directoryTreeRepositoryMock.createPathAsDescendant({ ancestorId: mockDirectoryTree.ancestor, descendantId: mockDirectoryTree.descendant });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -25,7 +25,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('findChildrenDirectories', async () => {
     try {
-      await directoryTreeRepositoryMock.findChildrenDirectories(mockDirectory._id);
+      await directoryTreeRepositoryMock.findChildrenDirectories({ parentDirectoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -33,7 +33,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('findAncestorDirectories', async () => {
     try {
-      await directoryTreeRepositoryMock.findAncestorDirectories(mockDirectory._id);
+      await directoryTreeRepositoryMock.findAncestorDirectories({ directoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }
@@ -41,7 +41,7 @@ describe('DirectoryTreeRepositoryMock test', () => {
 
   test('deleteDirectoryTree', async () => {
     try {
-      await directoryTreeRepositoryMock.deleteDirectoryTree(mockDirectory._id);
+      await directoryTreeRepositoryMock.deleteDirectoryTree({ directoryId: mockDirectory._id });
     } catch (e) {
       expect(e).toEqual(new Error('Method not implemented.'));
     }

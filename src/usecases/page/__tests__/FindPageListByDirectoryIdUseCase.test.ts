@@ -10,11 +10,11 @@ describe('FindPageListByDirectoryIdUseCase', () => {
 
   const useCase = new FindPageListByDirectoryIdUseCase(mock);
 
-  mock.findPageListByDirectoryId = async (directoryId, userId) => [generateMockPage({ directoryId, createdUser: userId })];
+  mock.findPageListByDirectoryId = async ({ directoryId, userId }) => [generateMockPage({ directoryId, createdUser: userId })];
 
   const spy = jest.spyOn(mock, 'findPageListByDirectoryId');
   test('excute', async () => {
-    const response = await useCase.execute(mockPage.directoryId, mockUser._id);
+    const response = await useCase.execute({ directoryId: mockPage.directoryId, userId: mockUser._id });
 
     expect(spy).toHaveBeenCalled();
     expect(response[0].directoryId).toBe('mockDirectoryId');

@@ -9,7 +9,7 @@ export class FindDirectoryListUseCase {
     this.DirectoryRepository = DirectoryRepository;
   }
 
-  execute(query: PaginationDirectoryQuery, options: PaginationOptions): Promise<Directory> {
-    return this.DirectoryRepository.findDirectoryList(query, options);
+  execute({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory> {
+    return this.DirectoryRepository.findDirectoryList({ query, options });
   }
 }

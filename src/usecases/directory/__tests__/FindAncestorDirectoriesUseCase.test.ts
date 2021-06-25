@@ -15,7 +15,7 @@ describe('FindAncestorDirectoriesUseCase', () => {
   const useCase = new FindAncestorDirectoriesUseCase(directoryTreeRepositoryMock);
 
   test('execute', async () => {
-    const response = await useCase.execute(mockDirectory._id);
+    const response = await useCase.execute({ directoryId: mockDirectory._id });
 
     expect(findAncestorDirectoriesSpy).toHaveBeenCalled();
     expect(response).toEqual([generateMockDirectoryTree()]);

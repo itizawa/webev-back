@@ -11,17 +11,17 @@ export const accessTokenParser = async (req: WebevRequest, res: Response, next: 
     return next();
   }
   const bearer = bearerToken.split(' ');
-  const token = bearer[1];
+  const accessToken = bearer[1];
 
   const sessionRepository = new SessionRepository();
-  const session = await sessionRepository.findSessionByAccessToken(token);
+  const session = await sessionRepository.findSessionByAccessToken({ accessToken });
 
   if (session?.userId == null) {
     return next();
   }
 
   const userRepository = new UserRepository();
-  const user = await userRepository.findUserById(session.userId as string);
+  const user = await userRepository.findUserById({ userId: session.userId as string });
 
   if (user != null) {
     req.user = user;

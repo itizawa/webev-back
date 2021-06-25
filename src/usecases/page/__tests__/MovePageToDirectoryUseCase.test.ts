@@ -7,13 +7,13 @@ describe('MovePageToDirectoryUseCase', () => {
   const mockUser = generateMockUser();
   const mock = new PageRepositoryMock();
 
-  mock.updateDirectory = async (_id, directoryId, createdUser) => generateMockPage({ _id, directoryId, createdUser });
+  mock.updateDirectory = async ({ pageId, directoryId, userId }) => generateMockPage({ _id: pageId, directoryId, createdUser: userId });
 
   const useCase = new MovePageToDirectoryUseCase(mock);
 
   const spy = jest.spyOn(mock, 'updateDirectory');
   test('excute', async () => {
-    const response = await useCase.execute(mockPage._id, mockPage.directoryId, mockUser._id);
+    const response = await useCase.execute({ pageId: mockPage._id, directoryId: mockPage.directoryId, userId: mockUser._id });
 
     expect(spy).toHaveBeenCalled();
     expect(response._id).toBe(mockPage._id);

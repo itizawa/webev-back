@@ -8,7 +8,7 @@ export class UpdateDescriptionOfDirectoryUsecase {
     this.directoryRepository = directoryRepository;
   }
 
-  async execute(directoryId: string, description: string, userId: string): Promise<Directory> {
-    return this.directoryRepository.updateDescription(directoryId, description, userId);
+  async execute({ directoryId, description, userId }: { directoryId: string; description: string; userId: string }): Promise<Directory> {
+    return this.directoryRepository.updateDescription({ directoryId, description, userId });
   }
 }

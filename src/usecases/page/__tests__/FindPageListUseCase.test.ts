@@ -14,7 +14,7 @@ describe('FindPageListUseCase', () => {
 
   const spy = jest.spyOn(mock, 'findPageList');
   test('excute', async () => {
-    const response = await useCase.execute(generateMockPaginationQuery(), generateMockPaginationOptions());
+    const response = await useCase.execute({ query: generateMockPaginationQuery(), options: generateMockPaginationOptions() });
 
     expect(spy).toHaveBeenCalled();
     expect(response._id).toBe(mockPage._id);

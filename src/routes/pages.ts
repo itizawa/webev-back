@@ -99,7 +99,7 @@ export const pages = (webevApp: WebevApp): Router => {
 
     try {
       const useCase = new FetchOgpAndUpdatePageUseCase(pageRepository, cheerioService);
-      await useCase.execute(url, pageId);
+      await useCase.execute({ url, pageId });
       if (socketId != null) {
         webevApp.io.to(socketId).emit('update-page');
       }
@@ -191,7 +191,7 @@ export const pages = (webevApp: WebevApp): Router => {
     }
 
     try {
-      const paginationResult = await useCase.execute(query, options);
+      const paginationResult = await useCase.execute({ query, options });
 
       return res.status(200).json(paginationResult);
     } catch (err) {
@@ -224,7 +224,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const useCase = new FindPageByIdUseCase(pageRepository);
 
     try {
-      const page = await useCase.execute(id, user._id);
+      const page = await useCase.execute({ pageId: id, userId: user._id });
 
       return res.status(200).json(page);
     } catch (err) {
@@ -269,7 +269,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const useCase = new MovePageToDirectoryUseCase(pageRepository);
 
     try {
-      const page = useCase.execute(id, directoryId, user._id);
+      const page = useCase.execute({ pageId: id, directoryId, userId: user._id });
 
       return res.status(200).json(page);
     } catch (err) {
@@ -320,7 +320,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const useCase = new ArchivePageUseCase(pageRepository);
 
     try {
-      const page = await useCase.execute(id, user, isArchive);
+      const page = await useCase.execute({ pageId: id, userId: user._id, isArchive });
 
       return res.status(200).json(page);
     } catch (err) {
@@ -357,7 +357,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const useCase = new DeletePageUseCase(pageRepository);
 
     try {
-      const page = await useCase.execute(id, user);
+      const page = await useCase.execute({ pageId: id, userId: user._id });
 
       return res.status(200).json(page);
     } catch (err) {

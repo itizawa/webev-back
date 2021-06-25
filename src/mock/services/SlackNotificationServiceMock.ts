@@ -2,7 +2,7 @@
 import { Inquiry } from '../../domains/Inquiry';
 
 export class SlackNotificationServiceMock {
-  async notifyInquiryToSlack(inquiry: Inquiry): Promise<void> {
+  async notifyInquiryToSlack({ inquiry }: { inquiry: Inquiry }): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }
