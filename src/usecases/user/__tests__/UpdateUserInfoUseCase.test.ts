@@ -18,4 +18,12 @@ describe('UpdateUserInfoById', () => {
     expect(spy).toHaveBeenCalled();
     expect(response.name).toBe('hoge');
   });
+
+  test('update user image', async () => {
+    const properity = { image: 'test image' };
+    const response = await useCase.execute({ userId: mockUser._id, properity });
+
+    expect(spy).toHaveBeenCalled();
+    expect(response.image).toBe('test image');
+  });
 });
