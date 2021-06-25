@@ -50,7 +50,7 @@ export const users = (): Router => {
     const useCase = new UpdateUserInfoUseCase(userRepository);
 
     try {
-      const userPage = await useCase.execute({ userId: user._id, name });
+      const userPage = await useCase.execute({ userId: user._id, properity: { name } });
       return res.status(200).json(userPage);
     } catch (err) {
       return res.status(500).json({ message: err.message });

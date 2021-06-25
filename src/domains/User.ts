@@ -19,4 +19,4 @@ export class User {
   }
 }
 
-export type UpdatableProperity = 'name' | 'image';
+export type UpdatableProperity = Partial<Pick<User, 'name' | 'image'>>;

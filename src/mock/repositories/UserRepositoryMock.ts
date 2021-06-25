@@ -9,7 +9,7 @@ export class UserRepositoryMock implements IUserRepository {
   findAllUsers(): Promise<User[]> {
     throw new Error('Method not implemented.');
   }
-  updateUserInfoById({ userId, properity }: { userId: string; properity: Partial<Record<UpdatableProperity, string>> }): Promise<User> {
+  updateUserInfoById({ userId, properity }: { userId: string; properity: UpdatableProperity }): Promise<User> {
     throw new Error('Method not implemented.');
   }
   updateIsExecutedTutorial({ userId }: { userId: string }): Promise<User> {

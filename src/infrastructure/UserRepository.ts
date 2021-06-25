@@ -30,7 +30,7 @@ export class UserRepository implements IUserRepository {
     return this.UserModel.find();
   }
 
-  async updateUserInfoById({ userId, properity }: { userId: string; properity: Partial<Record<UpdatableProperity, string>> }): Promise<User> {
+  async updateUserInfoById({ userId, properity }: { userId: string; properity: UpdatableProperity }): Promise<User> {
     return this.UserModel.findOneAndUpdate({ _id: userId }, properity, { new: true });
   }
 
