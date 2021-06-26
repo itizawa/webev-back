@@ -8,7 +8,7 @@ export class FindAllParentDirectoriesUseCase {
     this.DirectoryRepository = DirectoryRepository;
   }
 
-  execute({ userId }: { userId: string }): Promise<Partial<Directory>[]> {
+  execute({ userId }: { userId: string }): Promise<Directory[]> {
     return this.DirectoryRepository.findAllParentsDirectories({ userId });
   }
 }
