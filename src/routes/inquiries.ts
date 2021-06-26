@@ -1,5 +1,6 @@
 import { Router, Response } from 'express';
 import { body } from 'express-validator';
+
 import { SlackNotificationService } from '../services/SlackNotificationService';
 import { InquiryRepository } from '../infrastructure';
 import { PostInquiryUseCase } from '../usecases/inquiry/PostInquiryUseCase';
