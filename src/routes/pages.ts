@@ -19,7 +19,7 @@ import {
   CountAllPagesUseCase,
 } from '../usecases/page';
 
-import { PageRepository } from '../infrastructure/PageRepository';
+import { PageRepository } from '../infrastructure';
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
 

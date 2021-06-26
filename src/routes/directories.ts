@@ -25,9 +25,7 @@ import {
 
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page';
 
-import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
-import { PageRepository } from '../infrastructure/PageRepository';
-import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
+import { DirectoryRepository, DirectoryTreeRepository, PageRepository } from '../infrastructure';
 
 const router = Router();
 
