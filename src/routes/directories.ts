@@ -14,6 +14,7 @@ import { FindDirectoryListUseCase } from '../usecases/directory/FindDirectoryLis
 import { RenameDirectoryUseCase } from '../usecases/directory/RenameDirectoryUseCase';
 import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUseCase';
 import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
+import { FindAllParentDirectoriesUseCase } from '../usecases/directory/FindAllParentDirectoriesUseCase';
 import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
 import { UpdateOrderOfDirectoryUseCase } from '../usecases/directory/UpdateOrderOfDirectoryUseCase';
 import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
@@ -103,6 +104,22 @@ export const directories = (): Router => {
       limit?: number;
     };
   };
+
+  // rteurn all parents directories
+  router.get('/parents', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const useCase = new FindAllParentDirectoriesUseCase(directoryRepository);
+
+    try {
+      const result = await useCase.execute({ userId: user._id });
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
 
   /**
    * @swagger
