@@ -8,7 +8,7 @@ export class FindPageListByDirectoryIdUseCase {
     this.pageRepository = pageRepository;
   }
 
-  execute(directoryId: string, userId: string): Promise<Page[]> {
-    return this.pageRepository.findPageListByDirectoryId(directoryId, userId);
+  execute({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Page[]> {
+    return this.pageRepository.findPageListByDirectoryId({ directoryId, userId });
   }
 }

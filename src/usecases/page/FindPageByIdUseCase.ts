@@ -8,7 +8,7 @@ export class FindPageByIdUseCase {
     this.pageRepository = pageRepository;
   }
 
-  execute(id: string, userId: string): Promise<Page> {
-    return this.pageRepository.findPageById(id, userId);
+  execute({ pageId, userId }: { pageId: string; userId: string }): Promise<Page> {
+    return this.pageRepository.findPageById({ pageId, userId });
   }
 }

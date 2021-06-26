@@ -35,7 +35,8 @@ export class PaginationOptions {
 export class PaginationDirectoryQuery {
   createdUser: string;
   isRoot?: boolean;
-  constructor({ createdUser, isRoot }: PaginationDirectoryQuery) {
+  $or: Array<{ name?: RegExp; description?: RegExp }>;
+  constructor({ createdUser, isRoot }: Partial<PaginationDirectoryQuery>) {
     this.createdUser = createdUser;
     if (isRoot != null) {
       this.isRoot = isRoot;

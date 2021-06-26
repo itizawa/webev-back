@@ -18,3 +18,5 @@ export class User {
     this.updatedAt = updatedAt;
   }
 }
+
+export type UpdatableProperity = Partial<Pick<User, 'name' | 'image'>>;

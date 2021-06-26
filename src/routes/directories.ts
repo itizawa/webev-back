@@ -16,13 +16,15 @@ import { DeleteDirectoryUseCase } from '../usecases/directory/DeleteDirectoryUse
 import { FindDirectoryUseCase } from '../usecases/directory/FindDirectoryUseCase';
 import { FindChildrenDirectoriesUseCase } from '../usecases/directory/FindChildrenDirectoriesUseCase';
 import { UpdateOrderOfDirectoryUseCase } from '../usecases/directory/UpdateOrderOfDirectoryUseCase';
+import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
+import { UpdateIsPublicOfDirectoryUseCase } from '../usecases/directory/UpdateIsPublicOfDirectoryUseCase';
+import { UpdateEmojiOfDirectoryUsecase } from '../usecases/directory/UpdateEmojiOfDirectoryUseCase';
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
+import { FindAncestorDirectoriesUseCase } from '../usecases/directory/FindAncestorDirectoriesUseCase';
 
 import { PageRepository } from '../infrastructure/PageRepository';
 import { PaginationDirectoryQuery, PaginationOptions } from '../interfaces/pagination';
 import { DirectoryTreeRepository } from '../infrastructure/DirectoryTreeRepository';
-import { FindAncestorDirectoriesUseCase } from '../usecases/directory/FindAncestorDirectoriesUseCase';
-import { UpdateDescriptionOfDirectoryUsecase } from '../usecases/directory/UpdateDescriptionOfDirectoryUsecase';
 
 const router = Router();
 
@@ -40,6 +42,9 @@ const validator = {
     query('limit')
       .if((value) => value != null)
       .isInt(),
+    query('q')
+      .if((value) => value != null)
+      .isString(),
   ],
   getDirectory: [param('id').isMongoId()],
   getPagesByDirectoryId: [param('id').isMongoId()],
@@ -47,8 +52,10 @@ const validator = {
   renameDirectory: [param('id').isMongoId(), body('name').isString()],
   updateOrder: [param('id').isMongoId(), body('order').isInt()],
   updateDescription: [param('id').isMongoId(), body('description').isString()],
+  updateIsPublic: [param('id').isMongoId(), body('isPublic').isBoolean()],
   updatePages: [param('id').isMongoId(), body('pages').isArray()],
   deleteDirectory: [param('id').isMongoId()],
+  updateEmoji: [param('id').isMongoId(), body('emojiId').isString()],
 };
 
 export const directories = (): Router => {
@@ -81,7 +88,7 @@ export const directories = (): Router => {
     const useCase = new CreateDirectoryUseCase(directoryRepository, directoryTreeRepository);
 
     try {
-      const result = await useCase.execute(name, user, parentDirectoryId);
+      const result = await useCase.execute({ name, userId: user._id, parentDirectoryId });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -123,17 +130,22 @@ export const directories = (): Router => {
    */
   router.get('/list', accessTokenParser, loginRequired, validator.getDirectoryList, apiValidatorMiddleware, async (req: WebevRequest & ListType, res: Response) => {
     const { user } = req;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, q } = req.query;
 
     const directoryRepository = new DirectoryRepository();
     const useCase = new FindDirectoryListUseCase(directoryRepository);
 
     const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
+    // set keyword
+    if (q != null && typeof q === 'string') {
+      query.$or = [{ name: new RegExp(q), description: new RegExp(q) }];
+    }
+
     const options = new PaginationOptions({ page, limit, sort: { order: 1 } });
 
     try {
-      const paginationResult = await useCase.execute(query, options);
+      const paginationResult = await useCase.execute({ query, options });
       return res.status(200).json(paginationResult);
     } catch (err) {
       console.log(err);
@@ -157,7 +169,7 @@ export const directories = (): Router => {
     const useCase = new FindAllDirectoriesUseCase(directoryRepository);
 
     try {
-      const result = await useCase.execute(user);
+      const result = await useCase.execute({ userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -183,14 +195,14 @@ export const directories = (): Router => {
    *         description: Return directory by id
    */
   router.get('/:id', accessTokenParser, loginRequired, validator.getDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
     const useCase = new FindDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await useCase.execute(id, user);
+      const result = await useCase.execute({ directoryId, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -223,7 +235,7 @@ export const directories = (): Router => {
     const useCase = new FindPageListByDirectoryIdUseCase(pageRepository);
 
     try {
-      const result = await useCase.execute(id, user._id);
+      const result = await useCase.execute({ directoryId: id, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -249,13 +261,13 @@ export const directories = (): Router => {
    *         description: Return children directories by directory id
    */
   router.get('/:id/children', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: parentDirectoryId } = req.params;
 
     const directoryTreeRepository = new DirectoryTreeRepository();
     const useCase = new FindChildrenDirectoriesUseCase(directoryTreeRepository);
 
     try {
-      const result = await useCase.execute(id);
+      const result = await useCase.execute({ parentDirectoryId });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -281,13 +293,13 @@ export const directories = (): Router => {
    *         description: Return ancestor directories by directory id
    */
   router.get('/:id/ancestor', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
 
     const directoryTreeRepository = new DirectoryTreeRepository();
     const useCase = new FindAncestorDirectoriesUseCase(directoryTreeRepository);
 
     try {
-      const result = await useCase.execute(id);
+      const result = await useCase.execute({ directoryId });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -321,7 +333,7 @@ export const directories = (): Router => {
    *         description: Return directory after renamed
    */
   router.put('/:id/rename', accessTokenParser, loginRequired, validator.renameDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { name } = req.body;
     const { user } = req;
 
@@ -329,7 +341,7 @@ export const directories = (): Router => {
     const useCase = new RenameDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await useCase.execute(id, name, user);
+      const result = await useCase.execute({ directoryId, name, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -363,7 +375,7 @@ export const directories = (): Router => {
    *         description: Return directory after order
    */
   router.put('/:id/order', accessTokenParser, loginRequired, validator.updateOrder, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { order } = req.body;
     const { user } = req;
 
@@ -371,7 +383,7 @@ export const directories = (): Router => {
     const useCase = new UpdateOrderOfDirectoryUseCase(directoryRepository);
 
     try {
-      const result = await useCase.execute(id, order, user);
+      const result = await useCase.execute({ directoryId, order, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -405,7 +417,7 @@ export const directories = (): Router => {
    *         description: Return directory after order
    */
   router.put('/:id/description', accessTokenParser, loginRequired, validator.updateDescription, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { description } = req.body;
     const { user } = req;
 
@@ -413,7 +425,48 @@ export const directories = (): Router => {
     const usecase = new UpdateDescriptionOfDirectoryUsecase(directoryRepository);
 
     try {
-      const result = await usecase.execute(id, description, user._id);
+      const result = await usecase.execute({ directoryId, description, userId: user._id });
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  /**
+   * @swagger
+   * /directories/:id/isPublic:
+   *   put:
+   *     description: order directory by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: directory id for order
+   *         in: path
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         schema:
+   *           type: object
+   *           properties:
+   *             isPublic:
+   *               type: boolean
+   *     responses:
+   *       200:
+   *         description: Return directory after order
+   */
+  router.put('/:id/isPublic', accessTokenParser, loginRequired, validator.updateIsPublic, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id: directoryId } = req.params;
+    const { isPublic } = req.body;
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const usecase = new UpdateIsPublicOfDirectoryUseCase(directoryRepository);
+
+    try {
+      const result = await usecase.execute({ directoryId, isPublic, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {
@@ -439,7 +492,7 @@ export const directories = (): Router => {
    *         description: Return directory after deleted
    */
   router.delete('/:id', accessTokenParser, loginRequired, validator.deleteDirectory, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
-    const { id } = req.params;
+    const { id: directoryId } = req.params;
     const { user } = req;
 
     const directoryRepository = new DirectoryRepository();
@@ -448,7 +501,26 @@ export const directories = (): Router => {
     const useCase = new DeleteDirectoryUseCase(directoryRepository, directoryTreeRepository, pageRepository);
 
     try {
-      const result = await useCase.execute(id, user);
+      const result = await useCase.execute({ directoryId, userId: user._id });
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  // TODO: add swagger by #273
+  router.put('/:id/emoji', accessTokenParser, loginRequired, validator.updateEmoji, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id: directoryId } = req.params;
+    const { emojiId } = req.body;
+    const { user } = req;
+
+    const directoryRepository = new DirectoryRepository();
+    const usecase = new UpdateEmojiOfDirectoryUsecase(directoryRepository);
+
+    try {
+      const result = await usecase.execute({ directoryId, emojiId, userId: user._id });
 
       return res.status(200).json(result);
     } catch (err) {

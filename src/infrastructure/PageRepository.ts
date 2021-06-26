@@ -42,28 +42,28 @@ export class PageRepository implements IPageRepository {
     this.PageModel = model<Page & Document>('Page', PageSchema);
   }
 
-  async createPage(page: Page): Promise<Page> {
+  async createPage({ page }: { page: Partial<Page> }): Promise<Page> {
     return this.PageModel.create(page);
   }
-  async findPageById(id: string, userId: string): Promise<Page> {
-    return this.PageModel.findOne({ _id: id, createdUser: userId });
+  async findPageById({ pageId, userId }: { pageId: string; userId: string }): Promise<Page> {
+    return this.PageModel.findOne({ _id: pageId, createdUser: userId });
   }
-  async findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page> {
+  async findPageList({ query, options }: { query: PaginationQuery; options: PaginationOptions }): Promise<Page> {
     return this.PageModel.paginate(query, options);
   }
-  async findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]> {
+  async findPageListByDirectoryId({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Page[]> {
     return this.PageModel.find({ directoryId, createdUser: userId });
   }
-  async findByDirectoryIdAndDeleteDirectoryId(directoryIds: string[], userId: string): Promise<UpdateWriteOpResult> {
+  async findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<UpdateWriteOpResult> {
     return this.PageModel.updateMany({ directoryId: { $in: directoryIds }, createdUser: userId }, { directoryId: null }, { new: true });
   }
-  async updatePageById(pageId: string, page: Partial<Page>): Promise<Page> {
+  async updatePageById({ pageId, page }: { pageId: string; page: Partial<Page> }): Promise<Page> {
     return this.PageModel.findByIdAndUpdate(pageId, page);
   }
-  async updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
+  async updateDirectory({ pageId, directoryId, userId }: { pageId: string; directoryId: string; userId: string }): Promise<Page> {
     return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { directoryId }, { new: true });
   }
-  async updatePageStatus(pageId: string, userId: string, status: PageStatus, archivedAt: Date | null): Promise<Page> {
+  async updatePageStatus({ pageId, userId, status, archivedAt }: { pageId: string; userId: string; status: PageStatus; archivedAt: Date | null }): Promise<Page> {
     return this.PageModel.findOneAndUpdate({ _id: pageId, createdUser: userId }, { status, archivedAt }, { new: true });
   }
   async countAllPages(): Promise<number> {

@@ -5,28 +5,28 @@ import { PaginationQuery, PaginationOptions } from '../../interfaces/pagination'
 import { IPageRepository } from '../../repositories/IPageRepository';
 
 export class PageRepositoryMock implements IPageRepository {
-  createPage(page: Partial<Page>): Promise<Page> {
+  createPage({ page }: { page: Partial<Page> }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  findPageById(id: string, userId: string): Promise<Page> {
+  findPageById({ pageId, userId }: { pageId: string; userId: string }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  findPageList(query: PaginationQuery, options: PaginationOptions): Promise<Page> {
+  findPageList({ query, options }: { query: PaginationQuery; options: PaginationOptions }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  findPageListByDirectoryId(directoryId: string, userId: string): Promise<Page[]> {
+  findPageListByDirectoryId({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Page[]> {
     throw new Error('Method not implemented.');
   }
-  findByDirectoryIdAndDeleteDirectoryId(directoryIds: string[], userId: string): Promise<UpdateWriteOpResult> {
+  findByDirectoryIdAndDeleteDirectoryId({ directoryIds, userId }: { directoryIds: string[]; userId: string }): Promise<UpdateWriteOpResult> {
     throw new Error('Method not implemented.');
   }
-  updatePageById(id: string, page: Partial<Page>): Promise<Page> {
+  updatePageById({ pageId, page }: { pageId: string; page: Partial<Page> }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  updateDirectory(pageId: string, directoryId: string, userId: string): Promise<Page> {
+  updateDirectory({ pageId, directoryId, userId }: { pageId: string; directoryId: string; userId: string }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
-  updatePageStatus(id: string, userId: string, status: PageStatus, archivedAt?: Date): Promise<Page> {
+  updatePageStatus({ pageId, userId, status, archivedAt }: { pageId: string; userId: string; status: PageStatus; archivedAt?: Date }): Promise<Page> {
     throw new Error('Method not implemented.');
   }
   countAllPages(): Promise<number> {
