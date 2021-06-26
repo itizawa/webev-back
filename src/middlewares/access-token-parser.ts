@@ -1,7 +1,6 @@
 import { Response, NextFunction } from 'express';
-import { UserRepository } from '../infrastructure/UserRepository';
+import { UserRepository, SessionRepository } from '../infrastructure';
 import { WebevRequest } from '../interfaces/webev-request';
-import { SessionRepository } from '../infrastructure/SessionRepository';
 
 export const accessTokenParser = async (req: WebevRequest, res: Response, next: NextFunction): Promise<void> => {
   const bearerToken = req.headers['authorization'];

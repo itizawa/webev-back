@@ -3,8 +3,8 @@ import { adminRequired } from '../middlewares/admin-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
-import { UserRepository } from '../infrastructure/UserRepository';
-import { InquiryRepository } from '../infrastructure/InquiryRepository';
+import { UserRepository, InquiryRepository } from '../infrastructure';
+
 import { FetchAllUsersUseCase } from '../usecases/admin/FetchAllUsersUseCase';
 import { FetchAllInquiriesUseCase } from '../usecases/admin/FetchAllInquiriesUseCase';
 
