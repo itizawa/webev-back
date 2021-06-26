@@ -23,7 +23,7 @@ import {
   FindAncestorDirectoriesUseCase,
 } from '../usecases/directory';
 
-import { FindPageListByDirectoryIdUseCase } from '../usecases/page/FindPageListByDirectoryIdUseCase';
+import { FindPageListByDirectoryIdUseCase } from '../usecases/page';
 
 import { DirectoryRepository } from '../infrastructure/DirectoryRepository';
 import { PageRepository } from '../infrastructure/PageRepository';
