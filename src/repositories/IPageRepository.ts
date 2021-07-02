@@ -1,6 +1,7 @@
 import { UpdateWriteOpResult } from 'mongoose';
 import { Page, PageStatus } from '../domains/Page';
 import { PaginationQuery, PaginationOptions } from '../interfaces/pagination';
+import { PageRepository } from '../infrastructure/PageRepository';
 
 export interface IPageRepository {
   createPage({ page }: { page: Partial<Page> }): Promise<Page>;
@@ -13,3 +14,9 @@ export interface IPageRepository {
   updatePageStatus({ pageId, userId, status, archivedAt }: { pageId: string; userId: string; status: PageStatus; archivedAt?: Date }): Promise<Page>;
   countAllPages(): Promise<number>;
 }
+
+export const factory = {
+  pageRepository: (): IPageRepository => {
+    return new PageRepository();
+  },
+};
