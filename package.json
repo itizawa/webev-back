@@ -1,8 +1,8 @@
 {
   "name": "webev-back",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "main": "index.js",
-  "repository": "https://github.com/itizawa/webev-back.git",
+  "repository": "https://github.com/webev-dev/webev-back.git",
   "author": "itizawa <itizawa.pen@gmail.com>",
   "license": "MIT",
   "scripts": {

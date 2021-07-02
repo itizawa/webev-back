@@ -76,6 +76,14 @@ describe('DirectoryRepositoryMock test', () => {
     }
   });
 
+  test('findAllParentsDirectories', async () => {
+    try {
+      await directoryRepositoryMock.findAllParentsDirectories({ userId: mockUser._id });
+    } catch (e) {
+      expect(e).toEqual(new Error('Method not implemented.'));
+    }
+  });
+
   test('findDirectoryList', async () => {
     try {
       await directoryRepositoryMock.findDirectoryList({ query: mockPaginationQuery, options: mockPaginationOptions });

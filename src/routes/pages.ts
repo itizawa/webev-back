@@ -4,22 +4,24 @@ import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 import { WebevApp } from '../services/WebevApp';
+
 import { WebevRequest } from '../interfaces/webev-request';
-
 import { PaginationOptions, PaginationQuery } from '../interfaces/pagination';
-import { PageRepository } from '../infrastructure/PageRepository';
 
-import { ArchivePageUseCase } from '../usecases/page/ArchivePageUseCase';
-import { DeletePageUseCase } from '../usecases/page/DeletePageUseCase';
-import { FetchOgpAndUpdatePageUseCase } from '../usecases/page/FetchOgpAndUpdatePageUseCase';
-import { FindPageByIdUseCase } from '../usecases/page/FindPageByIdUseCase';
-import { FindPageListUseCase } from '../usecases/page/FindPageListUseCase';
-import { PostPageByUrlUseCase } from '../usecases/page/PostPageByUrlUseCase';
+import {
+  ArchivePageUseCase,
+  DeletePageUseCase,
+  FetchOgpAndUpdatePageUseCase,
+  FindPageByIdUseCase,
+  FindPageListUseCase,
+  PostPageByUrlUseCase,
+  MovePageToDirectoryUseCase,
+  CountAllPagesUseCase,
+} from '../usecases/page';
 
+import { PageRepository } from '../infrastructure';
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
-import { MovePageToDirectoryUseCase } from '../usecases/page/MovePageToDirectoryUseCase';
-import { CountAllPagesUseCase } from '../usecases/page/CountAllPagesUseCase';
 
 const router = Router();
 
