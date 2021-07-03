@@ -25,9 +25,12 @@ import {
 
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page';
 
-import { DirectoryRepository, DirectoryTreeRepository, PageRepository } from '../infrastructure';
-
 const router = Router();
+
+import { factory } from '../repositories/factory';
+const directoryRepository = factory.directoryRepository();
+const directoryTreeRepository = factory.directoryTreeRepository();
+const pageRepository = factory.pageRepository();
 
 const validator = {
   postDirectory: [
@@ -84,8 +87,6 @@ export const directories = (): Router => {
     const { name, parentDirectoryId } = req.body;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
-    const directoryTreeRepository = new DirectoryTreeRepository();
     const useCase = new CreateDirectoryUseCase(directoryRepository, directoryTreeRepository);
 
     try {
@@ -109,7 +110,6 @@ export const directories = (): Router => {
   router.get('/parents', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const useCase = new FindAllParentDirectoriesUseCase(directoryRepository);
 
     try {
@@ -149,9 +149,7 @@ export const directories = (): Router => {
     const { user } = req;
     const { page = 1, limit = 10, q } = req.query;
 
-    const directoryRepository = new DirectoryRepository();
     const useCase = new FindDirectoryListUseCase(directoryRepository);
-
     const query = new PaginationDirectoryQuery({ createdUser: user._id, isRoot: true });
 
     // set keyword
@@ -182,7 +180,6 @@ export const directories = (): Router => {
   router.get('/all', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const useCase = new FindAllDirectoriesUseCase(directoryRepository);
 
     try {
@@ -215,7 +212,6 @@ export const directories = (): Router => {
     const { id: directoryId } = req.params;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const useCase = new FindDirectoryUseCase(directoryRepository);
 
     try {
@@ -248,7 +244,6 @@ export const directories = (): Router => {
     const { id } = req.params;
     const { user } = req;
 
-    const pageRepository = new PageRepository();
     const useCase = new FindPageListByDirectoryIdUseCase(pageRepository);
 
     try {
@@ -280,7 +275,6 @@ export const directories = (): Router => {
   router.get('/:id/children', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id: parentDirectoryId } = req.params;
 
-    const directoryTreeRepository = new DirectoryTreeRepository();
     const useCase = new FindChildrenDirectoriesUseCase(directoryTreeRepository);
 
     try {
@@ -312,7 +306,6 @@ export const directories = (): Router => {
   router.get('/:id/ancestor', accessTokenParser, loginRequired, validator.getDirectoriesByDirectoryId, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { id: directoryId } = req.params;
 
-    const directoryTreeRepository = new DirectoryTreeRepository();
     const useCase = new FindAncestorDirectoriesUseCase(directoryTreeRepository);
 
     try {
@@ -354,7 +347,6 @@ export const directories = (): Router => {
     const { name } = req.body;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const useCase = new RenameDirectoryUseCase(directoryRepository);
 
     try {
@@ -396,7 +388,6 @@ export const directories = (): Router => {
     const { order } = req.body;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const useCase = new UpdateOrderOfDirectoryUseCase(directoryRepository);
 
     try {
@@ -438,7 +429,6 @@ export const directories = (): Router => {
     const { description } = req.body;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const usecase = new UpdateDescriptionOfDirectoryUsecase(directoryRepository);
 
     try {
@@ -479,7 +469,6 @@ export const directories = (): Router => {
     const { isPublic } = req.body;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const usecase = new UpdateIsPublicOfDirectoryUseCase(directoryRepository);
 
     try {
@@ -512,9 +501,6 @@ export const directories = (): Router => {
     const { id: directoryId } = req.params;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
-    const directoryTreeRepository = new DirectoryTreeRepository();
-    const pageRepository = new PageRepository();
     const useCase = new DeleteDirectoryUseCase(directoryRepository, directoryTreeRepository, pageRepository);
 
     try {
@@ -533,7 +519,6 @@ export const directories = (): Router => {
     const { emojiId } = req.body;
     const { user } = req;
 
-    const directoryRepository = new DirectoryRepository();
     const usecase = new UpdateEmojiOfDirectoryUsecase(directoryRepository);
 
     try {

@@ -2,12 +2,14 @@ import { Router, Response } from 'express';
 import { body } from 'express-validator';
 
 import { SlackNotificationService } from '../services/SlackNotificationService';
-import { InquiryRepository } from '../infrastructure';
 import { PostInquiryUseCase } from '../usecases/inquiry/PostInquiryUseCase';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { WebevRequest } from '../interfaces/webev-request';
 
 const router = Router();
+
+import { factory } from '../repositories/factory';
+const inquiryRepository = factory.inquiryRepository();
 
 const validator = {
   postInquiry: [
@@ -46,7 +48,6 @@ export const inquiries = (): Router => {
   router.post('/', validator.postInquiry, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
     const { type, email, text } = req.body;
 
-    const inquiryRepository = new InquiryRepository();
     const slackNotificationService = new SlackNotificationService();
     const useCase = new PostInquiryUseCase(inquiryRepository, slackNotificationService);
 
