@@ -4,6 +4,7 @@ import * as mongoosePaginate from 'mongoose-paginate-v2';
 import { Article } from '../domains/Article';
 
 import { IArticleRepository } from '../repositories/IArticleRepository';
+import { PageSchema } from './PageRepository';
 
 const ArticleSchema: Schema = new Schema(
   {
@@ -16,6 +17,7 @@ const ArticleSchema: Schema = new Schema(
     },
     isPublic: { type: Boolean, default: false },
     emojiId: { type: String, default: 'open_file_folder' },
+    pages: [PageSchema],
   },
   { timestamps: true },
 );

@@ -1,3 +1,5 @@
+import { Page } from './Page';
+
 export class Article {
   _id: string;
   title: string; // Directory の name に相当
@@ -5,6 +7,7 @@ export class Article {
   createdUser: string;
   isPublic: boolean;
   emojiId: string;
+  pages: Page[];
   createdAt: Date;
   updatedAt: Date;
   constructor({ _id, title, createdUser, isPublic, body, emojiId, createdAt, updatedAt }: Article) {
