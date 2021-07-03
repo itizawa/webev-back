@@ -3,4 +3,5 @@ import { User } from '../domains/User';
 export interface WebevRequest extends Request {
   user?: User;
   query: { [key: string]: never };
+  body: { [key: string]: never };
 }
