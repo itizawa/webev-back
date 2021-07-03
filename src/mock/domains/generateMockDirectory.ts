@@ -1,7 +1,7 @@
 import { Directory } from '../../domains/Directory';
 
 export const generateMockDirectory = (mock: Partial<Directory> = {}): Directory => {
-  const { _id, name, order, createdUser, isRoot, isPublic, description, emojiId, createdAt, updatedAt } = mock;
+  const { _id, name, order, createdUser, isRoot, isPublic, description, emojiId, articleId, createdAt, updatedAt } = mock;
   return new Directory({
     _id: _id || 'mockUserId',
     name: name || 'mockUserName',
@@ -11,6 +11,7 @@ export const generateMockDirectory = (mock: Partial<Directory> = {}): Directory 
     isPublic: isPublic || false,
     description: description || 'mockDescription',
     emojiId: emojiId || 'open_file_folder',
+    articleId: articleId || 'mockArticleId',
     createdAt: createdAt || new Date('2020-01-01'),
     updatedAt: updatedAt || new Date('2020-01-01'),
   });
