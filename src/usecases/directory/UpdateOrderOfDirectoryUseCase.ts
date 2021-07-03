@@ -2,11 +2,7 @@ import { Directory } from '../../domains/Directory';
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
 export class UpdateOrderOfDirectoryUseCase {
-  private directoryRepository: IDirectoryRepository;
-
-  constructor(directoryRepository: IDirectoryRepository) {
-    this.directoryRepository = directoryRepository;
-  }
+  constructor(private readonly directoryRepository: IDirectoryRepository) {}
 
   async execute({ directoryId, order, userId }: { directoryId: string; order: number; userId: string }): Promise<Directory> {
     const document = await this.directoryRepository.findDirectory({ directoryId, userId });

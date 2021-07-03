@@ -3,13 +3,7 @@ import { IPageRepository } from '../../repositories/IPageRepository';
 import { CheerioService } from '../../services/CheerioService';
 
 export class FetchOgpAndUpdatePageUseCase {
-  private pageRepository: IPageRepository;
-  private cheerioService: CheerioService;
-
-  constructor(pageRepository: IPageRepository, cheerioService: CheerioService) {
-    this.pageRepository = pageRepository;
-    this.cheerioService = cheerioService;
-  }
+  constructor(private readonly pageRepository: IPageRepository, private readonly cheerioService: CheerioService) {}
 
   async execute({ url, pageId }: { url: string; pageId: string }): Promise<Page> {
     const page = await this.cheerioService.retrieveDataByUrl({ url });
