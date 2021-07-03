@@ -13,5 +13,5 @@ export const setupExpressRoutes = (webevApp: WebevApp, express: express.Express)
   express.use('/api/v1/pages', pages(webevApp));
   express.use('/api/v1/users', users());
   express.use('/api/v1/admin', admin());
-  express.use('/api/v1/article', articles());
+  express.use('/api/v1/articles', articles());
 };
