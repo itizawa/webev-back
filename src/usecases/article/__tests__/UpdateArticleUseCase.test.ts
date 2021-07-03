@@ -11,7 +11,7 @@ describe('UpdateArticleUseCase', () => {
 
   const spy = jest.spyOn(mock, 'updateArticle').mockImplementation(async () => mockArticle);
   test('execute', async () => {
-    const response = await useCase.execute({ articleId: mockArticle._id, properity: mockArticle });
+    const response = await useCase.execute({ articleId: mockArticle._id, property: mockArticle });
 
     expect(spy).toHaveBeenCalled();
     expect(response).toEqual(mockArticle);

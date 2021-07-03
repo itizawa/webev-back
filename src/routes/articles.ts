@@ -6,7 +6,7 @@ import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
 
-import { Article, UpdatableProperity } from '../domains/Article';
+import { Article, UpdatableProperty } from '../domains/Article';
 import { CreateArticleUseCase } from '../usecases/article/CreateArticleUseCase';
 import { UpdateArticleUseCase } from '../usecases/article/UpdateArticleUseCase';
 
@@ -62,18 +62,19 @@ export const articles = (): Router => {
       id: string;
     };
     body: {
-      properity: UpdatableProperity;
+      property: UpdatableProperty;
     };
   };
 
   router.put('/:id', accessTokenParser, loginRequired, validator.updateArticle, apiValidatorMiddleware, async (req: WebevRequest & PutArticle, res: Response) => {
-    const { properity } = req.body;
+    const { property } = req.body;
     const { id: articleId } = req.params;
+    console.log(req);
 
     const useCase = new UpdateArticleUseCase(articleRepository);
 
     try {
-      const result = await useCase.execute({ articleId, properity });
+      const result = await useCase.execute({ articleId, property });
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });

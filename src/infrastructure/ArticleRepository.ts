@@ -1,7 +1,7 @@
 import { model, Model, Schema, Types, Document } from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
-import { Article, UpdatableProperity } from '../domains/Article';
+import { Article, UpdatableProperty } from '../domains/Article';
 
 import { IArticleRepository } from '../repositories/IArticleRepository';
 import { PageSchema } from './PageRepository';
@@ -34,7 +34,7 @@ export class ArticleRepository implements IArticleRepository {
   async createArticle({ article }: { article: Partial<Article> }): Promise<Article> {
     return this.ArticleModel.create(article);
   }
-  async updateArticle({ articleId, properity }: { articleId: string; properity: UpdatableProperity }): Promise<Article> {
-    return this.ArticleModel.findOneAndUpdate({ _id: articleId }, properity, { new: true });
+  async updateArticle({ articleId, property }: { articleId: string; property: UpdatableProperty }): Promise<Article> {
+    return this.ArticleModel.findOneAndUpdate({ _id: articleId }, property, { new: true });
   }
 }

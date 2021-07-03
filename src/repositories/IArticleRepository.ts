@@ -1,6 +1,6 @@
-import { Article, UpdatableProperity } from '../domains/Article';
+import { Article, UpdatableProperty } from '../domains/Article';
 
 export interface IArticleRepository {
   createArticle({ article }: { article: Partial<Article> }): Promise<Article>;
-  updateArticle({ articleId, properity }: { articleId: string; properity: UpdatableProperity }): Promise<Article>;
+  updateArticle({ articleId, property }: { articleId: string; property: UpdatableProperty }): Promise<Article>;
 }

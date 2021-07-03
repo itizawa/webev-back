@@ -22,4 +22,4 @@ export class Article {
   }
 }
 
-export type UpdatableProperity = Partial<Pick<Article, 'title' | 'body' | 'isPublic' | 'emojiId' | 'pages'>>;
+export type UpdatableProperty = Partial<Pick<Article, 'title' | 'body' | 'isPublic' | 'emojiId' | 'pages'>>;
