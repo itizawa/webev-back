@@ -1,16 +1,17 @@
 import { Router, Response } from 'express';
-import { body } from 'express-validator';
-import { adminRequired } from '../middlewares/admin-required';
+import { body, param } from 'express-validator';
+import { loginRequired } from '../middlewares/login-required';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
 
+import { Article, UpdatableProperity } from '../domains/Article';
 import { CreateArticleUseCase } from '../usecases/article/CreateArticleUseCase';
+import { UpdateArticleUseCase } from '../usecases/article/UpdateArticleUseCase';
 
 const router = Router();
 
-import { Article } from '../domains/Article';
 import { factory } from '../repositories/factory';
 const articleRepository = factory.articleRepository();
 
@@ -30,6 +31,7 @@ const validator = {
       return true;
     }),
   ],
+  updateArticle: [param('id').isMongoId()],
 };
 
 type PostArticle = {
@@ -39,7 +41,7 @@ type PostArticle = {
 };
 
 export const articles = (): Router => {
-  router.post('/', accessTokenParser, adminRequired, validator.postArticle, apiValidatorMiddleware, async (req: WebevRequest & PostArticle, res: Response) => {
+  router.post('/', accessTokenParser, loginRequired, validator.postArticle, apiValidatorMiddleware, async (req: WebevRequest & PostArticle, res: Response) => {
     const { user } = req;
 
     const article = new Article(req.body.article);
@@ -49,6 +51,29 @@ export const articles = (): Router => {
 
     try {
       const result = await useCase.execute({ article });
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  type PutArticle = {
+    params: {
+      id: string;
+    };
+    body: {
+      properity: UpdatableProperity;
+    };
+  };
+
+  router.put('/:id', accessTokenParser, loginRequired, validator.updateArticle, apiValidatorMiddleware, async (req: WebevRequest & PutArticle, res: Response) => {
+    const { properity } = req.body;
+    const { id: articleId } = req.params;
+
+    const useCase = new UpdateArticleUseCase(articleRepository);
+
+    try {
+      const result = await useCase.execute({ articleId, properity });
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });
