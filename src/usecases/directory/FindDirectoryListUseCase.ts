@@ -3,11 +3,7 @@ import { PaginationOptions, PaginationDirectoryQuery } from '../../interfaces/pa
 import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 
 export class FindDirectoryListUseCase {
-  private DirectoryRepository: IDirectoryRepository;
-
-  constructor(DirectoryRepository: IDirectoryRepository) {
-    this.DirectoryRepository = DirectoryRepository;
-  }
+  constructor(private readonly DirectoryRepository: IDirectoryRepository) {}
 
   execute({ query, options }: { query: PaginationDirectoryQuery; options: PaginationOptions }): Promise<Directory> {
     return this.DirectoryRepository.findDirectoryList({ query, options });

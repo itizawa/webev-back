@@ -3,13 +3,7 @@ import { IDirectoryRepository } from '../../repositories/IDirectoryRepository';
 import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepository';
 
 export class CreateDirectoryUseCase {
-  private directoryRepository: IDirectoryRepository;
-  private directoryTreeRepository: IDirectoryTreeRepository;
-
-  constructor(directoryRepository: IDirectoryRepository, directoryTreeRepository: IDirectoryTreeRepository) {
-    this.directoryRepository = directoryRepository;
-    this.directoryTreeRepository = directoryTreeRepository;
-  }
+  constructor(private readonly directoryRepository: IDirectoryRepository, private readonly directoryTreeRepository: IDirectoryTreeRepository) {}
 
   async execute({ name, userId, parentDirectoryId }: { name: string; userId: string; parentDirectoryId?: string }): Promise<Directory> {
     let countForSave: number = null;
