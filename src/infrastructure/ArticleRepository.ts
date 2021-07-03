@@ -31,7 +31,7 @@ export class ArticleRepository implements IArticleRepository {
     this.ArticleModel = model<Article & Document>('Article', ArticleSchema);
   }
 
-  async createArticle({article}:{article:Partial<Article>}):Promise<Article>{
-    return this.ArticleModel.create(article)
+  async createArticle({ article }: { article: Partial<Article> }): Promise<Article> {
+    return this.ArticleModel.create(article);
   }
 }
