@@ -1,5 +1,6 @@
-import { DirectoryRepository, DirectoryTreeRepository, InquiryRepository, PageRepository, SessionRepository, UserRepository } from '../infrastructure';
+import { ArticleRepository, DirectoryRepository, DirectoryTreeRepository, InquiryRepository, PageRepository, SessionRepository, UserRepository } from '../infrastructure';
 
+import { IArticleRepository } from './IArticleRepository';
 import { IDirectoryRepository } from './IDirectoryRepository';
 import { IDirectoryTreeRepository } from './IDirectoryTreeRepository';
 import { IInquiryRepository } from './IInquiryRepository';
@@ -8,6 +9,9 @@ import { ISessionRepository } from './ISessionRepository';
 import { IUserRepository } from './IUserRepository';
 
 export const factory = {
+  articleRepository: (): IArticleRepository => {
+    return new ArticleRepository();
+  },
   directoryRepository: (): IDirectoryRepository => {
     return new DirectoryRepository();
   },
