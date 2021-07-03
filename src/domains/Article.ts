@@ -21,3 +21,5 @@ export class Article {
     this.updatedAt = updatedAt;
   }
 }
+
+export type UpdatableProperty = Partial<Pick<Article, 'title' | 'body' | 'isPublic' | 'emojiId' | 'pages'>>;

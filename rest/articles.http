@@ -1,6 +1,8 @@
 @url = http://localhost:8000/api/v1
 @token = Bearer ownId
 
+@articleId = articleId
+
 
 POST  {{url}}/articles HTTP/1.1
 content-type: application/json
@@ -8,6 +10,20 @@ Authorization: {{token}}
 
 {
 	"article": {
-		"title":"hoge2"
+		"title":"hoge2",
+		"body":"hoge"
+	}
+}
+
+###
+
+
+PUT  {{url}}/articles/{{articleId}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+	"property": {
+		"title":"new"
 	}
 }
