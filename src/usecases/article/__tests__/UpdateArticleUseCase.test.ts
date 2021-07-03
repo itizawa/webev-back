@@ -9,7 +9,7 @@ describe('UpdateArticleUseCase', () => {
 
   const useCase = new UpdateArticleUseCase(mock);
 
-  const spy = jest.spyOn(mock, 'createArticle').mockImplementation(async () => mockArticle);
+  const spy = jest.spyOn(mock, 'updateArticle').mockImplementation(async () => mockArticle);
   test('execute', async () => {
     const response = await useCase.execute({ articleId: mockArticle._id, properity: mockArticle });
 
