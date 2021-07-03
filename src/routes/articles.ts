@@ -1,5 +1,7 @@
 import { Router, Response } from 'express';
+import { body } from 'express-validator';
 import { adminRequired } from '../middlewares/admin-required';
+import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
@@ -12,6 +14,24 @@ import { Article } from '../domains/Article';
 import { factory } from '../repositories/factory';
 const articleRepository = factory.articleRepository();
 
+const validator = {
+  postArticle: [
+    body('article').custom((value: Partial<Article>) => {
+      console.log(value);
+
+      if (typeof value.title !== 'string') {
+        throw new Error('Title is required');
+      }
+
+      if (typeof value.body !== 'string') {
+        throw new Error('Body is required');
+      }
+
+      return true;
+    }),
+  ],
+};
+
 type PostArticle = {
   body: {
     article: Partial<Article>;
@@ -19,7 +39,7 @@ type PostArticle = {
 };
 
 export const articles = (): Router => {
-  router.post('/', accessTokenParser, adminRequired, async (req: WebevRequest & PostArticle, res: Response) => {
+  router.post('/', accessTokenParser, adminRequired, validator.postArticle, apiValidatorMiddleware, async (req: WebevRequest & PostArticle, res: Response) => {
     const { user } = req;
 
     const article = new Article(req.body.article);
