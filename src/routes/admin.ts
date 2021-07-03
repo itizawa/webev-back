@@ -3,16 +3,18 @@ import { adminRequired } from '../middlewares/admin-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
-import { UserRepository, InquiryRepository } from '../infrastructure';
 
 import { FetchAllUsersUseCase } from '../usecases/admin/FetchAllUsersUseCase';
 import { FetchAllInquiriesUseCase } from '../usecases/admin/FetchAllInquiriesUseCase';
 
 const router = Router();
 
+import { factory } from '../repositories/factory';
+const inquiryRepository = factory.inquiryRepository();
+const userRepository = factory.userRepository();
+
 export const admin = (): Router => {
   router.get('/users', accessTokenParser, adminRequired, async (req: WebevRequest, res: Response) => {
-    const userRepository = new UserRepository();
     const useCase = new FetchAllUsersUseCase(userRepository);
 
     try {
@@ -24,7 +26,6 @@ export const admin = (): Router => {
   });
 
   router.get('/inquiries', accessTokenParser, adminRequired, async (req: WebevRequest, res: Response) => {
-    const inquiryRepository = new InquiryRepository();
     const useCase = new FetchAllInquiriesUseCase(inquiryRepository);
 
     try {
