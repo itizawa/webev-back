@@ -8,22 +8,22 @@ import { ISessionRepository } from './ISessionRepository';
 import { IUserRepository } from './IUserRepository';
 
 export const factory = {
-  DirectoryRepository: (): IDirectoryRepository => {
+  directoryRepository: (): IDirectoryRepository => {
     return new DirectoryRepository();
   },
-  DirectoryTreeRepository: (): IDirectoryTreeRepository => {
+  directoryTreeRepository: (): IDirectoryTreeRepository => {
     return new DirectoryTreeRepository();
   },
-  InquiryRepository: (): IInquiryRepository => {
+  inquiryRepository: (): IInquiryRepository => {
     return new InquiryRepository();
   },
   pageRepository: (): IPageRepository => {
     return new PageRepository();
   },
-  SessionRepository: (): ISessionRepository => {
+  sessionRepository: (): ISessionRepository => {
     return new SessionRepository();
   },
-  UserRepository: (): IUserRepository => {
+  userRepository: (): IUserRepository => {
     return new UserRepository();
   },
 };
