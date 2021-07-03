@@ -10,7 +10,7 @@ export class Article {
   pages: Page[];
   createdAt: Date;
   updatedAt: Date;
-  constructor({ _id, title, createdUser, isPublic, body, emojiId, createdAt, updatedAt }: Article) {
+  constructor({ _id, title, createdUser, isPublic, body, emojiId, createdAt, updatedAt }: Partial<Article>) {
     this._id = _id;
     this.title = title;
     this.createdUser = createdUser;
