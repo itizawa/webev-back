@@ -6,4 +6,7 @@ export class ArticleRepositoryMock implements IArticleRepository {
   createArticle({ article }: { article: Article }): Promise<Article> {
     throw new Error('Method not implemented.');
   }
+  updateArticle({ article }: { article: Article }): Promise<Article> {
+    throw new Error('Method not implemented.');
+  }
 }
