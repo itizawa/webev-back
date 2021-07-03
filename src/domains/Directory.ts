@@ -9,7 +9,8 @@ export class Directory {
   createdAt: Date;
   updatedAt: Date;
   emojiId: string;
-  constructor({ _id, name, order, createdUser, isRoot, isPublic, description, emojiId, createdAt, updatedAt }: Directory) {
+  articleId: string;
+  constructor({ _id, name, order, createdUser, isRoot, isPublic, description, emojiId, createdAt, updatedAt, articleId }: Directory) {
     this._id = _id;
     this.name = name;
     this.order = order;
@@ -18,6 +19,7 @@ export class Directory {
     this.isPublic = isPublic;
     this.description = description;
     this.emojiId = emojiId;
+    this.articleId = articleId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
