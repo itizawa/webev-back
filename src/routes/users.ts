@@ -5,7 +5,6 @@ import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
-import { UserRepository } from '../infrastructure';
 import { FindUserPageUseCase } from '../usecases/user/FindUserPageUseCase';
 import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
 import { UpdateIsExecutedTutorialUseCase } from '../usecases/user/UpdateIsExecutedTutorialUseCase';
@@ -13,6 +12,9 @@ import { UpdateIsExecutedTutorialUseCase } from '../usecases/user/UpdateIsExecut
 import { UpdatableProperity } from '../domains/User';
 
 const router = Router();
+
+import { factory } from '../repositories/factory';
+const userRepository = factory.userRepository();
 
 const validator = {
   updateUserInfo: [body('properity').isObject({ strict: true })],
@@ -22,7 +24,6 @@ export const users = (): Router => {
   router.get('/me', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
 
-    const userRepository = new UserRepository();
     const useCase = new FindUserPageUseCase(userRepository);
 
     try {
@@ -43,7 +44,6 @@ export const users = (): Router => {
     const { properity } = req.body;
     const { user } = req;
 
-    const userRepository = new UserRepository();
     const useCase = new UpdateUserInfoUseCase(userRepository);
 
     try {
@@ -57,7 +57,6 @@ export const users = (): Router => {
   router.put('/me/isExecutedTutorial', accessTokenParser, loginRequired, async (req: WebevRequest & InfoType, res: Response) => {
     const { user } = req;
 
-    const userRepository = new UserRepository();
     const useCase = new UpdateIsExecutedTutorialUseCase(userRepository);
 
     try {
