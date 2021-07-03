@@ -1,2 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IArticleRepository {}
+import { Article } from "src/domains/Article";
+
+export interface IArticleRepository {
+  createArticle({ article }: { article: Partial<Article> }): Promise<Article>;
+}
