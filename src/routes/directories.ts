@@ -25,10 +25,9 @@ import {
 
 import { FindPageListByDirectoryIdUseCase } from '../usecases/page';
 
-import { factory } from '../repositories/factory';
-
 const router = Router();
 
+import { factory } from '../repositories/factory';
 const directoryRepository = factory.directoryRepository();
 const directoryTreeRepository = factory.directoryTreeRepository();
 const pageRepository = factory.pageRepository();
