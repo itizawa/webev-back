@@ -21,7 +21,8 @@ type PostArticle = {
 export const articles = (): Router => {
   router.post('/', accessTokenParser, adminRequired, async (req: WebevRequest & PostArticle, res: Response) => {
     const { user } = req;
-    const { article } = req.body;
+
+    const article = new Article(req.body.article);
     article.createdUser = user._id;
 
     const useCase = new CreateArticleUseCase(articleRepository);
