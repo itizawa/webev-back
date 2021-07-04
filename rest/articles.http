@@ -27,3 +27,10 @@ Authorization: {{token}}
 		"title":"new"
 	}
 }
+
+###
+
+
+DELETE  {{url}}/articles/{{articleId}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
