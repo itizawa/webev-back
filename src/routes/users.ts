@@ -24,7 +24,7 @@ export const users = (): Router => {
   router.get('/me', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
 
-    const useCase = new FindUserPageUseCase(userRepository);
+    const useCase = new FindUserUseCase(userRepository);
 
     try {
       const userPage = await useCase.execute({ userId: user._id });
