@@ -70,13 +70,14 @@ export const articles = (): Router => {
   };
 
   router.put('/:id', accessTokenParser, loginRequired, validator.updateArticle, apiValidatorMiddleware, async (req: WebevRequest & PutArticle, res: Response) => {
+    const { user } = req;
     const { property } = req.body;
     const { id: articleId } = req.params;
 
     const useCase = new UpdateArticleUseCase(articleRepository);
 
     try {
-      const result = await useCase.execute({ articleId, property });
+      const result = await useCase.execute({ articleId, property, userId: user._id });
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });

@@ -9,7 +9,7 @@ export class ArticleRepositoryMock implements IArticleRepository {
   deleteArticle({ articleId, userId }: { articleId: string; userId: string }): Promise<Article> {
     throw new Error('Method not implemented.');
   }
-  updateArticle({ articleId, property }: { articleId: string; property: UpdatableProperty }): Promise<Article> {
+  updateArticle({ articleId, property, userId }: { articleId: string; property: UpdatableProperty; userId: string }): Promise<Article> {
     throw new Error('Method not implemented.');
   }
 }
