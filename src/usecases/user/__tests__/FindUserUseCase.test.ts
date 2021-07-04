@@ -1,14 +1,14 @@
 import { generateMockUser } from '../../../mock/domains';
 import { UserRepositoryMock } from '../../../mock/repositories';
-import { FindUserPageUseCase } from '../FindUserPageUseCase';
+import { FindUserUseCase } from '../FindUserUseCase';
 
-describe('FindUserPageUseCase', () => {
+describe('FindUserUseCase', () => {
   const mockUser = generateMockUser();
   const mock = new UserRepositoryMock();
 
   mock.findUserById = async ({ userId }) => generateMockUser({ _id: userId });
 
-  const useCase = new FindUserPageUseCase(mock);
+  const useCase = new FindUserUseCase(mock);
   const spy = jest.spyOn(mock, 'findUserById');
 
   test('exec', async () => {

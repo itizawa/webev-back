@@ -1,14 +1,14 @@
 @url = http://localhost:8000/api/v1
-@token = Bearer 9224100ec7aa73f009328ea5925c572964bcc003ccd020c5140a92a4dae48dfe
+@token = Bearer ownId
 
 
-GET  {{url}}/users/me HTTP/1.1
+GET {{url}}/users/me HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
 ###
 
-PUT   {{url}}/users/me HTTP/1.1
+PUT {{url}}/users/me HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -18,6 +18,14 @@ Authorization: {{token}}
 
 ###
 
-PUT   {{url}}/users/me/isExecutedTutorial HTTP/1.1
+PUT {{url}}/users/me/isExecutedTutorial HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+###
+
+@userId = userId
+
+GET {{url}}/users/{{userId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}

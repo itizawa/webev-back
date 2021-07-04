@@ -1,11 +1,11 @@
 import { Router, Response } from 'express';
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { apiValidatorMiddleware } from '../middlewares/api-validator';
 import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
-import { FindUserPageUseCase } from '../usecases/user/FindUserPageUseCase';
+import { FindUserUseCase } from '../usecases/user/FindUserUseCase';
 import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
 import { UpdateIsExecutedTutorialUseCase } from '../usecases/user/UpdateIsExecutedTutorialUseCase';
 
@@ -18,17 +18,18 @@ const userRepository = factory.userRepository();
 
 const validator = {
   updateUserInfo: [body('properity').isObject({ strict: true })],
+  findUserById: [param('id').isMongoId()],
 };
 
 export const users = (): Router => {
   router.get('/me', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
     const { user } = req;
 
-    const useCase = new FindUserPageUseCase(userRepository);
+    const useCase = new FindUserUseCase(userRepository);
 
     try {
-      const userPage = await useCase.execute({ userId: user._id });
-      return res.status(200).json(userPage);
+      const result = await useCase.execute({ userId: user._id });
+      return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
@@ -47,8 +48,8 @@ export const users = (): Router => {
     const useCase = new UpdateUserInfoUseCase(userRepository);
 
     try {
-      const userPage = await useCase.execute({ userId: user._id, properity });
-      return res.status(200).json(userPage);
+      const result = await useCase.execute({ userId: user._id, properity });
+      return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
@@ -61,6 +62,19 @@ export const users = (): Router => {
 
     try {
       const result = await useCase.execute({ userId: user._id });
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  router.get('/:id', validator.findUserById, apiValidatorMiddleware, async (req: WebevRequest, res: Response) => {
+    const { id: userId } = req.params;
+
+    const useCase = new FindUserUseCase(userRepository);
+
+    try {
+      const result = await useCase.execute({ userId });
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });
