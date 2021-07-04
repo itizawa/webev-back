@@ -34,6 +34,9 @@ export class ArticleRepository implements IArticleRepository {
   async createArticle({ article }: { article: Partial<Article> }): Promise<Article> {
     return this.ArticleModel.create(article);
   }
+  async deleteArticle({ articleId, userId }: { articleId: string; userId: string }): Promise<Article> {
+    return this.ArticleModel.findOneAndDelete({ _id: articleId, createdUser: userId });
+  }
   async updateArticle({ articleId, property }: { articleId: string; property: UpdatableProperty }): Promise<Article> {
     return this.ArticleModel.findOneAndUpdate({ _id: articleId }, property, { new: true });
   }
