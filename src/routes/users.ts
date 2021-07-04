@@ -5,7 +5,7 @@ import { loginRequired } from '../middlewares/login-required';
 import { accessTokenParser } from '../middlewares/access-token-parser';
 
 import { WebevRequest } from '../interfaces/webev-request';
-import { FindUserPageUseCase } from '../usecases/user/FindUserPageUseCase';
+import { FindUserUseCase } from '../usecases/user/FindUserUseCase';
 import { UpdateUserInfoUseCase } from '../usecases/user/UpdateUserInfoUseCase';
 import { UpdateIsExecutedTutorialUseCase } from '../usecases/user/UpdateIsExecutedTutorialUseCase';
 
