@@ -23,7 +23,6 @@ const DirectorySchema: Schema = new Schema(
     articleId: {
       type: Types.ObjectId,
       ref: 'Article',
-      required: true,
     },
   },
   { timestamps: true },
