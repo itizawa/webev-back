@@ -7,7 +7,9 @@ import { accessTokenParser } from '../middlewares/access-token-parser';
 import { WebevRequest } from '../interfaces/webev-request';
 
 import { Article, UpdatableProperty } from '../domains/Article';
+
 import { CreateArticleUseCase } from '../usecases/article/CreateArticleUseCase';
+import { DeleteArticleUseCase } from '../usecases/article/DeleteArticleUseCase';
 import { UpdateArticleUseCase } from '../usecases/article/UpdateArticleUseCase';
 
 const router = Router();
@@ -32,6 +34,7 @@ const validator = {
     }),
   ],
   updateArticle: [param('id').isMongoId()],
+  deleteArticle: [param('id').isMongoId()],
 };
 
 type PostArticle = {
@@ -69,12 +72,25 @@ export const articles = (): Router => {
   router.put('/:id', accessTokenParser, loginRequired, validator.updateArticle, apiValidatorMiddleware, async (req: WebevRequest & PutArticle, res: Response) => {
     const { property } = req.body;
     const { id: articleId } = req.params;
-    console.log(req);
 
     const useCase = new UpdateArticleUseCase(articleRepository);
 
     try {
       const result = await useCase.execute({ articleId, property });
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  router.delete('/:id', accessTokenParser, loginRequired, validator.deleteArticle, apiValidatorMiddleware, async (req: WebevRequest & PutArticle, res: Response) => {
+    const { user } = req;
+    const { id: articleId } = req.params;
+
+    const useCase = new DeleteArticleUseCase(articleRepository);
+
+    try {
+      const result = await useCase.execute({ articleId, userId: user._id });
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });
