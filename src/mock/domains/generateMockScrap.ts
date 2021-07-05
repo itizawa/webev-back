@@ -1,8 +1,8 @@
-import { Article } from '../../domains/Article';
+import { Scrap } from '../../domains/Scrap';
 
-export const generateMockArticle = (mock: Partial<Article> = {}): Article => {
+export const generateMockScrap = (mock: Partial<Scrap> = {}): Scrap => {
   const { _id, title, body, createdUser, isPublic, emojiId, pages, createdAt, updatedAt } = mock;
-  return new Article({
+  return new Scrap({
     _id: _id || 'mockUserId',
     title: title || 'mockTitle',
     body: body || 'mockBody',

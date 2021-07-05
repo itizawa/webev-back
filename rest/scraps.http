@@ -1,15 +1,15 @@
 @url = http://localhost:8000/api/v1
 @token = Bearer ownId
 
-@articleId = articleId
+@scrapId = scrapId
 
 
-POST  {{url}}/articles HTTP/1.1
+POST  {{url}}/scraps HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
 {
-	"article": {
+	"scrap": {
 		"title":"hoge2",
 		"body":"hoge"
 	}
@@ -18,7 +18,7 @@ Authorization: {{token}}
 ###
 
 
-PUT  {{url}}/articles/{{articleId}} HTTP/1.1
+PUT  {{url}}/scraps/{{scrapId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -31,6 +31,6 @@ Authorization: {{token}}
 ###
 
 
-DELETE  {{url}}/articles/{{articleId}} HTTP/1.1
+DELETE  {{url}}/scraps/{{scrapId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}

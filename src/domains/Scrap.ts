@@ -1,6 +1,6 @@
 import { Page } from './Page';
 
-export class Article {
+export class Scrap {
   _id: string;
   title: string; // Directory の name に相当
   body: string; // Directory の description に相当
@@ -10,7 +10,7 @@ export class Article {
   pages: Page[];
   createdAt: Date;
   updatedAt: Date;
-  constructor({ _id, title, createdUser, isPublic, body, emojiId, createdAt, updatedAt }: Partial<Article>) {
+  constructor({ _id, title, createdUser, isPublic, body, emojiId, createdAt, updatedAt }: Partial<Scrap>) {
     this._id = _id;
     this.title = title;
     this.createdUser = createdUser;
@@ -22,4 +22,4 @@ export class Article {
   }
 }
 
-export type UpdatableProperty = Partial<Pick<Article, 'title' | 'body' | 'isPublic' | 'emojiId' | 'pages'>>;
+export type UpdatableProperty = Partial<Pick<Scrap, 'title' | 'body' | 'isPublic' | 'emojiId' | 'pages'>>;

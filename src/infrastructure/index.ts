@@ -1,4 +1,4 @@
-export { ArticleRepository } from './ArticleRepository';
+export { ScrapRepository } from './ScrapRepository';
 export { DirectoryRepository } from './DirectoryRepository';
 export { DirectoryTreeRepository } from './DirectoryTreeRepository';
 export { InquiryRepository } from './InquiryRepository';
