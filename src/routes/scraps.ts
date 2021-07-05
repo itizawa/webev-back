@@ -10,6 +10,7 @@ import { Scrap, UpdatableProperty } from '../domains/Scrap';
 
 import { CreateScrapUseCase } from '../usecases/scrap/CreateScrapUseCase';
 import { DeleteScrapUseCase } from '../usecases/scrap/DeleteScrapUseCase';
+import { FindScrapByIdUseCase } from '../usecases/scrap/FindScrapByIdUseCase';
 import { UpdateScrapUseCase } from '../usecases/scrap/UpdateScrapUseCase';
 
 const router = Router();
@@ -33,6 +34,7 @@ const validator = {
       return true;
     }),
   ],
+  findScrap: [param('id').isMongoId()],
   updateScrap: [param('id').isMongoId()],
   deleteScrap: [param('id').isMongoId()],
 };
@@ -54,6 +56,25 @@ export const scraps = (): Router => {
 
     try {
       const result = await useCase.execute({ scrap });
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  type FindScrap = {
+    params: {
+      id: string;
+    };
+  };
+
+  router.get('/:id', validator.findScrap, apiValidatorMiddleware, async (req: WebevRequest & FindScrap, res: Response) => {
+    const { id: scrapId } = req.params;
+
+    const useCase = new FindScrapByIdUseCase(scrapRepository);
+
+    try {
+      const result = await useCase.execute({ scrapId });
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500).json({ message: err.message });
