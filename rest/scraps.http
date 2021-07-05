@@ -1,7 +1,7 @@
 @url = http://localhost:8000/api/v1
 @token = Bearer ownId
 
-@scrapId = scrapId
+@scrapId = id
 
 
 POST  {{url}}/scraps HTTP/1.1
@@ -18,13 +18,21 @@ Authorization: {{token}}
 ###
 
 
-PUT  {{url}}/scraps/{{scrapId}} HTTP/1.1
+GET {{url}}/scraps/{{scrapId}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+
+###
+
+
+PUT {{url}}/scraps/{{scrapId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
 {
 	"property": {
-		"title":"new"
+		"isPublic":true
 	}
 }
 
