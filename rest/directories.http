@@ -1,6 +1,6 @@
 @url = http://localhost:8000/api/v1
 @directoryId = 60606dc6dd3f7a01b4e6a7bf
-@token = Bearer b46059269dca56384cb0209e3f4cd5a64d2b2b5459c06fcf849e911418ce90d6 
+@token = Bearer ownId 
 
 POST  {{url}}/directories HTTP/1.1
 content-type: application/json

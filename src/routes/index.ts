@@ -5,7 +5,7 @@ import { inquiries } from './inquiries';
 import { pages } from './pages';
 import { users } from './users';
 import { admin } from './admin';
-import { articles } from './articles';
+import { scraps } from './scraps';
 
 export const setupExpressRoutes = (webevApp: WebevApp, express: express.Express): void => {
   express.use('/api/v1/directories', directories());
@@ -13,5 +13,5 @@ export const setupExpressRoutes = (webevApp: WebevApp, express: express.Express)
   express.use('/api/v1/pages', pages(webevApp));
   express.use('/api/v1/users', users());
   express.use('/api/v1/admin', admin());
-  express.use('/api/v1/articles', articles());
+  express.use('/api/v1/scraps', scraps());
 };

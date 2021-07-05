@@ -1,4 +1,4 @@
-export { generateMockArticle } from './generateMockArticle';
+export { generateMockScrap } from './generateMockScrap';
 export { generateMockDirectory } from './generateMockDirectory';
 export { generateMockDirectoryTree } from './generateMockDirectoryTree';
 export { generateMockInquiry } from './generateMockInquiry';
