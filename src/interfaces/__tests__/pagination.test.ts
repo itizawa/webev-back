@@ -6,24 +6,31 @@ describe('Pagination interface test', () => {
   const mockUser = generateMockUser();
   const mockDirectory = generateMockDirectory();
   test('PaginationQuery with directoryId', async () => {
-    const response = new PaginationQuery({ createdUser: mockUser._id, status: { $in: [PageStatus.PAGE_STATUS_STOCK] }, directoryId: mockDirectory._id });
+    const response = new PaginationQuery({ createdUser: mockUser._id, status: [PageStatus.PAGE_STATUS_STOCK], directoryId: mockDirectory._id });
     expect(response.createdUser).toBe(mockUser._id);
     expect(response.status).toEqual({ $in: [PageStatus.PAGE_STATUS_STOCK] });
     expect(response.directoryId).toBe(mockDirectory._id);
   });
 
   test('PaginationQuery without directoryId', async () => {
-    const response = new PaginationQuery({ createdUser: mockUser._id, status: { $in: [PageStatus.PAGE_STATUS_DELETED] } });
+    const response = new PaginationQuery({ createdUser: mockUser._id, status: [PageStatus.PAGE_STATUS_DELETED] });
     expect(response.createdUser).toBe(mockUser._id);
     expect(response.status).toEqual({ $in: [PageStatus.PAGE_STATUS_DELETED] });
     expect(response.directoryId).toBe(undefined);
   });
 
   test('PaginationOptions with sort', async () => {
-    const response = new PaginationOptions({ page: 1, limit: 20, sort: { createdAt: 1 } });
+    const response = new PaginationOptions({ page: 1, limit: 20, sort: 'createdAt' });
     expect(response.page).toBe(1);
     expect(response.limit).toBe(20);
     expect(response.sort).toEqual({ createdAt: 1 });
+  });
+
+  test('PaginationOptions with sort', async () => {
+    const response = new PaginationOptions({ page: 1, limit: 20, sort: '-createdAt' });
+    expect(response.page).toBe(1);
+    expect(response.limit).toBe(20);
+    expect(response.sort).toEqual({ createdAt: -1 });
   });
 
   test('PaginationOptions without sort', async () => {
@@ -52,7 +59,7 @@ describe('Pagination interface test', () => {
 
   test('PaginationQuery $or', async () => {
     const q = 'mockQ';
-    const response = new PaginationQuery({ createdUser: mockUser._id, $or: [{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }] });
+    const response = new PaginationQuery({ createdUser: mockUser._id, q });
     expect(response.createdUser).toBe(mockUser._id);
     expect(response.$or).toEqual([{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }]);
   });

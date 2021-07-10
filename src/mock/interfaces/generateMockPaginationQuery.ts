@@ -5,7 +5,7 @@ export const generateMockPaginationQuery = (mock: Partial<PaginationQuery> = {})
   const { createdUser, directoryId } = mock;
   return new PaginationQuery({
     createdUser: createdUser || 'mockUserId',
-    status: { $in: [PageStatus.PAGE_STATUS_STOCK] },
+    status: [PageStatus.PAGE_STATUS_STOCK],
     directoryId: directoryId || 'mockDirectoryId',
   });
 };
