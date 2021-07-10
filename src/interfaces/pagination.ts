@@ -10,7 +10,7 @@ export class PaginationQuery {
     if (status !== undefined) {
       this.status = { $in: status };
     }
-    if (q !== undefined) {
+    if (q !== undefined && typeof q === 'string') {
       this.$or = [{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }];
     }
     if (directoryId !== undefined) {
@@ -26,7 +26,7 @@ export class PaginationOptions {
   constructor({ page, limit, sort }: { page: number; limit: number; sort?: string }) {
     this.page = page;
     this.limit = limit;
-    if (sort !== undefined) {
+    if (sort !== undefined && typeof sort === 'string') {
       const sortOrder = sort.startsWith('-') ? -1 : 1;
       const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
       this.sort = { [sortKey]: sortOrder };
