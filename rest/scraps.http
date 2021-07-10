@@ -1,31 +1,44 @@
 @url = http://localhost:8000/api/v1
 @token = Bearer ownId
 
+@scrapId = id
 
-GET {{url}}/users/me HTTP/1.1
-content-type: application/json
-Authorization: {{token}}
 
-###
-
-PUT {{url}}/users/me HTTP/1.1
+POST  {{url}}/scraps HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
 {
-	"name": "waimatuhoge"
+	"scrap": {
+		"title":"hoge2",
+		"body":"hoge"
+	}
 }
 
 ###
 
-PUT {{url}}/users/me/isExecutedTutorial HTTP/1.1
+
+GET {{url}}/scraps/{{scrapId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
+
 ###
 
-@userId = userId
 
-GET {{url}}/users/{{userId}} HTTP/1.1
+PUT {{url}}/scraps/{{scrapId}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+	"property": {
+		"isPublic":true
+	}
+}
+
+###
+
+
+DELETE  {{url}}/scraps/{{scrapId}} HTTP/1.1
 content-type: application/json
 Authorization: {{token}}

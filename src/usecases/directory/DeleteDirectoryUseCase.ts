@@ -4,15 +4,11 @@ import { IDirectoryTreeRepository } from '../../repositories/IDirectoryTreeRepos
 import { IPageRepository } from '../../repositories/IPageRepository';
 
 export class DeleteDirectoryUseCase {
-  private directoryRepository: IDirectoryRepository;
-  private directoryTreeRepository: IDirectoryTreeRepository;
-  private pageRepository: IPageRepository;
-
-  constructor(directoryRepository: IDirectoryRepository, directoryTreeRepository: IDirectoryTreeRepository, pageRepository: IPageRepository) {
-    this.directoryRepository = directoryRepository;
-    this.directoryTreeRepository = directoryTreeRepository;
-    this.pageRepository = pageRepository;
-  }
+  constructor(
+    private readonly directoryRepository: IDirectoryRepository,
+    private readonly directoryTreeRepository: IDirectoryTreeRepository,
+    private readonly pageRepository: IPageRepository,
+  ) {}
 
   async execute({ directoryId, userId }: { directoryId: string; userId: string }): Promise<Directory> {
     const deletedDirectory = await this.directoryRepository.deleteDirectory({ directoryId, userId });

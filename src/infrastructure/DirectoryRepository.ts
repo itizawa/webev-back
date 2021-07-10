@@ -20,6 +20,10 @@ const DirectorySchema: Schema = new Schema(
     isPublic: { type: Boolean, default: false },
     description: { type: String, default: '' },
     emojiId: { type: String, default: 'open_file_folder' },
+    scrapId: {
+      type: Types.ObjectId,
+      ref: 'Scrap',
+    },
   },
   { timestamps: true },
 );

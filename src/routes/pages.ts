@@ -19,11 +19,13 @@ import {
   CountAllPagesUseCase,
 } from '../usecases/page';
 
-import { PageRepository } from '../infrastructure';
 import { CheerioService } from '../services/CheerioService';
 import { PageStatus } from '../domains/Page';
 
 const router = Router();
+
+import { factory } from '../repositories/factory';
+const pageRepository = factory.pageRepository();
 
 const validator = {
   postPage: [
@@ -86,7 +88,6 @@ export const pages = (webevApp: WebevApp): Router => {
     const { url, socketId, directoryId } = req.body;
 
     let pageId: string;
-    const pageRepository = new PageRepository();
     const cheerioService = new CheerioService();
 
     try {
@@ -111,7 +112,6 @@ export const pages = (webevApp: WebevApp): Router => {
   });
 
   router.get('/all', async (req: WebevRequest, res: Response) => {
-    const pageRepository = new PageRepository();
     const useCase = new CountAllPagesUseCase(pageRepository);
 
     try {
@@ -168,7 +168,6 @@ export const pages = (webevApp: WebevApp): Router => {
     const { user } = req;
     const { status, directoryId, sort, page = 1, limit = 10, q } = req.query;
 
-    const pageRepository = new PageRepository();
     const useCase = new FindPageListUseCase(pageRepository);
 
     const query = new PaginationQuery({ createdUser: user._id });
@@ -222,7 +221,6 @@ export const pages = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
-    const pageRepository = new PageRepository();
     const useCase = new FindPageByIdUseCase(pageRepository);
 
     try {
@@ -267,7 +265,6 @@ export const pages = (webevApp: WebevApp): Router => {
     const { directoryId } = req.body;
     const { user } = req;
 
-    const pageRepository = new PageRepository();
     const useCase = new MovePageToDirectoryUseCase(pageRepository);
 
     try {
@@ -318,7 +315,6 @@ export const pages = (webevApp: WebevApp): Router => {
     const { isArchive } = req.body;
     const { user } = req;
 
-    const pageRepository = new PageRepository();
     const useCase = new ArchivePageUseCase(pageRepository);
 
     try {
@@ -355,7 +351,6 @@ export const pages = (webevApp: WebevApp): Router => {
     const { id } = req.params;
     const { user } = req;
 
-    const pageRepository = new PageRepository();
     const useCase = new DeletePageUseCase(pageRepository);
 
     try {

@@ -1,11 +1,7 @@
 import { IPageRepository } from '../../repositories/IPageRepository';
 
 export class CountAllPagesUseCase {
-  private pageRepository: IPageRepository;
-
-  constructor(pageRepository: IPageRepository) {
-    this.pageRepository = pageRepository;
-  }
+  constructor(private readonly pageRepository: IPageRepository) {}
 
   execute(): Promise<number> {
     return this.pageRepository.countAllPages();

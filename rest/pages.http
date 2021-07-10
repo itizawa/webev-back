@@ -1,6 +1,6 @@
 @url = http://localhost:8000/api/v1
 @pageId = 6057e74f39df930048b0893d
-@token = Bearer c955213eda1dfc1fd09c4c4e470f157681657ae4d63ced9b650dced6ff3c7e7a 
+@token = Bearer ownId 
 
 POST {{url}}/pages HTTP/1.1
 content-type: application/json
