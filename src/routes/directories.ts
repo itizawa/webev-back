@@ -157,7 +157,7 @@ export const directories = (): Router => {
       query.$or = [{ name: new RegExp(q), description: new RegExp(q) }];
     }
 
-    const options = new PaginationOptions({ page, limit, sort: { order: 1 } });
+    const options = new PaginationOptions({ page, limit, sort: 'order' });
 
     try {
       const paginationResult = await useCase.execute({ query, options });
