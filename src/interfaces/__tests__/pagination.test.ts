@@ -20,10 +20,17 @@ describe('Pagination interface test', () => {
   });
 
   test('PaginationOptions with sort', async () => {
-    const response = new PaginationOptions({ page: 1, limit: 20, sort: { createdAt: 1 } });
+    const response = new PaginationOptions({ page: 1, limit: 20, sort: 'createdAt' });
     expect(response.page).toBe(1);
     expect(response.limit).toBe(20);
     expect(response.sort).toEqual({ createdAt: 1 });
+  });
+
+  test('PaginationOptions with sort', async () => {
+    const response = new PaginationOptions({ page: 1, limit: 20, sort: '-createdAt' });
+    expect(response.page).toBe(1);
+    expect(response.limit).toBe(20);
+    expect(response.sort).toEqual({ createdAt: -1 });
   });
 
   test('PaginationOptions without sort', async () => {
