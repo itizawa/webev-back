@@ -1,12 +1,13 @@
 export enum NotificationType {
   NOTIFICATION_TYPE_SCRAP = 'scrap',
 }
+import { URL } from 'url';
 import { User } from './User';
 
 export class Notification {
   _id: string;
   type: NotificationType;
-  url: string;
+  url: URL;
   fromWhom: User;
   toWhom: User;
   message: string;
