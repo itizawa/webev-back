@@ -174,16 +174,7 @@ export const pages = (webevApp: WebevApp): Router => {
     const useCase = new FindPageListUseCase(pageRepository);
 
     const query = new PaginationQuery({ status, createdUser: user._id, directoryId, q });
-
-    const options = new PaginationOptions({ page, limit });
-
-    if (sort != null) {
-      const sortOrder = sort.startsWith('-') ? -1 : 1;
-      const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
-      options.sort = { [sortKey]: sortOrder };
-    }
-
-    console.log(query);
+    const options = new PaginationOptions({ page, limit, sort });
 
     try {
       const paginationResult = await useCase.execute({ query, options });
