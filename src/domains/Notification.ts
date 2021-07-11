@@ -22,7 +22,7 @@ export class Notification {
     this.toWhom = toWhom;
     this.message = message;
     this.url = url;
-    this.createdAt = createdAt || new Date();
-    this.isChecked = isChecked || false;
+    this.createdAt = createdAt;
+    this.isChecked = isChecked;
   }
 }
