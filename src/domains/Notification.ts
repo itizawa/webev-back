@@ -8,20 +8,20 @@ export enum NotificationType {
 export class Notification {
   _id: string;
   type: NotificationType;
-  url: URL;
   fromWhom: User;
   toWhom: User;
   message: string;
+  url: URL;
   createdAt: Date;
   isChecked: boolean;
 
-  constructor({ _id, type, url, fromWhom, toWhom, message, createdAt, isChecked }: Notification) {
+  constructor({ _id, type, fromWhom, toWhom, message, url, createdAt, isChecked }: Notification) {
     this._id = _id;
     this.type = type;
-    this.url = url;
     this.fromWhom = fromWhom;
     this.toWhom = toWhom;
     this.message = message;
+    this.url = url;
     this.createdAt = createdAt || new Date();
     this.isChecked = isChecked || false;
   }
