@@ -68,14 +68,25 @@ export const scraps = (): Router => {
     };
   };
 
-  router.get('/:id', validator.findScrap, apiValidatorMiddleware, async (req: WebevRequest & FindScrap, res: Response) => {
+  router.get('/:id', accessTokenParser, validator.findScrap, apiValidatorMiddleware, async (req: WebevRequest & FindScrap, res: Response) => {
     const { id: scrapId } = req.params;
+    const { user } = req;
 
     const useCase = new FindScrapByIdUseCase(scrapRepository);
 
     try {
-      const result = await useCase.execute({ scrapId });
-      return res.status(200).json(result);
+      const scrap = await useCase.execute({ scrapId });
+
+      if (scrap == null) {
+        return res.status(200).json({});
+      }
+
+      // check wheather get
+      if (scrap.isPublic || scrap.createdUser.toString() === user?._id.toString()) {
+        return res.status(200).json(scrap);
+      }
+
+      return res.status(200).json({});
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
