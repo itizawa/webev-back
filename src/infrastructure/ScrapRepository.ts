@@ -38,7 +38,7 @@ export class ScrapRepository implements IScrapRepository {
     return this.ScrapModel.findOneAndDelete({ _id: scrapId, createdUser: userId });
   }
   async findScrapById({ scrapId }: { scrapId: string }): Promise<Scrap> {
-    return this.ScrapModel.findOne({ _id: scrapId, isPublic: true });
+    return this.ScrapModel.findOne({ _id: scrapId });
   }
   async updateScrap({ scrapId, property, userId }: { scrapId: string; property: UpdatableProperty; userId: string }): Promise<Scrap> {
     return this.ScrapModel.findOneAndUpdate({ _id: scrapId, createdUser: userId }, property, { new: true });
