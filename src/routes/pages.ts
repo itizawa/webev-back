@@ -53,7 +53,12 @@ const validator = {
       .isString(),
   ],
   getPage: [param('id').isMongoId()],
-  putPageDirectory: [param('id').isMongoId(), body('directoryId').isMongoId()],
+  putPageDirectory: [
+    param('id').isMongoId(),
+    body('directoryId')
+      .if((value) => value != null)
+      .isMongoId(),
+  ],
   putPageArchive: [param('id').isMongoId(), body('isArchive').isBoolean()],
   deletePage: [param('id').isMongoId()],
 };
