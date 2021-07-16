@@ -15,6 +15,7 @@ import {
   DeleteDirectoryUseCase,
   FindDirectoryUseCase,
   FindAllParentDirectoriesUseCase,
+  FindChildrenMultipleDirectoriesUseCase,
   FindChildrenDirectoriesUseCase,
   UpdateDescriptionOfDirectoryUsecase,
   UpdateIsPublicOfDirectoryUseCase,
@@ -184,6 +185,22 @@ export const directories = (): Router => {
 
     try {
       const result = await useCase.execute({ userId: user._id });
+
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+
+  router.get('/children', accessTokenParser, loginRequired, async (req: WebevRequest, res: Response) => {
+    const { parentDirectoryIds } = req.query;
+    console.log(parentDirectoryIds);
+
+    const useCase = new FindChildrenMultipleDirectoriesUseCase(directoryTreeRepository);
+
+    try {
+      const result = await useCase.execute({ parentDirectoryIds });
 
       return res.status(200).json(result);
     } catch (err) {

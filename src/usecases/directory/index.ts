@@ -4,6 +4,7 @@ export { FindDirectoryListUseCase } from './FindDirectoryListUseCase';
 export { RenameDirectoryUseCase } from './RenameDirectoryUseCase';
 export { DeleteDirectoryUseCase } from './DeleteDirectoryUseCase';
 export { FindDirectoryUseCase } from './FindDirectoryUseCase';
+export { FindChildrenMultipleDirectoriesUseCase } from './FindChildrenMultipleDirectoriesUseCase';
 export { FindAllParentDirectoriesUseCase } from './FindAllParentDirectoriesUseCase';
 export { FindChildrenDirectoriesUseCase } from './FindChildrenDirectoriesUseCase';
 export { UpdateOrderOfDirectoryUseCase } from './UpdateOrderOfDirectoryUseCase';
