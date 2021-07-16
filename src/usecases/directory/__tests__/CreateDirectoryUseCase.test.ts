@@ -12,9 +12,7 @@ describe('CreateDirectoryUseCase', () => {
   const directoryRepositoryMock = new DirectoryRepositoryMock();
   const directoryTreeRepositoryMock = new DirectoryTreeRepositoryMock();
 
-  directoryRepositoryMock.countDirectoryByUserId = async () => 1;
   directoryRepositoryMock.createDirectory = async ({ directory: { name, createdUser, order, isRoot } }) => generateMockDirectory({ name, createdUser, order, isRoot });
-  const countDirectoryByUserIdSpy = jest.spyOn(directoryRepositoryMock, 'countDirectoryByUserId');
   const createDirectorySpy = jest.spyOn(directoryRepositoryMock, 'createDirectory');
 
   directoryTreeRepositoryMock.createSelfReference = async ({ directoryId }) => generateMockDirectoryTree({ _id: directoryId });
@@ -38,6 +36,9 @@ describe('CreateDirectoryUseCase', () => {
   });
 
   test('CreateDirectoryUseCase without directoryId', async () => {
+    directoryRepositoryMock.countDirectoryByUserId = async () => 1;
+    const countDirectoryByUserIdSpy = jest.spyOn(directoryRepositoryMock, 'countDirectoryByUserId');
+
     const response = await useCase.execute({ name: 'directory name', userId: mockUser._id });
 
     expect(countDirectoryByUserIdSpy).toHaveBeenCalled();
@@ -47,5 +48,15 @@ describe('CreateDirectoryUseCase', () => {
     expect(response.order).toBe(2);
     expect(response.name).toBe('directory name');
     expect(response.isRoot).toBe(true);
+  });
+
+  test('CreateDirectoryUseCase with directoryId more than 10 directory', async () => {
+    directoryRepositoryMock.countDirectoryByUserId = async () => 10;
+
+    try {
+      await useCase.execute({ name: 'directory name', userId: mockUser._id });
+    } catch (e) {
+      expect(e).toEqual(new Error('can not make more than 10'));
+    }
   });
 });
