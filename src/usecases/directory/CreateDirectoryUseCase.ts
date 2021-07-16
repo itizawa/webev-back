@@ -11,6 +11,11 @@ export class CreateDirectoryUseCase {
     if (parentDirectoryId == null) {
       // order is the number of count + 1
       const count = await this.directoryRepository.countDirectoryByUserId({ userId });
+
+      if (count >= 10) {
+        throw new Error('can not make more than 10');
+      }
+
       countForSave = count + 1;
       isRoot = true;
     }
