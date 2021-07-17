@@ -37,6 +37,9 @@ const validator = {
   getPageList: [
     query('status').toArray(),
     query('directoryId')
+      .customSanitizer((value) => {
+        return value === 'null' ? null : value;
+      })
       .if((value) => value != null)
       .isMongoId(),
     query('page')
@@ -50,7 +53,12 @@ const validator = {
       .isString(),
   ],
   getPage: [param('id').isMongoId()],
-  putPageDirectory: [param('id').isMongoId(), body('directoryId').isMongoId()],
+  putPageDirectory: [
+    param('id').isMongoId(),
+    body('directoryId')
+      .if((value) => value != null)
+      .isMongoId(),
+  ],
   putPageArchive: [param('id').isMongoId(), body('isArchive').isBoolean()],
   deletePage: [param('id').isMongoId()],
 };
@@ -127,7 +135,7 @@ export const pages = (webevApp: WebevApp): Router => {
   type ListType = {
     query: {
       status: PageStatus[];
-      directoryId: string;
+      directoryId?: string;
       sort?: string;
       page?: number;
       limit?: number;
@@ -170,26 +178,8 @@ export const pages = (webevApp: WebevApp): Router => {
 
     const useCase = new FindPageListUseCase(pageRepository);
 
-    const query = new PaginationQuery({ createdUser: user._id });
-
-    query.status = { $in: status };
-
-    if (directoryId != null) {
-      query.directoryId = directoryId;
-    }
-
-    // set keyword
-    if (q != null && typeof q === 'string') {
-      query.$or = [{ title: new RegExp(q) }, { siteName: new RegExp(q) }, { description: new RegExp(q) }];
-    }
-
-    const options = new PaginationOptions({ page, limit });
-
-    if (sort != null) {
-      const sortOrder = sort.startsWith('-') ? -1 : 1;
-      const sortKey = sortOrder === -1 ? sort.slice(1) : sort;
-      options.sort = { [sortKey]: sortOrder };
-    }
+    const query = new PaginationQuery({ status, createdUser: user._id, directoryId, q });
+    const options = new PaginationOptions({ page, limit, sort });
 
     try {
       const paginationResult = await useCase.execute({ query, options });
